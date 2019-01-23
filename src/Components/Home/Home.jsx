@@ -8,11 +8,39 @@ function Home (props) {
           <img src='/assets/logo.svg' className="App-logo" alt="logo" />
           <a
             className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/page1"
           >
-            Learn React
+            Test Page 1
+          </a>
+          <a
+            className="App-link"
+            href="/page2"
+          >
+            Test Page 2
+          </a>
+          <a
+            className="App-link"
+            href="/page3"
+          >
+            Test Page 3
+          </a>
+          <a
+            className="App-link"
+            href="/page4"
+          >
+            Test Page 4
+          </a>
+          <a
+            className="App-link"
+            href="/page5"
+          >
+            Test Page 5
+          </a>
+          <a
+            className="App-link"
+            href="/page6"
+          >
+            Test Page 6
           </a>
         </header>
       </div>
