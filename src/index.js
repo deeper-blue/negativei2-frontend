@@ -9,11 +9,9 @@ import * as serviceWorker from './serviceWorker';
 const rootElement = document.getElementById('root');
 const app = (
     <BrowserRouter>
-        <Route component={App}/>
+        <Route component={App} />
     </BrowserRouter>
 );
-
-
 ReactDOM.render(app, rootElement);
 
 // If you want your app to work offline and load faster, you can change
