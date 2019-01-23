@@ -4,7 +4,7 @@ function Header (props) {
 
     return (
         <div>
-            hi
+            <a href="/">Go home</a>
         </div>
     );
 
