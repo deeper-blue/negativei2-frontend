@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Home from '../Home'
-import Header from '../Header'
+import Home from '../Home';
+import Header from '../Header';
+import Profile from '../Profile';
 
 class App extends Component {
   render() {
@@ -10,6 +11,7 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/Profile" component={Profile} />
           <Route component={Home} />
         </Switch>
       </div>

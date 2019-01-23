@@ -8,9 +8,9 @@ function Home (props) {
           <img src='/assets/logo.svg' className="App-logo" alt="logo" />
           <a
             className="App-link"
-            href="/page1"
+            href="/Profile"
           >
-            Test Page 1
+            Test Profile Page
           </a>
           <a
             className="App-link"
