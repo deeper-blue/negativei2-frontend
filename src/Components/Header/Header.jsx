@@ -1,10 +1,13 @@
 import React from 'react';
+import './Header.css'
 
 function Header (props) {
 
     return (
         <div>
-            <a href="/">Go home</a>
+            <div className="Header">
+                <a href="/" className="Home">Go home</a>
+            </div>
         </div>
     );
 
