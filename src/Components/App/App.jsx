@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
+import SignIn from '../SignIn';
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <SignIn firebaseUi={this.props.firebaseUi} />
       </div>
     );
   }
