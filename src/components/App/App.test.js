@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Game from '../components/Game';
+import App from '.';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
   const app = (
     <BrowserRouter>
-        <Route component={Game} />
+        <Route component={App} />
     </BrowserRouter>
   );
   ReactDOM.render(app, div);
