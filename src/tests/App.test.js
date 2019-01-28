@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Components/App';
+import App from '../Components/App';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 it('renders without crashing', () => {
@@ -9,7 +9,7 @@ it('renders without crashing', () => {
     <BrowserRouter>
         <Route component={App} />
     </BrowserRouter>
-  );  
+  );
   ReactDOM.render(app, div);
   ReactDOM.unmountComponentAtNode(div);
 });
