@@ -15,7 +15,7 @@ The front end web interface for a chess-playing assistive robot. Created for the
 
 ### Running in development mode
 
-```bash
+```
 npm start
 ```
 
@@ -27,7 +27,7 @@ You will also see any lint errors in the console.
 
 ### Running tests
 
-```bash
+```
 npm test
 ```
 
@@ -36,7 +36,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### Preparing/building application for production
 
-```bash
+```
 npm run build
 ```
 
@@ -52,7 +52,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Don't use this unless you know what you're doing!**
 
-```bash
+```
 npm run eject
 ```
 
