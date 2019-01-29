@@ -117,9 +117,15 @@
     margin: 7px;
     padding: 7px;
     box-sizing: border-box;
-    border: 2px solid rgb(199, 216, 208);
+    border: 2px solid rgb(127, 160, 175);
     border-radius: 3px;
-    background-color: rgb(168, 196, 183);
+
+    // Background
+    background: #a7c7dc; /* Old browsers */
+    background: -moz-linear-gradient(top, #a7c7dc 0%, #85b2d3 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #a7c7dc 0%,#85b2d3 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #a7c7dc 0%,#85b2d3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7c7dc', endColorstr='#85b2d3',GradientType=0 ); /* IE6-9 */
     .move-tracker {
 
     }
