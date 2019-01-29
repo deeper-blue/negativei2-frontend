@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route, BrowserRouter } from 'react-router-dom';
 import './index.scss';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
@@ -18,8 +19,12 @@ firebase.initializeApp(config);
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 const rootElement = document.getElementById('root');
-const app = <App firebaseUi={ui} />;
 
+const app = (
+    <BrowserRouter>
+        <Route component={App} />
+    </BrowserRouter>
+);
 ReactDOM.render(app, rootElement);
 
 // If you want your app to work offline and load faster, you can change
