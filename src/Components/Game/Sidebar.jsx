@@ -29,13 +29,13 @@ function Sidebar (props) {
 
                     </input>
                 </form>
-                <div class="toggle-speech-input-wrapper">
-                    <div class="toggle-speech-input">
+                <div className="toggle-speech-input-wrapper">
+                    <div className="toggle-speech-input">
                         <img src="/assets/game/microphone.png" alt="M"></img>
                     </div>
                 </div>
-                <div class="manual-input-help-wrapper">
-                    <div class="manual-input-help">
+                <div className="manual-input-help-wrapper">
+                    <div className="manual-input-help">
                         <img src="/assets/game/question-mark.png" alt="?"></img>
                     </div>
                 </div>
