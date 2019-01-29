@@ -1,0 +1,123 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    min-width: 275px;
+    margin-left: 20px;
+}
+
+.turn-indicator {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 10%;
+
+    .turn-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    .turn-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        margin: 7px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        background-color: white;
+        color: black;
+        border: 2px ridge lightgrey;
+    }
+}
+
+.timer {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(175,175,175);
+    border-radius: 2px;
+    margin: 7px;
+    box-sizing: border-box;
+    .timer-white {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        color: white;
+    }
+    .timer-black {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        color: black;
+    }
+}
+
+.manual-move-input {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    height: 10%;
+    form {
+        display: flex;
+        flex-direction: row;
+        margin: 7px;
+        box-sizing: border-box;
+        width: 60%;
+        input[type=text] {
+            box-sizing: border-box;
+            width: 60%;
+        }
+        input[type=submit] {
+            box-sizing: border-box;
+            width: 40%;
+        }
+    }
+    .toggle-speech-input-wrapper {
+        width: 20%;
+        margin: 7px;
+        .toggle-speech-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
+            // background-color: seagreen;
+            background-color: rgb(122, 35, 35);
+            width: 100%;
+            height: 100%;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+    .manual-input-help-wrapper {
+        width: 20%;
+        .manual-input-help {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
+
+.move-tracker {
+    display: flex;
+    height: 70%;
+    margin: 7px;
+    padding: 7px;
+    box-sizing: border-box;
+    border: 2px solid rgb(199, 216, 208);
+    border-radius: 3px;
+    background-color: rgb(168, 196, 183);
+}
