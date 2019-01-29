@@ -5,9 +5,9 @@ import { Route, BrowserRouter } from 'react-router-dom';
 
 // Enzyme
 import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 import { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 
 // Components
 import Chessboard from 'chessboardjsx';
