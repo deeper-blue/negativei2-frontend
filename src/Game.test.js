@@ -1,8 +1,17 @@
+// React
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route, BrowserRouter } from 'react-router-dom';
+
+// Enzyme
+import Enzyme from 'enzyme';
+Enzyme.configure({ adapter: new Adapter() });
+import { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+// Components
 import Chessboard from 'chessboardjsx';
 import Game from './Components/Game';
-import { Route, BrowserRouter } from 'react-router-dom';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
