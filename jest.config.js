@@ -1,5 +1,6 @@
 module.exports = {
-    testPathDirs: ["./"],
-    testFileExtensions: ["test.js"],
-    testDirectoryName: "src/components"
+    modulePaths: [
+        "<rootDir>",
+        "<rootDir>/src"
+    ]
 };

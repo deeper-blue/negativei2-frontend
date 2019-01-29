@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Game from './Game';
+import Game from '.';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 it('renders without crashing', () => {
