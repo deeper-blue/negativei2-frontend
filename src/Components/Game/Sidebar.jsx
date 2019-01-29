@@ -36,8 +36,11 @@ function Sidebar (props) {
                     </div>
                 </div>
             </div>
-            <div className="move-tracker">
+            <div className="move-tracker-wrapper">
                 Move tracker
+                <div className="move-tracker">
+
+                </div>
             </div>
         </div>
     );

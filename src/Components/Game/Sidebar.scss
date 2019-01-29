@@ -111,7 +111,7 @@
     }
 }
 
-.move-tracker {
+.move-tracker-wrapper {
     display: flex;
     height: 70%;
     margin: 7px;
@@ -120,4 +120,7 @@
     border: 2px solid rgb(199, 216, 208);
     border-radius: 3px;
     background-color: rgb(168, 196, 183);
+    .move-tracker {
+
+    }
 }
