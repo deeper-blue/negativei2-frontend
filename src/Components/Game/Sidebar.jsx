@@ -22,12 +22,8 @@ function Sidebar (props) {
             </div>
             <div className="manual-move-input">
                 <form>
-                    <input type="text" placeholder="Enter move...">
-
-                    </input>
-                    <input type="submit" name="input-move" value="Move!">
-
-                    </input>
+                    <input type="text" placeholder="Enter move..."></input>
+                    <input type="submit" name="input-move" value="Move!"></input>
                 </form>
                 <div className="toggle-speech-input-wrapper">
                     <div className="toggle-speech-input">
