@@ -20,9 +20,9 @@ function Home (props) {
           </a>
           <a
             className="App-link"
-            href="/page3"
+            href="/Menu"
           >
-            Test Page 3
+            Test Menu Page
           </a>
           <a
             className="App-link"
