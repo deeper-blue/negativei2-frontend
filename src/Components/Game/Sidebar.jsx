@@ -8,7 +8,7 @@ function Sidebar (props) {
                 <div className="turn-text">
                     Turn:
                 </div>
-                <div className="turn-icon">
+                <div id="turn-icon">
                     White
                 </div>
             </div>

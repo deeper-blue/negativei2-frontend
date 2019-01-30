@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import React, { Component } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import Chessboard from 'chessboardjsx';
@@ -77,6 +78,26 @@ class HumanVsHuman extends Component {
             history: this.game.history({ verbose: true }),
             squareStyles: squareStyling({ pieceSquare, history })
         }));
+
+        let turnIcon = $("#turn-icon")
+
+        if (move.color === "w") {
+            turnIcon.css({
+                "background-color": "black",
+                "color":            "white",
+                "border-color":     "grey"
+            });
+            turnIcon.text("Black");
+        } else if (move.color === "b") {
+            turnIcon.css({
+                "background-color": "white",
+                "color": "black",
+                "border-color": "lightgrey"
+            });
+            turnIcon.text("White");
+        }
+
+        console.log(move);
     };
 
     onMouseOverSquare = square => {
