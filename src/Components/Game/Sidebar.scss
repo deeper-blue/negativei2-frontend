@@ -1,3 +1,5 @@
+@import '../../index.scss';
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -29,6 +31,7 @@
         background-color: white;
         color: black;
         border: 2px ridge lightgrey;
+        @include transition(all 0.25s);
     }
 }
 

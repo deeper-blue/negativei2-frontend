@@ -96,8 +96,6 @@ class HumanVsHuman extends Component {
             });
             turnIcon.text("White");
         }
-
-        console.log(move);
     };
 
     onMouseOverSquare = square => {
