@@ -79,8 +79,8 @@ class HumanVsHuman extends Component {
             squareStyles: squareStyling({ pieceSquare, history })
         }));
 
+        // Changing the turn indicator
         let turnIcon = $("#turn-icon")
-
         if (move.color === "w") {
             turnIcon.css({
                 "background-color": "black",
@@ -95,6 +95,25 @@ class HumanVsHuman extends Component {
                 "border-color": "lightgrey"
             });
             turnIcon.text("White");
+        }
+
+        // Adding the move to the move tracker
+        let history = this.game.history();
+        let moveNumber = Math.ceil(history.length/2.0);
+
+        if (move.color === "w") {
+            $('<tr>',{
+                'id' : `moves-${moveNumber}`,
+                'html': $('<td>', {
+                    'id': `move-${moveNumber}`
+                }).html(moveNumber).add($('<td>', {
+                    'id': `move-${moveNumber}-w`
+                }).html(move.san).add($('<td>', {
+                    'id': `move-${moveNumber}-b`
+                })))
+            }).appendTo('#move-tracker tbody');
+        } else if (move.color === "b") {
+            $(`#move-${moveNumber}-b`).html(move.san);
         }
     };
 

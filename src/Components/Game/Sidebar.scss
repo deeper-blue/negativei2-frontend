@@ -118,18 +118,37 @@
     display: flex;
     height: 70%;
     margin: 7px;
-    padding: 7px;
     box-sizing: border-box;
-    border: 2px solid rgb(127, 160, 175);
+    border: 2px solid rgb(166, 174, 179);
     border-radius: 3px;
+    background-color: white;
+    overflow-y: auto;
+    height: 320px; // Have to specify height >:(
+}
 
-    // Background
-    background: #a7c7dc; /* Old browsers */
-    background: -moz-linear-gradient(top, #a7c7dc 0%, #85b2d3 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #a7c7dc 0%,#85b2d3 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #a7c7dc 0%,#85b2d3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7c7dc', endColorstr='#85b2d3',GradientType=0 ); /* IE6-9 */
-    .move-tracker {
-
+#move-tracker {
+    font-size: 15px;
+    border-collapse: collapse;
+    line-height: 1.5;
+    width: 100%;
+    background-color: white;
+    tr {
+        &:nth-child(even) {
+            background-color: lighten(#bcbcbc ,20%);
+        }
+    }
+    td {
+        font-family: 'Courier New', Courier, monospace;
+        text-align: left;
+        padding: 3px 10px;
+        &:first-child {
+            font-weight: bold;
+        }
+    }
+    th {
+        text-align: left;
+        padding: 3px 10px;
+        background-color: #55608d;
+        color: #9eb2d1;
     }
 }
