@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
-import * as firebaseui from 'firebaseui';
+import * as FB from '../Firebase';
 
 class SignIn extends Component {
     render() {
-        const { firebaseUi } = this.props;
-
         var doSignIn = () => {
-            firebaseUi.start('#firebaseui-auth-container', {
+            FB.ui.start('#firebaseui-auth-container', {
                 signInOptions: [
-                    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                    FB.auth.EmailAuthProvider.PROVIDER_ID,
+                    FB.auth.GoogleAuthProvider.PROVIDER_ID
                 ]
             });
         };
