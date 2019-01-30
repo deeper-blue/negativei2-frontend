@@ -1,5 +1,7 @@
 @import '../../index.scss';
 
+$dark-blue: rgb(65, 139, 182);
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -30,7 +32,7 @@
         box-sizing: border-box;
         background-color: white;
         color: black;
-        border: 2px ridge lightgrey;
+        border: 2px solid lightgrey;
         @include transition(all 0.25s);
     }
 }
@@ -148,7 +150,9 @@
     th {
         text-align: left;
         padding: 3px 10px;
-        background-color: #55608d;
-        color: #9eb2d1;
+        // background-color: #55608d;
+        background-color: $dark-blue;
+        // color: #9eb2d1;
+        color: white;
     }
 }

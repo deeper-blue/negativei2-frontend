@@ -36,6 +36,8 @@ class Game extends Component {
                     onDragOverSquare={onDragOverSquare}
                     onSquareClick={onSquareClick}
                     onSquareRightClick={onSquareRightClick}
+                    darkSquareStyle={{backgroundColor: 'grey'}}
+                    lightSquareStyle={{backgroundColor: 'lightgrey'}}
                     />
                 )}
                 </HumanVsHuman>
