@@ -12,6 +12,7 @@ import { shallow } from 'enzyme';
 // Components
 import Chessboard from 'chessboardjsx';
 import Game from './Components/Game';
+import HumanVsHuman from './Components/Game/HumanVsHuman.jsx';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
@@ -24,13 +25,11 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-describe('Chessboard', function() {
-  it('renders a Chessboard component', () => {
+describe('HumanVsHuman', function() {
+  it('renders a HumanVsHuman component', () => {
     const wrapper = shallow(<Game />);
-    expect(wrapper.find(Chessboard)).toHaveLength(1)
+    expect(wrapper.find(HumanVsHuman).exists()).toBe(true);
   });
-
-  // Write Chessboard unit tests here
 });
 
 describe('Move counter', function() {
