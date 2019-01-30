@@ -2,7 +2,7 @@
 
 $dark-blue: rgb(65, 139, 182);
 
-.sidebar {
+#sidebar {
     display: flex;
     flex-direction: column;
     width: 25vw;
@@ -10,13 +10,12 @@ $dark-blue: rgb(65, 139, 182);
     margin-left: 20px;
 }
 
-.turn-indicator {
+#turn-indicator {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     height: 10%;
-
-    .turn-text {
+    #turn-text {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -37,7 +36,7 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-.timer {
+#timer {
     height: 10%;
     display: flex;
     justify-content: center;
@@ -46,14 +45,14 @@ $dark-blue: rgb(65, 139, 182);
     border-radius: 2px;
     margin: 7px;
     box-sizing: border-box;
-    .timer-white {
+    #timer-white {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 50%;
         color: white;
     }
-    .timer-black {
+    #timer-black {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -62,7 +61,7 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-.manual-move-input {
+#manual-move-input {
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -82,10 +81,10 @@ $dark-blue: rgb(65, 139, 182);
             width: 40%;
         }
     }
-    .toggle-speech-input-wrapper {
+    #toggle-speech-input-wrapper {
         width: 20%;
         margin: 7px;
-        .toggle-speech-input {
+        #toggle-speech-input {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -100,9 +99,9 @@ $dark-blue: rgb(65, 139, 182);
             }
         }
     }
-    .manual-input-help-wrapper {
+    #manual-input-help-wrapper {
         width: 20%;
-        .manual-input-help {
+        #manual-input-help {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -116,7 +115,7 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-.move-tracker-wrapper {
+#move-tracker-wrapper {
     display: flex;
     height: 70%;
     margin: 7px;

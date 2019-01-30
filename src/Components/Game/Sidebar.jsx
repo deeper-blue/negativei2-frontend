@@ -3,40 +3,40 @@ import './Sidebar.scss'
 
 function Sidebar (props) {
     return (
-        <div className="sidebar">
-            <div className="turn-indicator">
-                <div className="turn-text">
+        <div id="sidebar">
+            <div id="turn-indicator">
+                <div id="turn-text">
                     Turn:
                 </div>
                 <div id="turn-icon">
                     White
                 </div>
             </div>
-            <div className="timer">
-                <div className="timer-white">
+            <div id="timer">
+                <div id="timer-white">
                     <h1>00:00</h1>
                 </div>
-                <div className="timer-black">
+                <div id="timer-black">
                     <h1>00:00</h1>
                 </div>
             </div>
-            <div className="manual-move-input">
+            <div id="manual-move-input">
                 <form>
                     <input type="text" placeholder="Enter move..."></input>
                     <input type="submit" name="input-move" value="Move!"></input>
                 </form>
-                <div className="toggle-speech-input-wrapper">
-                    <div className="toggle-speech-input">
+                <div id="toggle-speech-input-wrapper">
+                    <div id="toggle-speech-input">
                         <img src="/assets/game/microphone.png" alt="M"></img>
                     </div>
                 </div>
-                <div className="manual-input-help-wrapper">
-                    <div className="manual-input-help">
+                <div id="manual-input-help-wrapper">
+                    <div id="manual-input-help">
                         <img src="/assets/game/question-mark.png" alt="?"></img>
                     </div>
                 </div>
             </div>
-            <div className="move-tracker-wrapper">
+            <div id="move-tracker-wrapper">
                 <table id="move-tracker">
                     <tbody>
                         <tr>
