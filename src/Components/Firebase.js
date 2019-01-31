@@ -1,5 +1,4 @@
-import * as firebase from 'firebase';
-import * as firebaseui from 'firebaseui';
+import firebase from 'firebase';
 
 var config = {
     apiKey: "AIzaSyCF6KDsDpCucKRmsgHG2UgM7pHbfQO_A74",
@@ -13,5 +12,3 @@ var config = {
 firebase.initializeApp(config);
 
 export let auth = firebase.auth;
-export let ui = new firebaseui.auth.AuthUI(firebase.auth());
-
