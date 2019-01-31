@@ -3,6 +3,7 @@ import Chessboard from 'chessboardjsx';
 import './Game.scss';
 import Sidebar from './Sidebar';
 import HumanVsHuman from './HumanVsHuman';
+import $ from 'jquery';
 
 class Game extends Component {
     render() {
