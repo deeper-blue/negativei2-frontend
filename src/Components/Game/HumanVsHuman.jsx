@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line
-import Chessboard from 'chessboardjsx';
-import { Chess } from 'chess.js';
+import Chess from 'chess.js';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
