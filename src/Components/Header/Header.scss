@@ -1,20 +1,96 @@
-.Header {
-    background-color: #123123;
+@import '../../index.scss';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:500');
+
+$pale-red: rgb(207, 147, 147);
+$react-blue: #61dafb;
+$header-background: #1f2331;
+
+#header {
+    background-color: $header-background;
     color: white;
-    height: 8vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px 0px 10px;
+    position: fixed;
+    width: 100vw;
+    box-sizing: border-box;
+    #dock {
+        // border: 1px solid red;
+        display: inline-flex;
+        flex-direction: row;
+        #dock-burger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 45px;
+            cursor: pointer;
+            .bar-1, .bar-2, .bar-3 {
+                width: 35px;
+                height: 5px;
+                margin: 5px;
+                border-radius: 1px;
+                background-color: white;
+                @include transition(all 0.25s);
+            }
+            .bar-2 {
+                margin: 0px 5px;
+            }
+        }
+        .change {
+            .bar-1 {
+                background-color: $pale-red !important;
+                opacity: 0.5;
+                @include transform(rotate(-45deg) translate(-6px, 6px));
+            }
+            .bar-2 {
+                opacity: 0;
+                @include transform(rotate(-90deg));
+            }
+            .bar-3 {
+                background-color: $pale-red !important;
+                @include transform(rotate(45deg) translate(-8px, -8px));
+            }
+        }
+        #dock-profile {
+            display: flex;
+            align-items: center;
+            #dock-profile-icon {
+                height: 30px;
+                margin: 2px 5px 0px 5px;
+            }
+        }
+        #dock-auth {
+            display: flex;
+            align-items: center;
+            #dock-auth-icon {
+                height: 30px;
+                margin: 2px 2px 0px 5px;
+            }
+        }
+        .dock-item {
+            height: 45px;
+        }
+    }
 }
 
-a {
-    color:white;
+#home-link {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    @include transition(all 0.25s);
+    &:hover {
+        color: $react-blue;
+    }
+    &:active {
+        color: rgb(28, 140, 184);
+    }
 }
 
-a:hover, a:active {
-    background-color: aliceblue;
-}
-
-.Home {
-    margin: 1%;
+#filler {
+    height: 45px;
+    width: 100vw;
 }
