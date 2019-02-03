@@ -9,6 +9,7 @@ class Profile extends Component {
             <div className='profile'>
                 <div className='content'>
                     <Header />
+                    
                 </div>
             </div>
         );
