@@ -9,7 +9,20 @@ function Header() {
                 <img src='/assets/logo.svg' className='image' alt="logo" />
             </div>
             <div className='player-info'>
-                thing
+                <div>
+                    PLAYER_NAME
+                </div>
+                <div className='win-stats'>
+                    <div>
+                        wins 
+                    </div>
+                    <div>
+                        losses 
+                    </div>
+                    <div>
+                        winrate 
+                    </div>
+                </div>
             </div>
         </div>
     </div>

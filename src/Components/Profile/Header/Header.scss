@@ -1,13 +1,28 @@
 .header {
+    width: 80vw;
     display: flex;
     flex-direction: row;
-    align-items: center;
 }
 
 .profile-picture {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    width: 100%;
 }
 
 .image {
-    height: 40vmin;
+    width: 100%;
+}
+
+.win-stats {
+    display: flex;
+    flex-direction: row;
 }
