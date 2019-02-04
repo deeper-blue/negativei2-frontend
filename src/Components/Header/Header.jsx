@@ -12,15 +12,18 @@ class Header extends Component {
             document.getElementById('dock-burger').classList.toggle('change');
             this.navToggled = false;
         }
-        //this.resizeNav(this.navToggled);
+        this.resizeNav(this.navToggled);
     }
 
     resizeNav = (bool) => {
-        var nav = document.getElementById('page-links');
+        var pageHide = document.getElementById('page-hide');
+        var navigator = document.getElementById('navigator');
         if (bool) {
-            nav.classList.add('reveal');
+            pageHide.classList.add('page-hide-reveal');
+            navigator.classList.add('navigator-reveal');
         } else {
-            nav.classList.remove('reveal');
+            pageHide.classList.remove('page-hide-reveal');
+            navigator.classList.remove('navigator-reveal');
         }
     }
 
@@ -49,7 +52,19 @@ class Header extends Component {
                         </div>
                     </nav>
                 </header>
-                <div id="filler"></div>
+                <div id="spacer"></div>
+                <div id="page-hide"></div>
+                <div id="navigator">
+                    <p className="nav-title">Pages</p>
+                    <a href="/">Home</a>
+                    <a href="/create">New game</a>
+                    <a href="/join">Join game</a>
+                    <hr />
+                    <p className="nav-title">User <span>abc123</span></p>
+                    <a href="/login">Login</a>
+                    <a href="/logout">Logout</a>
+                    <a href="/profile">View profile</a>
+                </div>
             </div>
         );
     }

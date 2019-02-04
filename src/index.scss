@@ -18,9 +18,9 @@ code {
 }
 
 /* Mixins */
-@mixin media-height($breakpoint) {
-  @media only screen and (max-height: $breakpoint) {
-      @content;
+@mixin media-width($breakpoint) {
+  @media only screen and (max-width: $breakpoint) {
+    @content;
   }
 }
 
