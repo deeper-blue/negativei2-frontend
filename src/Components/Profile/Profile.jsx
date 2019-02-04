@@ -42,11 +42,11 @@ class Profile extends Component {
 
         const Table = (
         <table className='egg'>
-        <tr>
-            <th>adsf</th>
-            <th>adsf</th>
-            <th>adsf</th>
-        </tr>
+            <tr>
+                <th>adsf</th>
+                <th>adsf</th>
+                <th>adsf</th>
+            </tr>
             <tr>
                 <th>adsf</th>
                 <th>adsf</th>
