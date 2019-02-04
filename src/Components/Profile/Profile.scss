@@ -4,5 +4,22 @@
 }
 
 .content {
-    display: block;
+    display: inline-block;
+}
+
+.tabs {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tab{
+    width: 100%;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.table {
+    margin-top: 25px;
+    border: 2px solid black;
 }

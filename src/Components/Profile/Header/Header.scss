@@ -1,6 +1,7 @@
 .header {
     display: flex;
     flex-direction: row;
+    border: 2px solid black;
 }
 
 .profile-picture {
@@ -15,7 +16,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: right;
 }
 
 .image {

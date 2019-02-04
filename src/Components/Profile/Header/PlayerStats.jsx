@@ -26,7 +26,7 @@ function PlayerStats() {
                     losses
                 </div>
                 <div className='stat'>
-                    winrate
+                    rate
                 </div>
             </div>
         </Styled>
