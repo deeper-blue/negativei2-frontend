@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+import Table from './Table';
 import './Profile.scss';
 
 class Profile extends Component {
@@ -40,30 +41,6 @@ class Profile extends Component {
             width: 100%;
         `;
 
-        const Table = (
-        <table className='egg'>
-        <tr>
-            <th>adsf</th>
-            <th>adsf</th>
-            <th>adsf</th>
-        </tr>
-            <tr>
-                <th>adsf</th>
-                <th>adsf</th>
-                <th>adsf</th>
-            </tr>
-            <tr>
-                <th>adsf</th>
-                <th>adsf</th>
-                <th>adsf</th>
-            </tr>
-            <tr>
-                <th>adsf</th>
-                <th>adsf</th>
-                <th>adsf</th>
-            </tr>
-        </table>
-        )
         const Stats = <div>Stats</div>
 
         return (
@@ -83,7 +60,7 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className='table'>
-                        {this.state.tab ? Table : Stats}
+                        {this.state.tab ? <Table /> : Stats}
                     </div>
                 </div>
             </div>
