@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import './Profile.scss';
 
@@ -8,8 +9,23 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tab: false,
+            tab: true,
         };
+
+        this.goTable = this.goTable.bind(this);
+        this.goStats = this.goStats.bind(this);
+    }
+
+    goTable() {
+        this.setState(state => ({
+            tab: true
+        }));
+    }
+
+    goStats() {
+        this.setState(state => ({
+            tab: false
+        }));
     }
 
     render() {
@@ -33,13 +49,13 @@ class Profile extends Component {
                     <Header />
                     <div className='tabs'>
                         <div className='tab'>
-                            <Button onClick={() => this.setState({tab: true})}>
-                                tab1
+                            <Button onClick={this.goTable}>
+                                TAble
                             </Button>
                         </div>
                         <div className='tab'>
-                            <Button onClick={() => this.setState({tab: false})}>
-                                tab2
+                            <Button onClick={this.goStats}>
+                                Stats
                             </Button>
                         </div>
                     </div>
