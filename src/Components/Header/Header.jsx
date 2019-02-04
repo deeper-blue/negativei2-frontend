@@ -35,12 +35,12 @@ class Header extends Component {
                         HOME
                     </a>
                     <nav id="dock">
-                        <div id="dock-auth" className="dock-item">
+                        <div id="dock-auth" className="dock-item" tooltip="Login/Logout" tooltip-position="bottom">
                             <a href="/login">
                                 <img src="/assets/header/auth.png" alt="Auth" id="dock-auth-icon"></img>
                             </a>
                         </div>
-                        <div id="dock-profile" className="dock-item">
+                        <div id="dock-profile" className="dock-item" tooltip="Profile" tooltip-position="bottom">
                             <a href="/profile">
                                 <img src="/assets/header/profile.png" alt="Profile" id="dock-profile-icon"></img>
                             </a>
