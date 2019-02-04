@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import Header from './Header';
 import './Profile.scss';
 
@@ -36,11 +35,20 @@ class Profile extends Component {
             text-decoration: none;
             margin:none;
             border: 2px solid black;
+            border-radius: 2px;
             height: 100%;
             width: 100%;
         `;
 
-        const Table = <div>table</div>
+        const Table = (
+        <table className='egg'>
+            <tr>
+                <th>adsf</th>
+                <th>adsf</th>
+                <th>adsf</th>
+            </tr>
+        </table>
+        )
         const Stats = <div>Stats</div>
 
         return (
@@ -50,7 +58,7 @@ class Profile extends Component {
                     <div className='tabs'>
                         <div className='tab'>
                             <Button onClick={this.goTable}>
-                                TAble
+                                Table
                             </Button>
                         </div>
                         <div className='tab'>
@@ -60,7 +68,7 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className='table'>
-                        {this.props.tab ? Table : Stats}
+                        {this.state.tab ? Table : Stats}
                     </div>
                 </div>
             </div>
