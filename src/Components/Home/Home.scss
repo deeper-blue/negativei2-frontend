@@ -1,0 +1,13 @@
+.home-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-link {
+    color: #000;
+    margin: 10px auto;
+    font-size: 3em;
+    background-color: #999;
+    border-radius: 10px;
+    text-decoration: none;
+}
