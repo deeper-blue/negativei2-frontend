@@ -6,7 +6,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 const fbUiConfig = {
     signInFlow: 'popup',
-    signInSuccessUrl: '/profile/1',
+    signInSuccessUrl: '/',
     signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
         firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -19,7 +19,7 @@ function Login (props) {
         <header className="App-header">
           <img src='/assets/logo.svg' className="App-logo" alt="logo" />
           <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={firebase.auth()} />
-          <Link to='/profile/1'>
+          <Link to='/'>
             Play as guest
           </Link>
         </header>

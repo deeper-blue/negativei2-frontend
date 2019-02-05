@@ -6,6 +6,7 @@ import Profile from '../Profile';
 import Login from '../Login';
 import Create from '../Create';
 import Play from '../Play';
+import Join from '../Join';
 
 class App extends Component {
   render() {
@@ -15,9 +16,11 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/profile/:ID/:page?" component={Profile} />
+          <Route exact path="/profile" component={Profile} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/create" component={Create} />
           <Route exact path="/play" component={Play} />
+          <Route exact path="/join" component={Join} />
           <Route component={Home} />
         </Switch>
       </div>

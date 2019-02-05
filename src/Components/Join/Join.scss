@@ -1,0 +1,18 @@
+.matches {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.match-list {
+    margin: 30px;
+    font-size: 2em;
+
+    tr {
+        td {
+            padding: 5px;
+        }
+    }
+}
