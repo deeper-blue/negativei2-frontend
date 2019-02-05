@@ -5,7 +5,7 @@ function Home (props) {
     return (
         <div className='home-links'>
             <Link to='/create' className='home-link'>Create game</Link>
-            <Link to='/play' className='home-link'>Play game</Link>
+            <Link to='/join' className='home-link'>Join game</Link>
         </div>
     );
 }
