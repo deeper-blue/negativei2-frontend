@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Table from './Table';
+import firebase from '../Firebase';
 import './Profile.scss';
 
 class Profile extends Component {
@@ -11,6 +12,8 @@ class Profile extends Component {
         this.state = {
             tab: true,
         };
+
+        
 
         this.goTable = this.goTable.bind(this);
         this.goStats = this.goStats.bind(this);

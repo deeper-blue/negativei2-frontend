@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function Table() {
-    return (
-        <div>
-            asd
-        </div>
-    )
+class Table extends Component {
+
+        
+
+    render(){
+        return (
+            <div>
+                asdf
+            </div>
+        );
+    }
+
 }
 
 export default Table;
