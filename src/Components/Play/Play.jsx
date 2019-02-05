@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Chessboard from 'chessboardjsx';
-import './Game.scss';
+import './Play.scss';
 import Sidebar from './Sidebar';
 import HumanVsHuman from './HumanVsHuman';
 
-class Game extends Component {
+class Play extends Component {
     render() {
         return (
             <div className="game-area">
@@ -47,4 +47,4 @@ class Game extends Component {
     }
 }
 
-export default Game;
+export default Play;

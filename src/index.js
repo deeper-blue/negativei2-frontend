@@ -5,8 +5,8 @@ import './index.scss';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 
-
 const rootElement = document.getElementById('root');
+
 const app = (
     <BrowserRouter>
         <Route component={App} />
