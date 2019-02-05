@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import './Create.scss'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 class Create extends Component {
-      //constructor(props) {
-        //super(props);
-        // this.state = ;
-        //this.handleClick = this.handleClick.bind(this);
-      //}
+      constructor(props) {
+        super(props);
+        this.state = {redirect: false};
+        this.handleClick = this.handleClick.bind(this);
+      }
 
-      // handleClick(event) {
-      //   alert('Your game will be ' + this.state.value + ' long.');
-      //   event.preventDefault();
-      // }
+      handleClick(event) {
+        this.setState({redirect: true});
+        event.preventDefault();
+      }
 
       render() {
+        if (this.state.redirect) {
+          return <Redirect push to='/play' />
+        }
+
         return (
           <form id="config_form">
             <br />
@@ -64,7 +68,7 @@ class Create extends Component {
             <br />
             <br />
             <br />
-            <button id="btn_play">
+            <button id="btn_play" type="button" onClick={this.handleClick}>
                 <Link to='/play' id ="btn">
                   LET'S PLAY!!
                 </Link>
