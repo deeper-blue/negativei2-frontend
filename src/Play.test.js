@@ -14,12 +14,6 @@ import Play from './Components/Play';
 import HumanVsHuman from './Components/Play/HumanVsHuman.jsx';
 
 describe(Play, function() {
-  // FIX THIS!
-  /* it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Play />, div);
-  }); */
-
   describe(HumanVsHuman, function() {
     it('renders a HumanVsHuman component', () => {
       const wrapper = shallow(<Play />);
