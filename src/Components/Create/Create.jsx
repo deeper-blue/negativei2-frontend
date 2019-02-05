@@ -3,12 +3,11 @@ import './Create.scss'
 import { Link } from 'react-router-dom'
 
 class Create extends Component {
-
-      constructor(props) {
-        super(props);
+      //constructor(props) {
+        //super(props);
         // this.state = ;
         //this.handleClick = this.handleClick.bind(this);
-      }
+      //}
 
       // handleClick(event) {
       //   alert('Your game will be ' + this.state.value + ' long.');
