@@ -15,14 +15,13 @@ const fbUiConfig = {
 
 function Login (props) {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src='/assets/logo.svg' className="App-logo" alt="logo" />
-          <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={firebase.auth()} />
-          <Link to='/'>
+      <div id="login-wrapper">
+        <div id="login">
+          <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={firebase.auth()} className="test"/>
+          <Link id="guest-button" to='/' class="button">
             Play as guest
           </Link>
-        </header>
+        </div>
       </div>
     );
 }
