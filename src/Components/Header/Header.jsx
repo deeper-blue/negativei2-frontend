@@ -27,7 +27,7 @@ class Header extends Component {
         });
     }
 
-    navIcon = () => {
+    toggleNav = () => {
         if (this.navToggled === false) {
             document.getElementById('dock-burger').classList.toggle('change');
             this.navToggled = true;
@@ -71,7 +71,7 @@ class Header extends Component {
                         </div>
                             : ''
                         }
-                        <div id="dock-burger" className="dock-item" onClick={this.navIcon}>
+                        <div id="dock-burger" className="dock-item" onClick={this.toggleNav}>
                             <div className="bar-1"></div>
                             <div className="bar-2"></div>
                             <div className="bar-3"></div>
@@ -79,7 +79,7 @@ class Header extends Component {
                     </nav>
                 </header>
                 <div id="spacer"></div>
-                <div id="page-hide"></div>
+                <div id="page-hide" onClick={this.toggleNav}></div>
                 <div id="navigator">
                     <p className="nav-title">Pages</p>
                     <a href="/">Home</a>
