@@ -108,14 +108,17 @@ $colors: (
 //> Buttons
 .base-button {
   @include appearance(none);
+  margin: 0 auto;
+  padding: 10px 15px;
   border-radius: 5px;
   outline: 0;
-  padding: 10px 15px;
   font-size: 1rem;
   cursor: pointer;
   border: 3px solid map-get($colors, paler-blue);
   background-color: map-get($colors, dark-pale-blue);
   color: white;
+  text-decoration: none;
+  text-align: center;
   @include transition(all 0.25s);
   &:hover {
     background-color: map-get($colors, paler-blue);
@@ -136,12 +139,8 @@ $colors: (
     border-radius: 2px;
     padding: 4px 9px;
   }
-  &.large-font {
-    font-size: 1.3rem;
-  }
-  &.small-font {
-    font-size: 0.7rem;
-  }
+  &.large-font { font-size: 1.3rem; }
+  &.small-font { font-size: 0.7rem; }
 }
 //> Links
 .base-link {

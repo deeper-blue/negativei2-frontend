@@ -5,8 +5,12 @@ import './Home.scss';
 function Home (props) {
     return (
         <div className='home-links'>
-            <Link to='/create' className='home-link'>Create game</Link>
-            <Link to='/join' className='home-link'>Join game</Link>
+            <Link to='/create' className="button large large-font home-link">
+                Create game
+            </Link>
+            <Link to='/join' className="button large large-font home-link">
+                Join game
+            </Link>
         </div>
     );
 }

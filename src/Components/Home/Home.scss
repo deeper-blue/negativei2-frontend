@@ -3,11 +3,9 @@
     flex-direction: column;
 }
 
-.home-link {
-    color: #000;
+.button.home-link {
     margin: 10px auto;
-    font-size: 3em;
-    background-color: #999;
-    border-radius: 10px;
-    text-decoration: none;
+    &:first-child {
+        margin-top: 20px;
+    }
 }
