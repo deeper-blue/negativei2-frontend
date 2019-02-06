@@ -13,7 +13,7 @@ $link-shadow: #f16000;
 $link-hover: lighten($link-color, 25%);
 
 #header {
-    z-index: 2;
+    z-index: 7;
     background-color: $header-background;
     color: white;
     display: flex;
@@ -112,7 +112,7 @@ $link-hover: lighten($link-color, 25%);
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 6;
     width: 100vw;
     min-height: 0;
     background-color: rgba(0, 0, 0, 0);
@@ -124,7 +124,7 @@ $link-hover: lighten($link-color, 25%);
 }
 
 #navigator {
-    z-index: 2;
+    z-index: 7;
     position: fixed;
     display: block;
     right: -20px;
