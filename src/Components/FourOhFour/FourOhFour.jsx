@@ -12,12 +12,13 @@ class FourOhFour extends Component {
             justify-content: center;
             text-align: center;
             height: calc(100vh - 45px);
+            font-size: calc(10px + 2vmin);
 
             .spinner {
                 animation: image-spin infinite 4s linear;
                 display: inline-block;
-                height: 124px;
-                width: 124px;
+                height: 20vmin;
+                width: 20vmin;
             }
 
             .image {
