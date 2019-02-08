@@ -60,7 +60,11 @@ class Header extends Component {
                     <nav id="dock">
                         <div id="dock-auth" className="dock-item" tooltip={this.state.user ? 'Logout' : 'Login'} tooltip-position="bottom">
                             <a href={this.state.user ? '/logout' : '/login'}>
-                                <img src="/assets/header/auth.png" alt="Auth" id="dock-auth-icon"></img>
+                                {this.state.user ?
+                                <img src="/assets/header/logout.png" alt="Logout" id="dock-auth-icon"></img>
+                                :
+                                <img src="/assets/header/login.png" alt="Login" id="dock-auth-icon"></img>
+                                }
                             </a>
                         </div>
                         {this.state.user ?
