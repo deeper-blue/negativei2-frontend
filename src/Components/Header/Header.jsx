@@ -54,7 +54,7 @@ class Header extends Component {
         return (
             <div>
                 <header id="header">
-                    <a href="/" id="home-link" class="link-blue">
+                    <a href="/" id="home-link" className="link-blue">
                         HOME
                     </a>
                     <nav id="dock">
@@ -82,17 +82,17 @@ class Header extends Component {
                 <div id="page-hide"></div>
                 <div id="navigator">
                     <p className="nav-title">Pages</p>
-                    <a href="/" class="link-yellow shadow">Home</a>
-                    <a href="/create" class="link-yellow shadow">New game</a>
-                    <a href="/join" class="link-yellow shadow">Join game</a>
+                    <a href="/" className="link-yellow shadow">Home</a>
+                    <a href="/create" className="link-yellow shadow">New game</a>
+                    <a href="/join" className="link-yellow shadow">Join game</a>
                     <hr />
                     <p className="nav-title">{this.state.user ? <span>{this.state.user.displayName}</span> : 'Guest'}</p>
                     <a
-                      class="link-yellow shadow"
+                      className="link-yellow shadow"
                       href={this.state.user ? '/logout' : '/login'}>
                       {this.state.user ? 'Logout' : 'Login'}
                     </a>
-                    {this.state.user ? <a class="link-yellow shadow" href="/profile">View profile</a> : ''}
+                    {this.state.user ? <a className="link-yellow shadow" href="/profile">View profile</a> : ''}
                 </div>
             </div>
         );

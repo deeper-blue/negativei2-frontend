@@ -1,8 +1,11 @@
+@import '../../index.scss';
+
 #login-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - #{$header});
   #login {
     display: inline-flex;
     flex-direction: column;
