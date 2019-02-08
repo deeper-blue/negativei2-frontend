@@ -154,21 +154,17 @@ $colors: (
   @extend .base-link;
   color: map-get($colors, react-blue);
   &:hover { color: map-get($colors, middle-blue); }
-  &:active { color: map-get($colors, middle-dark-blue); }
   &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-blue); }
 }
 .link-dark-blue {
   @extend .base-link;
   color: map-get($colors, middle-dark-blue);
-  &:hover { color: map-get($colors, middle-blue); }
-  &:active { color: map-get($colors, react-blue); }
+  &:hover { color: map-get($colors, react-blue); }
   &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-blue); }
 }
 .link-yellow {
   @extend .base-link;
   color: map-get($colors, middle-yellow);
-  &:hover { color: map-get($colors, middle-orange); }
-  &:active { color: map-get($colors, light-yellow); }
-  &.shadow:hover { color: map-get($colors, light-yellow); }
+  &:hover { color: map-get($colors, light-yellow); }
   &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-orange); }
 }
