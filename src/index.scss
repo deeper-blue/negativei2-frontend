@@ -154,7 +154,7 @@ $colors: (
   @extend .base-link;
   color: map-get($colors, react-blue);
   &:hover { color: map-get($colors, middle-blue); }
-  &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-blue); }
+  &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-dark-blue); }
 }
 .link-dark-blue {
   @extend .base-link;
