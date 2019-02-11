@@ -1,7 +1,37 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import firebase from '.../Firebase';
 
 class Table extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            
+        }
+
+        this.getTableData();
+    }
+
+    getTableData() {
+        const db = firebase.firestore();
+
+        const docRef = db.collection('games').doc('AMqCzVSxaxjWjTEFsQEt');
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                this.setState(state => ({
+                    
+                }));
+            } else {
+                console.log("No such document! xd");
+            }
+        }.bind(this)).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
 
     render(){
 
