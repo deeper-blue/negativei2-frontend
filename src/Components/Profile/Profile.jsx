@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Table from './Table';
-// import Route from 'react-router-dom';
 import firebase from '../Firebase';
 import './Profile.scss';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import firebase from '.../Firebase';
+import firebase from '../../Firebase';
 
 class Table extends Component {
 
@@ -8,7 +8,7 @@ class Table extends Component {
         super(props);
 
         this.state = {
-            
+            data: '',
         }
 
         this.getTableData();
@@ -23,7 +23,7 @@ class Table extends Component {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
                 this.setState(state => ({
-                    
+                    data: doc.data()
                 }));
             } else {
                 console.log("No such document! xd");
@@ -51,14 +51,9 @@ class Table extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>2352542</td>
-                            <td>White</td>
-                            <td>Dave</td>
-                        </tr>
-                        <tr>
-                            <td>2342344</td>
-                            <td>Black</td>
-                            <td>Andy</td>
+                            <td>{this.props.gameList[0]}</td>
+                            <td>{this.state.data.black}</td>
+                            <td>{this.state.data.white}</td>
                         </tr>
                     </tbody>
                 </Table>
