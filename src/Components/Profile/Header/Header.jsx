@@ -2,24 +2,26 @@ import React from 'react';
 import './Header.scss';
 import PlayerStats from './PlayerStats';
 
-function Header() {
-    return (
-    <div>
-        <div className="header">
-            <div className="profile-picture">
-                <img src='/assets/profile.jpg' className='image' alt="logo" />
-            </div>
-            <div className='player-info'>
-                <div>
-                    PLAYER_NAME
+class Header extends React.Component {
+    render(){
+        return (
+            <div>
+                <div className="header">
+                    <div className="profile-picture">
+                        <img src='/assets/profile.jpg' className='image' alt="logo" />
+                    </div>
+                    <div className='player-info'>
+                        <div>
+                            {this.props.profileData.name}
+                        </div>
+                        <div className='stats'>
+                            <PlayerStats profileData={this.props.profileData} />
+                        </div>
+                    </div>
                 </div>
-                <div className='stats'>
-                    <PlayerStats />
-                </div>
             </div>
-        </div>
-    </div>
-    )
+        )
+    }
 }
 
 export default Header;

@@ -1,36 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Styled = styled.div`
-.stats {
-    display: flex;
-    flex-direction: row;
-    margin: 15px;
-}
+class PlayerStats extends React.Component {
+    render() {
 
-.stat {
-    display: flex;
-    flex-direction: column;
-    margin-right: 25px;
-}
-`;
+        const Styled = styled.div`
+            .stats {
+                display: flex;
+                flex-direction: row;
+                margin: 15px;
+            }
 
-function PlayerStats() {
-    return(
-        <Styled>
-            <div className='stats'>
-                <div className='stat'>
-                    wins
+            .stat {
+                display: flex;
+                flex-direction: column;
+                margin-right: 25px;
+            }
+        `;
+
+        return(
+            <Styled>
+                <div className='stats'>
+                    <div className='stat'>
+                        {this.props.profileData.wins}
+                    </div>
+                    <div className='stat'>
+                        {this.props.profileData.losses}
+                    </div>
+                    <div className='stat'>
+                    {Math.trunc((this.props.profileData.wins / (this.props.profileData.losses + this.props.profileData.wins)) * 100) + '%'}
+                    </div>
                 </div>
-                <div className='stat'>
-                    losses
-                </div>
-                <div className='stat'>
-                    rate
-                </div>
-            </div>
-        </Styled>
-    )
+            </Styled>
+        )
+    }
 }
 
 export default PlayerStats;

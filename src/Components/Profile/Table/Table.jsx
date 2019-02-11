@@ -9,30 +9,28 @@ class Table extends Component {
             width: 100%;
         `;
 
-        const TR = styled.tr`
-
-            border: 2px solid black;
-
-        `;
-
         return (
             <div>
                 <Table>
-                    <TR>
-                        <th>Match ID</th>
-                        <th>Winner</th>
-                        <th>Opponent</th>
-                    </TR>
-                    <tr>
-                        <th>2352542</th>
-                        <th>White</th>
-                        <th>Dave</th>
-                    </tr>
-                    <tr>
-                        <th>2342344</th>
-                        <th>Black</th>
-                        <th>Andy</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Match ID</th>
+                            <th>Winner</th>
+                            <th>Opponent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2352542</td>
+                            <td>White</td>
+                            <td>Dave</td>
+                        </tr>
+                        <tr>
+                            <td>2342344</td>
+                            <td>Black</td>
+                            <td>Andy</td>
+                        </tr>
+                    </tbody>
                 </Table>
             </div>
         );
