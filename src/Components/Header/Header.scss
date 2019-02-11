@@ -2,7 +2,7 @@
 @import './tooltip.scss';
 
 #header {
-    z-index: 2;
+    z-index: 7;
     background-color: map-get($colors, darker-blue);
     color: white;
     display: flex;
@@ -92,7 +92,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 6;
     width: 100vw;
     min-height: 0;
     background-color: rgba(0, 0, 0, 0);
@@ -104,7 +104,7 @@
 }
 
 #navigator {
-    z-index: 2;
+    z-index: 7;
     position: fixed;
     display: block;
     right: -20px;
