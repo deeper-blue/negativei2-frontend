@@ -73,12 +73,19 @@ class Table extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            <tr>
-                                <td>ids will go here when i deal with loading times</td>
-                                <td>{this.state.whiteData.black}</td>
-                                <td>{this.state.blackData.white}</td>
-                            </tr>
+                            {this.state.blackData.concat(this.state.whiteData).map((row, index) => (
+                                <tr>
+                                    <td>
+                                        {index}
+                                    </td>
+                                    <td>
+                                        {row.black}
+                                    </td>
+                                    <td>
+                                        {row.white}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                 : <Spinner />}
