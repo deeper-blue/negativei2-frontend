@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import firebase from '../../Firebase';
+import Spinner from '../../Spinner';
 
 class Table extends Component {
 
@@ -8,7 +9,10 @@ class Table extends Component {
         super(props);
 
         this.state = {
-            data: '',
+            whiteData: [],
+            blackData: [],
+            whiteLoaded: false,
+            blackLoaded: false,
         }
 
         this.getTableData();
@@ -19,17 +23,33 @@ class Table extends Component {
 
         const gameRef = db.collection('games');
 
-        gameRef.where('white', '==', this.props.userID).get().then(function(doc) {
-            if (doc.exists) {
+        gameRef.where('white', '==', this.props.userID).get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
                 console.log("Document data:", doc.data());
-                this.setState(state => ({
-                    data: doc.data()
+                this.setState(prevState => ({
+                    whiteData: [...prevState.whiteData, doc.data()],
+                    whiteLoaded: true,
                 }));
-            } else {
-                console.log("No such document! xd");
-            }
+            }.bind(this));
         }.bind(this)).catch(function(error) {
             console.log("Error getting document:", error);
+            this.setState( state => ({
+                whiteLoaded: true,
+            }))
+        }.bind(this));
+        gameRef.where('black', '==', this.props.userID).get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                console.log("Document data:", doc.data());
+                this.setState(prevState => ({
+                    blackData: [...prevState.blackData, doc.data()],
+                    blackLoaded: true,
+                }));
+            }.bind(this));
+        }.bind(this)).catch(function(error) {
+            console.log("Error getting document:", error);
+            this.setState( state => ({
+                blackLoaded: true,
+            }))
         });
     }
 
@@ -39,25 +59,29 @@ class Table extends Component {
             width: 100%;
         `;
 
+
+
         return (
             <div>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>{this.props.userID}</th>
-                            <th>Winner</th>
-                            <th>Opponent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        <tr>
-                            <td>ids will go here when i deal with loading times</td>
-                            <td>{this.state.data.black}</td>
-                            <td>{this.state.data.white}</td>
-                        </tr>
-                    </tbody>
-                </Table>
+                {this.state.whiteLoaded && this.state.blackLoaded ?
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Game ID</th>
+                                <th>Winner</th>
+                                <th>Opponent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>ids will go here when i deal with loading times</td>
+                                <td>{this.state.whiteData.black}</td>
+                                <td>{this.state.blackData.white}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                : <Spinner />}
             </div>
         );
     }
