@@ -10,9 +10,7 @@ class Profile extends Component {
         super(props);
         this.state = {
             tab: true,
-        };
-
-        
+        }
 
         this.goTable = this.goTable.bind(this);
         this.goStats = this.goStats.bind(this);
