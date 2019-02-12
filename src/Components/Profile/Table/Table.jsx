@@ -50,8 +50,9 @@ class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <tr>
-                            <td>{this.props.gameList[0]}</td>
+                            <td>ids will go here when i deal with loading times</td>
                             <td>{this.state.data.black}</td>
                             <td>{this.state.data.white}</td>
                         </tr>

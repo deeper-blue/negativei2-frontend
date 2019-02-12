@@ -5,10 +5,14 @@ class PlayerStats extends React.Component {
     render() {
 
         const Styled = styled.div`
+
+            
+
             .stats {
                 display: flex;
                 flex-direction: row;
                 margin: 15px;
+                justify-content: space-evenly;
             }
 
             .stat {
@@ -22,12 +26,15 @@ class PlayerStats extends React.Component {
             <Styled>
                 <div className='stats'>
                     <div className='stat'>
+                        <div>wins</div>
                         {this.props.profileData.wins}
                     </div>
                     <div className='stat'>
+                        <div>losses</div>
                         {this.props.profileData.losses}
                     </div>
                     <div className='stat'>
+                        <div>winrate</div>
                     {Math.trunc((this.props.profileData.wins / (this.props.profileData.losses + this.props.profileData.wins)) * 100) + '%'}
                     </div>
                 </div>

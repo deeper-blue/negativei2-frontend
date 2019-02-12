@@ -14,9 +14,7 @@ class Header extends React.Component {
                         <div>
                             {this.props.profileData.name}
                         </div>
-                        <div className='stats'>
-                            <PlayerStats profileData={this.props.profileData} />
-                        </div>
+                        <PlayerStats profileData={this.props.profileData} />
                     </div>
                 </div>
             </div>

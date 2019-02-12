@@ -19,9 +19,6 @@ class Profile extends Component {
         };
 
         this.getProfileInfo();
-
-        this.goTable = this.goTable.bind(this);
-        this.goStats = this.goStats.bind(this);
     }
 
     getProfileInfo() {
@@ -78,12 +75,12 @@ class Profile extends Component {
                     <Header profileData={this.state.profileData} />
                     <div className='tabs'>
                         <div className='tab'>
-                            <Button onClick={this.goTable}>
+                            <Button onClick={() => this.goTable()}>
                                 Table
                             </Button>
                         </div>
                         <div className='tab'>
-                            <Button onClick={this.goStats}>
+                            <Button onClick={() => this.goStats()}>
                                 Stats
                             </Button>
                         </div>
