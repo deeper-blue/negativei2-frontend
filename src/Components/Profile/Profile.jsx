@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Table from './Table';
 import firebase from '../Firebase';
+import Spinner from '../Spinner';
 import './Profile.scss';
 
 class Profile extends Component {
@@ -11,6 +12,7 @@ class Profile extends Component {
         super(props);
         this.state = {
             tab: true,
+            loaded: false,
             displayName: "placeholder",
             wins: 0,
             losses: 0,
@@ -33,6 +35,7 @@ class Profile extends Component {
                     displayName: doc.data().name,
                     wins: doc.data().wins,
                     losses: doc.data().losses,
+                    loaded: true,
                 }));
             } else {
                 console.log('No such document!');
@@ -71,24 +74,26 @@ class Profile extends Component {
 
         return (
             <div className='profile'>
-                <div className='content'>
-                    <Header profileData={this.state.profileData} />
-                    <div className='tabs'>
-                        <div className='tab'>
-                            <Button onClick={() => this.goTable()}>
-                                Table
-                            </Button>
+                {this.state.loaded ?
+                    <div className='content'>
+                        <Header profileData={this.state.profileData} />
+                        <div className='tabs'>
+                            <div className='tab'>
+                                <Button onClick={() => this.goTable()}>
+                                    Table
+                                </Button>
+                            </div>
+                            <div className='tab'>
+                                <Button onClick={() => this.goStats()}>
+                                    Stats
+                                </Button>
+                            </div>
                         </div>
-                        <div className='tab'>
-                            <Button onClick={() => this.goStats()}>
-                                Stats
-                            </Button>
+                        <div className='table'>
+                            {this.state.tab ? <Table userID={this.state.profileID} /> : Stats}
                         </div>
                     </div>
-                    <div className='table'>
-                        {this.state.tab ? <Table userID={this.state.profileID} /> : Stats}
-                    </div>
-                </div>
+                : <Spinner /> }
             </div>
         );
     }
