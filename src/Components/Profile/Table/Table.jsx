@@ -17,9 +17,9 @@ class Table extends Component {
     getTableData() {
         const db = firebase.firestore();
 
-        const docRef = db.collection('games').doc('AMqCzVSxaxjWjTEFsQEt');
+        const gameRef = db.collection('games');
 
-        docRef.get().then(function(doc) {
+        gameRef.where('white', '==', this.props.userID).get().then(function(doc) {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
                 this.setState(state => ({
@@ -44,7 +44,7 @@ class Table extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th>Match ID</th>
+                            <th>{this.props.userID}</th>
                             <th>Winner</th>
                             <th>Opponent</th>
                         </tr>

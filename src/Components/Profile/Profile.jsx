@@ -86,7 +86,7 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className='table'>
-                        {this.state.tab ? <Table gameList={this.state.profileData.games} /> : Stats}
+                        {this.state.tab ? <Table userID={this.state.profileID} /> : Stats}
                     </div>
                 </div>
             </div>
