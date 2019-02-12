@@ -1,0 +1,13 @@
+.spinner {
+    
+}
+
+.pic {
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from{ rotate: 0deg; }
+    to { rotate: 360deg; }
+}
