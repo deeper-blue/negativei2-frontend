@@ -130,15 +130,18 @@ $dark-blue: rgb(65, 139, 182);
 #move-tracker {
     font-size: 15px;
     border-collapse: collapse;
+    border: 0;
     line-height: 1.5;
     width: 100%;
     background-color: white;
     tr {
+        border: 0;
         &:nth-child(even) {
             background-color: lighten(#bcbcbc ,20%);
         }
     }
     td {
+        border: 0;
         font-family: 'Courier New', Courier, monospace;
         text-align: left;
         padding: 3px 10px;
@@ -147,11 +150,10 @@ $dark-blue: rgb(65, 139, 182);
         }
     }
     th {
+        border: 0;
         text-align: left;
         padding: 3px 10px;
-        // background-color: #55608d;
-        background-color: $dark-blue;
-        // color: #9eb2d1;
+        background-color: map-get($colors, middle-blue);
         color: white;
     }
 }

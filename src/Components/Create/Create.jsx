@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Create.scss'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class Create extends Component {
       constructor(props) {
@@ -68,10 +68,8 @@ class Create extends Component {
             <br />
             <br />
             <br />
-            <button id="btn_play" type="button" onClick={this.handleClick}>
-                <Link to='/play' id ="btn">
-                  LET'S PLAY!!
-                </Link>
+            <button id="btn_play" class="button large large-font" onClick={this.handleClick}>
+              Create game
             </button>
           </form>
         );

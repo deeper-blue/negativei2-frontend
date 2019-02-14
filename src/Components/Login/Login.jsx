@@ -40,15 +40,14 @@ class Login extends Component {
       ?
         <Redirect to="/" />
       :
-        <div className="App">
-          <header className="App-header">
-            <img src='/assets/logo.svg' className="App-logo" alt="logo" />
-            <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} />
-            <Link to='/'>
-              Play as guest
-            </Link>
-          </header>
+      <div id="login-wrapper">
+        <div id="login">
+          <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} className="test"/>
+          <Link id="guest-button" to='/' class="button">
+            Play as guest
+          </Link>
         </div>
+      </div>
     );
   }
 }
