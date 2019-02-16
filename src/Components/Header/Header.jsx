@@ -54,13 +54,17 @@ class Header extends Component {
         return (
             <div>
                 <header id="header">
-                    <a href="/" id="home-link">
+                    <a href="/" id="home-link" className="link-blue">
                         HOME
                     </a>
                     <nav id="dock">
                         <div id="dock-auth" className="dock-item" tooltip={this.state.user ? 'Logout' : 'Login'} tooltip-position="bottom">
                             <a href={this.state.user ? '/logout' : '/login'}>
-                                <img src="/assets/header/auth.png" alt="Auth" id="dock-auth-icon"></img>
+                                {this.state.user ?
+                                <img src="/assets/header/logout.png" alt="Logout" id="dock-auth-icon"></img>
+                                :
+                                <img src="/assets/header/login.png" alt="Login" id="dock-auth-icon"></img>
+                                }
                             </a>
                         </div>
                         {this.state.user ?
@@ -82,16 +86,17 @@ class Header extends Component {
                 <div id="page-hide" onClick={this.toggleNav}></div>
                 <div id="navigator">
                     <p className="nav-title">Pages</p>
-                    <a href="/">Home</a>
-                    <a href="/create">New game</a>
-                    <a href="/join">Join game</a>
+                    <a href="/" className="link-yellow shadow">Home</a>
+                    <a href="/create" className="link-yellow shadow">New game</a>
+                    <a href="/join" className="link-yellow shadow">Join game</a>
                     <hr />
                     <p className="nav-title">{this.state.user ? <span>{this.state.user.displayName}</span> : 'Guest'}</p>
                     <a
+                      className="link-yellow shadow"
                       href={this.state.user ? '/logout' : '/login'}>
                       {this.state.user ? 'Logout' : 'Login'}
                     </a>
-                    {this.state.user ? <a href="/profile">View profile</a> : ''}
+                    {this.state.user ? <a className="link-yellow shadow" href="/profile">View profile</a> : ''}
                 </div>
             </div>
         );
