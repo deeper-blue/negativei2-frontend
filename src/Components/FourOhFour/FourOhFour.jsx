@@ -17,6 +17,7 @@ class FourOhFour extends Component {
             .spinner {
                 animation: image-spin infinite 4s linear;
                 display: inline-block;
+                padding: 15px;
                 height: 20vmin;
                 width: 20vmin;
             }
