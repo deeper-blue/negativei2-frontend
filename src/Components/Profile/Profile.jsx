@@ -59,6 +59,8 @@ class Profile extends Component {
 
     render() {
 
+        
+
         const Button = styled.button`
             background: transparent;
             color: black;
