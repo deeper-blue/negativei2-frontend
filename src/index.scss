@@ -19,8 +19,8 @@ code {
 }
 
 /* Mixins */
-@mixin media-width($breakpoint) {
-  @media only screen and (max-width: $breakpoint) {
+@mixin media-width($breakpoint-value) {
+  @media only screen and (max-width: $breakpoint-value) {
     @content;
   }
 }
@@ -78,4 +78,93 @@ code {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
+}
+
+/* Uniform styling */
+// Variables
+$breakpoint: 500px;
+$header: 45px;
+
+// Colors
+$colors: (
+  react-blue: #61dafb,
+  middle-blue: rgb(28, 140, 184),
+  middle-dark-blue: rgb(40, 86, 129),
+  middle-darker-blue: rgb(26, 55, 82),
+  dark-blue: #232838,
+  darker-blue: #1f2331,
+  pale-blue: rgb(66, 81, 114),
+  paler-blue: rgb(113, 126, 150),
+  dark-pale-blue: rgb(45, 54, 71),
+  pale-red: rgb(207, 147, 147),
+  middle-yellow: rgb(206, 159, 71),
+  middle-orange: #f16000,
+  light-yellow: #f3d19f
+);
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:500');
+
+// Styles
+//> Buttons
+.base-button {
+  @include appearance(none);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border-radius: 5px;
+  outline: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 3px solid map-get($colors, paler-blue);
+  background-color: map-get($colors, dark-pale-blue);
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  @include transition(all 0.25s);
+  &:hover {
+    background-color: map-get($colors, paler-blue);
+    color: map-get($colors, darker-blue);
+  }
+  &:active {
+    color: map-get($colors, pale-blue);
+    @include transform(scale(0.95));
+  }
+}
+.button {
+  @extend .base-button;
+  &.large {
+    border-radius: 7px;
+    padding: 20px 25px;
+  }
+  &.small {
+    border-width: 2px;
+    border-radius: 2px;
+    padding: 4px 9px;
+  }
+  &.large-font { font-size: 1.3rem; }
+  &.small-font { font-size: 0.7rem; }
+}
+//> Links
+.base-link {
+  text-decoration: none;
+  @include transition(all 0.25s);
+}
+.link-blue {
+  @extend .base-link;
+  color: map-get($colors, react-blue);
+  &:hover { color: map-get($colors, middle-blue); }
+  &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-dark-blue); }
+}
+.link-dark-blue {
+  @extend .base-link;
+  color: map-get($colors, middle-dark-blue);
+  &:hover { color: map-get($colors, react-blue); }
+  &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-blue); }
+}
+.link-yellow {
+  @extend .base-link;
+  color: map-get($colors, middle-yellow);
+  &:hover { color: map-get($colors, light-yellow); }
+  &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-orange); }
 }

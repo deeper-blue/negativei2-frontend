@@ -4,6 +4,7 @@ import Home from '../Home';
 import Header from '../Header';
 import Profile from '../Profile';
 import Login from '../Login';
+import Logout from '../Logout';
 import Create from '../Create';
 import Play from '../Play';
 import Join from '../Join';
@@ -19,6 +20,7 @@ class App extends Component {
           <Route exact path="/profile/:ID/:page?" component={Profile} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/logout" component={Logout} />
           <Route exact path="/create" component={Create} />
           <Route exact path="/play" component={Play} />
           <Route exact path="/join" component={Join} />
