@@ -57,7 +57,8 @@ class FourOhFour extends Component {
                         404
                     </div>
                     <div className='info'>
-                        Whoopsie poopsie! Looks like we couldn't find that page for you! Maybe you shouldn't be such a moron and should know where you're going!    
+                        Whoopsie poopsie! Looks like we couldn't find that page for you!
+                        <p>Maybe you'd like to go back to our <a href="/">home page</a>?</p>
                     </div>
                     <div className='spinner'>
                         <img src='/assets/profile.jpg' className='image' alt="logo" />
