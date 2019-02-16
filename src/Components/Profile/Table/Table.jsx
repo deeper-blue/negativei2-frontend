@@ -77,19 +77,23 @@ class Table extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.blackData.concat(this.state.whiteData).sort(function(a,b){return b.time - a.time}).map((row, index) => (
-                                <tr>
-                                    <td>
-                                        {row.id}
-                                    </td>
-                                    <td>
-                                        {row.winner ? 'White' : 'Black'}
-                                    </td>
-                                    <td>
-                                        {row.black === this.props.userID ? row.white : row.black}
-                                    </td>
-                                </tr>
-                            ))}
+                            {
+                                this.state.blackData.concat(this.state.whiteData)
+                                .sort(function(a,b){return b.time - a.time})
+                                .map((row, index) => (
+                                    <tr>
+                                        <td>
+                                            {row.id}
+                                        </td>
+                                        <td>
+                                            {row.winner ? 'White' : 'Black'}
+                                        </td>
+                                        <td>
+                                            {row.black === this.props.userID ? row.white : row.black}
+                                        </td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </Table>
                 : <Spinner />}
