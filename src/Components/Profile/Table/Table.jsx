@@ -25,9 +25,11 @@ class Table extends Component {
 
         gameRef.where('white', '==', this.props.userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                console.log("Document data:", doc.data());
+                var data = doc.data()
+                data.id = doc.id;
+                console.log("Document data:", data);
                 this.setState(prevState => ({
-                    whiteData: [...prevState.whiteData, doc.data()],
+                    whiteData: [...prevState.whiteData, data],
                     whiteLoaded: true,
                 }));
             }.bind(this));
@@ -39,9 +41,11 @@ class Table extends Component {
         }.bind(this));
         gameRef.where('black', '==', this.props.userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                console.log("Document data:", doc.data());
+                var data = doc.data()
+                data.id = doc.id;
+                console.log("Document data:", data);
                 this.setState(prevState => ({
-                    blackData: [...prevState.blackData, doc.data()],
+                    blackData: [...prevState.blackData, data],
                     blackLoaded: true,
                 }));
             }.bind(this));
@@ -76,7 +80,7 @@ class Table extends Component {
                             {this.state.blackData.concat(this.state.whiteData).sort(function(a,b){return b.time - a.time}).map((row, index) => (
                                 <tr>
                                     <td>
-                                        {index}
+                                        {row.id}
                                     </td>
                                     <td>
                                         {row.winner ? 'White' : 'Black'}
