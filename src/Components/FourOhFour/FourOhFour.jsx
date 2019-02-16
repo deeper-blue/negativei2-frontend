@@ -10,7 +10,7 @@ class FourOhFour extends Component {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            text-align: center;
+            align-items: center;
             height: calc(100vh - 45px);
             font-size: calc(10px + 2vmin);
 
@@ -31,6 +31,12 @@ class FourOhFour extends Component {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                text-align: center;
+                width: 500px;
+            }
+
+            .info {
+                padding: 15px;
             }
 
             @keyframes image-spin {	
@@ -49,6 +55,9 @@ class FourOhFour extends Component {
                 <div className='container'>
                     <div>
                         404
+                    </div>
+                    <div className='info'>
+                        Whoopsie poopsie! Looks like we couldn't find that page for you! Maybe you shouldn't be such a moron and should know where you're going!    
                     </div>
                     <div className='spinner'>
                         <img src='/assets/profile.jpg' className='image' alt="logo" />
