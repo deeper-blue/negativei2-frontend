@@ -25,7 +25,7 @@ class Profile extends Component {
 
     getProfileInfo() {
         const db = firebase.firestore();
-        const docRef = db.collection('users').doc('OzB0A00LjN4fKCwCOT8E');
+        const docRef = db.collection('users').doc(this.state.profileID);
 
         docRef.get().then(function(doc) {
             if (doc.exists) {
