@@ -53,15 +53,15 @@ class FourOhFour extends Component {
         return(
             <StyledDiv>
                 <div className='container'>
-                    <div>
-                        404
-                    </div>
-                    <div className='info'>
-                        Whoopsie poopsie! Looks like we couldn't find that page for you!
-                        <p>Maybe you'd like to go back to our <a href="/">home page</a>?</p>
-                    </div>
                     <div className='spinner'>
                         <img src='/assets/profile.jpg' className='image' alt="logo" />
+                    </div>
+                    <div>
+                        404 ERROR
+                    </div>
+                    <div className='info'>
+                        <p>Whoopsie poopsie! Looks like we couldn't find that page for you!</p>
+                        <p>Maybe you'd like to go back to our <a href="/">home page</a>?</p>
                     </div>
                 </div>
             </StyledDiv>
