@@ -39,6 +39,9 @@ class Profile extends Component {
                 }));
             } else {
                 console.log('No such document!');
+                this.setState(state => ({
+                    loaded: true,
+                }))
             }
         }.bind(this)).catch(function(error) {
             console.log('Error getting document:', error);
