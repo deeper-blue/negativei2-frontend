@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import firebase from '../../Firebase';
 import Spinner from '../../Spinner';
-import { database } from 'firebase';
 
 class Table extends Component {
 
