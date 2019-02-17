@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import firebase from '../../Firebase';
 import Spinner from '../../Spinner';
+import { database } from 'firebase';
 
 class Table extends Component {
 
@@ -27,6 +28,8 @@ class Table extends Component {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
+                data.playing = 'white';
+                data.win = data.winner;
                 console.log("Document data:", data);
                 this.setState(prevState => ({
                     whiteData: [...prevState.whiteData, data],
@@ -43,6 +46,8 @@ class Table extends Component {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
+                data.playing = 'black';
+                data.win = !data.winner;
                 console.log("Document data:", data);
                 this.setState(prevState => ({
                     blackData: [...prevState.blackData, data],
@@ -72,7 +77,8 @@ class Table extends Component {
                         <thead>
                             <tr>
                                 <th>Game ID</th>
-                                <th>Winner</th>
+                                <th>Win/Lose</th>
+                                <th>Playing as</th>
                                 <th>Opponent</th>
                             </tr>
                         </thead>
@@ -86,7 +92,10 @@ class Table extends Component {
                                             {row.id}
                                         </td>
                                         <td>
-                                            {row.winner ? 'White' : 'Black'}
+                                            {row.win ? 'Win' : 'Loss'}
+                                        </td>
+                                        <td>
+                                            {row.playing}
                                         </td>
                                         <td>
                                             {row.black === this.props.userID ? row.white : row.black}

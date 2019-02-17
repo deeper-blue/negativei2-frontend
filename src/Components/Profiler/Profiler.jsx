@@ -29,7 +29,9 @@ class Profiler extends React.Component {
     render(){
         return(
             <div>
-                {this.state.user ? <Redirect to={this.state.user === 'none' ? '/login' : '/profile/' + this.state.user}/> : <div>redirecting</div>}
+                {this.state.user ? 
+                <Redirect to={this.state.user === 'none' ? '/login' : '/profile/' + this.state.user}/> : 
+                <div>redirecting</div>}
             </div>
         )
     }
