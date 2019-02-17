@@ -91,7 +91,7 @@ class Table extends Component {
                                             {row.id}
                                         </td>
                                         <td>
-                                            {row.win ? 'Win' : 'Loss'}
+                                            {row.win ? 'Win' : 'Lose'}
                                         </td>
                                         <td>
                                             {row.playing}

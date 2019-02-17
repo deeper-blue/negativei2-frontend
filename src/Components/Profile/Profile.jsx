@@ -5,6 +5,7 @@ import Table from './Table';
 import firebase from '../Firebase';
 import Spinner from '../Spinner';
 import './Profile.scss';
+import '../../index.scss';
 
 class Profile extends Component {
 
@@ -65,11 +66,11 @@ class Profile extends Component {
         
 
         const Button = styled.button`
-            background: transparent;
-            color: black;
+            background-color: rgb(40, 86, 129);
+            color: white;
             text-decoration: none;
             margin:none;
-            border: 2px solid black;
+            border: none;
             border-radius: 2px;
             height: 100%;
             width: 100%;

@@ -1,3 +1,5 @@
+@import '../../index.scss';
+
 .profile {
     display: flex;
     justify-content: center;
@@ -8,6 +10,7 @@
     display: flex;
     flex-direction: column;
     width: 40%;
+    color: white;
 }
 
 .tabs {
@@ -24,14 +27,11 @@
 
 .table {
     margin-top: 25px;
-    border: 2px solid black;
+    // border: 2px solid black;
     border-radius: 2px;
+    background-color: map-get($map: $colors, $key: middle-dark-blue);
 }
 
 .egg {
     width: 100%;
 }
-
-table, th, td {
-    border: 1px solid black;
-  }

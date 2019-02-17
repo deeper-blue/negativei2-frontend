@@ -168,3 +168,7 @@ $colors: (
   &:hover { color: map-get($colors, light-yellow); }
   &.shadow:active { text-shadow: 1px 1px map-get($colors, middle-orange); }
 }
+
+table, th, td {
+  border: 1px solid black;
+}
