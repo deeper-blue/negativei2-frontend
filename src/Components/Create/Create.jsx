@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import {
 	withRouter
 } from 'react-router-dom';
+import { Textbox } from 'react-inputs-validation';
 
 import './Create.scss'
 
@@ -58,7 +59,6 @@ class Create extends React.Component {
       this.setState({ errors });
         return;
       } else {
-          alert("No errors!");
           this.props.history.push('/play');
         //return <Link to='/play'/>;
       }
@@ -67,10 +67,8 @@ class Create extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        {errors.map(error => (
-          <p key={error}>Error: {error}</p>
-        ))}
+      <form onSubmit={this.handleSubmit} >
+        <div id = "config_form">
         <label>
           Player 1 (White):
           <br />
@@ -122,9 +120,15 @@ class Create extends React.Component {
         <br />
         <br />
 
-        <button type="submit">
+        <button type="submit" id = "btn_play">
             Let's play!
         </button>
+        </div>
+        <div id = "Errors">
+        {errors.map(error => (
+          <p key={error}>Error: {error}</p>
+        ))}
+        </div>
 
       </form>
     );

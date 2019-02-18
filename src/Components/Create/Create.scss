@@ -1,22 +1,26 @@
 
-form#config_form {
+#config_form {
     text-align: center;
     padding-top: 3rem;
-    position: absolute;
-    left: 45%;
+    position: relative;
+    left: auto;
 }
 
-a#btn {
+#Errors {
+    text-align: center;
+    padding-top: 3rem;
+    position: relative;
+    color: red;
+    font-size: 1rem;
+    left: auto;
+}
+
+#btn_play {
     text-decoration: none;
     font-size: 1rem;
     font-weight: bold;
-}
-
-a#btn:hover{
-    background-color: #00006e;
-}
-
-button#btn_play{
+    color: white;
+    font-weight: bold;
     border-radius: 3px;
     padding: 1rem;
     background-color: #00006e;
@@ -25,8 +29,12 @@ button#btn_play{
     box-shadow: 1px 2px 3px rgba(0,0,0,.5);
     text-align: center;
     display: inline-block;
+    &:hover{
+        background-color: grey;
+    }
 }
 
-input#config_input {
+input {
     text-align: center;
+    width: 9%;
 }
