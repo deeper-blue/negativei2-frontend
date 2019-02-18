@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom'
 import {
 	withRouter
 } from 'react-router-dom';
-import { Textbox } from 'react-inputs-validation';
 
 import './Create.scss'
 
