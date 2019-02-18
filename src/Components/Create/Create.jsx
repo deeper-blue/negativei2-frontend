@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
-import './Create.scss'
 import { Link } from 'react-router-dom'
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom"
+import { Redirect } from 'react-router-dom'
+import {
+	withRouter
+} from 'react-router-dom';
+
+import './Create.scss'
 
 
 function validate(hours, minutes, P1, P2 ) {
   const errors = [];
 
-  if (hours.length === 0) {
-    errors.push("Hours can't be empty");
-  }
+  if (hours.length === 0 || minutes.length === 0){
+      if (hours.length === 0) {
+        errors.push("Hours can't be empty");
+      }
 
-  if (minutes.length === 0) {
-    errors.push("Minutes can't be empty");
-  }
-
-  if (minutes == 0 && hours == 0) {
-    errors.push("You cannot play for 0 seconds and 0 hours");
+      if (minutes.length === 0) {
+        errors.push("Minutes can't be empty");
+      }
+  } else {
+      if (minutes == 0 && hours == 0) {
+        errors.push("You cannot play for 0 seconds and 0 hours");
+      }
   }
 
   if (P1 == "me" && P2 == "me"){
@@ -45,14 +52,16 @@ class Create extends React.Component {
     e.preventDefault();
 
     const { hours, minutes, P1, P2 } = this.state;
-
+    this.setState({errors: []});
     const errors = validate(hours, minutes, P1, P2);
     if (errors.length > 0) {
       this.setState({ errors });
-      return;
-    }
-
-    // submit the data...
+        return;
+      } else {
+          alert("No errors!");
+          this.props.history.push('/play');
+        //return <Link to='/play'/>;
+      }
   }
 
   render() {
@@ -88,6 +97,8 @@ class Create extends React.Component {
         </label>
         <br />
         <br />
+        Hours:
+        <br />
         <input
           value={this.state.hours}
           onChange={evt => this.setState({ hours: evt.target.value })}
@@ -98,6 +109,8 @@ class Create extends React.Component {
         />
         <br />
         <br />
+        Minutes:
+        <br />
         <input
           value={this.state.minutes}
           onChange={evt => this.setState({ minutes: evt.target.value })}
@@ -106,8 +119,13 @@ class Create extends React.Component {
           min = "0"
           max = "59"
         />
+        <br />
+        <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit">
+            Let's play!
+        </button>
+
       </form>
     );
   }
@@ -115,6 +133,5 @@ class Create extends React.Component {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<Create />, rootElement);
-export default Create;
 
 export default Create;
