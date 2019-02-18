@@ -134,7 +134,5 @@ class Create extends React.Component {
   }
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Create />, rootElement);
 
 export default Create;
