@@ -12,7 +12,6 @@ function Home (props) {
             <Link to='/join' className="button large large-font home-link">
                 Join game
             </Link>
-            <Spinner />
         </div>
     );
 }
