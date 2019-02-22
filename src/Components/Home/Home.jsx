@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.scss';
-import Spinner from '../Spinner';
 
 function Home (props) {
     return (
