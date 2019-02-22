@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.scss';
+import Spinner from '../Spinner';
 
 function Home (props) {
     return (
@@ -11,6 +12,7 @@ function Home (props) {
             <Link to='/join' className="button large large-font home-link">
                 Join game
             </Link>
+            <Spinner />
         </div>
     );
 }
