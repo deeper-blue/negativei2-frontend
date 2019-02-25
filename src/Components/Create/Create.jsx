@@ -1,11 +1,4 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import ReactDOM from "react-dom"
-import { Redirect } from 'react-router-dom'
-import {
-	withRouter
-} from 'react-router-dom';
-
+import React from 'react';
 import './Create.scss'
 
 
@@ -21,12 +14,12 @@ function validate(hours, minutes, P1, P2 ) {
         errors.push("Minutes can't be empty");
       }
   } else {
-      if (minutes == 0 && hours == 0) {
+      if (minutes === 0 && hours === 0) {
         errors.push("You cannot play for 0 seconds and 0 hours");
       }
   }
 
-  if (P1 == "me" && P2 == "me"){
+  if (P1 === "me" && P2 === "me"){
     errors.push("You cannot play against yourself!");
   }
 
