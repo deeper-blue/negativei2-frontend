@@ -11,7 +11,7 @@ class Header extends React.Component {
                         <img src='/assets/profile.jpg' className='image' alt="logo" />
                     </div>
                     <div className='player-info'>
-                        <div>
+                        <div className='profile-name'>
                             {this.props.profileData.name}
                         </div>
                         <PlayerStats profileData={this.props.profileData} />

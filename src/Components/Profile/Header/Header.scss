@@ -5,9 +5,12 @@
     flex-direction: row;
     max-height: 128px;
     padding: 15px;
-    // border: 2px solid black;
-    border-radius: 2px;
-    background-color: map-get($map: $colors, $key: middle-dark-blue)
+    border: 2px solid map-get($map: $colors, $key: middle-dark-blue);
+    border-radius: 15px;
+    // background-color: map-get($map: $colors, $key: middle-dark-blue)
+    background-color: transparent;
+    color: map-get($map: $colors, $key: middle-dark-blue);
+    font-weight: bold;
 }
 
 .profile-picture {
@@ -40,4 +43,9 @@
 .stat {
     display: flex;
     flex-direction: column;
+}
+
+
+.profile-name {
+    font-size: 30px;
 }

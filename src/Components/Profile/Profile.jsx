@@ -66,12 +66,13 @@ class Profile extends Component {
         
 
         const Button = styled.button`
-            background-color: rgb(40, 86, 129);
-            color: white;
+            background-color: transparent;
+            color: rgb(40, 86, 129);
             text-decoration: none;
             margin:none;
-            border: none;
+            border: 2px solid rgb(40, 86, 129);
             border-radius: 2px;
+            font-weight: bold;
             height: 100%;
             width: 100%;
         `;

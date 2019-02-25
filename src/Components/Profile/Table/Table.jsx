@@ -65,6 +65,18 @@ class Table extends Component {
 
         const Table = styled.table`
             width: 100%;
+            color: rgb(40, 86, 129);
+
+            border: 2px solid rgb(40, 86, 129);
+            border-radius: 15px;
+
+            thead {
+                background-color: rgb(113, 126, 150);
+            }
+
+            td {
+                text-align: center;
+            }
         `;
 
 
