@@ -119,8 +119,6 @@ class Profile extends Component {
 
     render() {
 
-        const Stats = <div>Stats</div>;
-
         return (
             <div className='profile'>
                 {this.state.loaded ?

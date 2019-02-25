@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import firebase from '../../Firebase';
 import Spinner from '../../Spinner';
@@ -77,7 +77,7 @@ class Table extends Component {
 
     render(){
 
-        const { match, location, history } = this.props;
+        const { location } = this.props;
 
         const userID = location.pathname.split('/')[2];
 
