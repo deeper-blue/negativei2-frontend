@@ -65,14 +65,25 @@ class Table extends Component {
 
         const Table = styled.table`
             width: 100%;
-            color: rgb(40, 86, 129);
+            color: rgb(26, 55, 82);
 
             border: 2px solid rgb(40, 86, 129);
             border-radius: 15px;
+            border-collapse: collapse;
 
             thead {
-                background-color: rgb(113, 126, 150);
+                background-color: rgb(66, 81, 114);
+                color: #f3d19f;
+                
+                th {
+                    padding: 15px 0px 15px 0px;
+                }
             }
+
+            tbody tr:nth-child(even) {
+                background-color: rgba(113, 126, 150, 0.5);
+            }
+
 
             td {
                 text-align: center;
