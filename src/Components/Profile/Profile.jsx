@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import Header from './Header';
 import Table from './Table';
 import firebase from '../Firebase';
@@ -7,26 +8,43 @@ import Spinner from '../Spinner';
 import './Profile.scss';
 import '../../index.scss';
 
+const Button = styled.button`
+    background-color: transparent;
+    color: rgb(40, 86, 129);
+    text-decoration: none;
+    margin:none;
+    border: 2px solid rgb(40, 86, 129);
+    border-radius: 2px;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+
+    ${props => props.primary && css`
+        background-color: rgb(40, 86, 129);
+        color: white;
+    `}
+`;
+
 class Profile extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tab: true,
+            tab: 1,
             loaded: false,
             displayName: "placeholder",
             wins: 0,
             losses: 0,
-            profileID: this.props.location.pathname.split('/')[2],
             profileData: '',
+            primary1: true,
+            primary2: false,
+            primary3: false,
         };
-
-        this.getProfileInfo();
     }
 
-    getProfileInfo() {
+    getProfileInfo(profileID) {
         const db = firebase.firestore();
-        const docRef = db.collection('users').doc(this.state.profileID);
+        const docRef = db.collection('users').doc(profileID);
 
         docRef.get().then(function(doc) {
             if (doc.exists) {
@@ -51,33 +69,55 @@ class Profile extends Component {
 
     goTable() {
         this.setState(state => ({
-            tab: true
+            tab: 1,
+            primary1: true,
+            primary2: false,
+            primary3: false,
         }));
     }
 
     goStats() {
         this.setState(state => ({
-            tab: false
+            tab: 2,
+            primary1: false,
+            primary2: true,
+            primary3: false,
         }));
+    }
+
+    goOptions() {
+        this.setState(state => ({
+            tab: 3,
+            primary1: false,
+            primary2: false,
+            primary3: true,
+        }));
+    }
+
+    componentSwitch(dave) {
+        switch(dave) {
+            case 1:
+                return <Table />;
+            case 2:
+                return <div>Stats</div>;
+            case 3:
+                return <div>asdf</div>;
+            default:
+                return null;
+        }
+    }
+
+    componentDidMount(){
+        this.getProfileInfo(this.props.location.pathname.split('/')[2]);
+    }
+
+    componentDidUpdate() {
+        // this.getProfileInfo(this.props.location.pathname.split('/')[2]);
     }
 
     render() {
 
-        
-
-        const Button = styled.button`
-            background-color: transparent;
-            color: rgb(40, 86, 129);
-            text-decoration: none;
-            margin:none;
-            border: 2px solid rgb(40, 86, 129);
-            border-radius: 2px;
-            font-weight: bold;
-            height: 100%;
-            width: 100%;
-        `;
-
-        const Stats = <div>Stats</div>
+        const Stats = <div>Stats</div>;
 
         return (
             <div className='profile'>
@@ -86,18 +126,24 @@ class Profile extends Component {
                         <Header profileData={this.state.profileData} />
                         <div className='tabs'>
                             <div className='tab'>
-                                <Button onClick={() => this.goTable()}>
+                                <Button onClick={() => this.goTable()} primary={this.state.primary1}>
                                     Table
                                 </Button>
                             </div>
                             <div className='tab'>
-                                <Button onClick={() => this.goStats()}>
+                                <Button onClick={() => this.goStats()} primary={this.state.primary2}>
                                     Stats
+                                </Button>
+                            </div>
+                            <div className='tab'>
+                                <Button onClick={() => this.goOptions()} primary={this.state.primary3}>
+                                    Options
                                 </Button>
                             </div>
                         </div>
                         <div className='table'>
-                            {this.state.tab ? <Table userID={this.state.profileID} /> : Stats}
+                            {/* {this.state.tab ? <Table userID={this.state.profileID} /> : Stats} */}
+                            {this.componentSwitch(this.state.tab)}
                         </div>
                     </div>
                 : <Spinner /> }
@@ -106,4 +152,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default withRouter(Profile);

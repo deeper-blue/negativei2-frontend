@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import firebase from '../../Firebase';
 import Spinner from '../../Spinner';
+import { withRouter } from 'react-router-dom';
 
 class Table extends Component {
+
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+    }
 
     constructor(props) {
         super(props);
@@ -20,10 +29,11 @@ class Table extends Component {
 
     getTableData() {
         const db = firebase.firestore();
-
         const gameRef = db.collection('games');
 
-        gameRef.where('white', '==', this.props.userID).get().then(function(querySnapshot) {
+        const userID = this.props.location.pathname.split('/')[2];
+
+        gameRef.where('white', '==', userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
@@ -41,7 +51,7 @@ class Table extends Component {
                 whiteLoaded: true,
             }))
         }.bind(this));
-        gameRef.where('black', '==', this.props.userID).get().then(function(querySnapshot) {
+        gameRef.where('black', '==', userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
@@ -63,6 +73,10 @@ class Table extends Component {
 
     render(){
 
+        const { match, location, history } = this.props;
+
+        const userID = location.pathname.split('/')[2];
+
         const Table = styled.table`
             width: 100%;
             color: rgb(26, 55, 82);
@@ -72,7 +86,7 @@ class Table extends Component {
             border-collapse: collapse;
 
             thead {
-                background-color: rgb(66, 81, 114);
+                background-color: rgb(40, 86, 129);
                 color: #f3d19f;
                 
                 th {
@@ -87,6 +101,11 @@ class Table extends Component {
 
             td {
                 text-align: center;
+            }
+            
+            .link {
+                color: rgb(26, 55, 82);
+                text-decoration: none;
             }
         `;
 
@@ -120,7 +139,9 @@ class Table extends Component {
                                             {row.playing}
                                         </td>
                                         <td>
-                                            {row.black === this.props.userID ? row.white : row.black}
+                                            <Link to={row.black === userID ? row.white : row.black} className='link'>
+                                                {row.black === userID ? row.white : row.black}
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))
@@ -134,4 +155,4 @@ class Table extends Component {
 
 }
 
-export default Table;
+export default withRouter(Table);
