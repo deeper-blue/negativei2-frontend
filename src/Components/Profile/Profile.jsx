@@ -30,6 +30,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            profileID: this.props.location.pathname.split('/')[2],
             tab: 1,
             loaded: false,
             displayName: "placeholder",
@@ -99,9 +100,9 @@ class Profile extends Component {
             case 1:
                 return <Table />;
             case 2:
-                return <div>Stats</div>;
+                return <div>This is where stats will go when they are implemented</div>;
             case 3:
-                return <div>asdf</div>;
+                return <div>This is where profile options will go when they are implemented</div>;
             default:
                 return null;
         }
@@ -113,6 +114,7 @@ class Profile extends Component {
 
     componentDidUpdate() {
         // this.getProfileInfo(this.props.location.pathname.split('/')[2]);
+        console.log('update');
     }
 
     render() {
@@ -123,7 +125,7 @@ class Profile extends Component {
             <div className='profile'>
                 {this.state.loaded ?
                     <div className='content'>
-                        <Header profileData={this.state.profileData} />
+                        <Header profileData={this.state.profileData} profileID={this.state.profileID}/>
                         <div className='tabs'>
                             <div className='tab'>
                                 <Button onClick={() => this.goTable()} primary={this.state.primary1}>

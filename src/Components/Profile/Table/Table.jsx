@@ -139,9 +139,9 @@ class Table extends Component {
                                             {row.playing}
                                         </td>
                                         <td>
-                                            <Link to={row.black === userID ? row.white : row.black} className='link'>
-                                                {row.black === userID ? row.white : row.black}
-                                            </Link>
+                                            {/* <Link to={row.black === userID ? row.white : row.black} className='link'> */}
+                                            {row.black === userID ? row.white : row.black}
+                                            {/* </Link> */}
                                         </td>
                                     </tr>
                                 ))
