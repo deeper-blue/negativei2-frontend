@@ -42,9 +42,11 @@ class Table extends Component {
                 console.log("Document data:", data);
                 this.setState(prevState => ({
                     whiteData: [...prevState.whiteData, data],
-                    whiteLoaded: true,
                 }));
             }.bind(this));
+            this.setState(prevState => ({
+                whiteLoaded: true,
+            }));
         }.bind(this)).catch(function(error) {
             console.log("Error getting document:", error);
             this.setState( state => ({
@@ -60,9 +62,11 @@ class Table extends Component {
                 console.log("Document data:", data);
                 this.setState(prevState => ({
                     blackData: [...prevState.blackData, data],
-                    blackLoaded: true,
                 }));
             }.bind(this));
+            this.setState(prevState => ({
+                blackLoaded: true,
+            }));
         }.bind(this)).catch(function(error) {
             console.log("Error getting document:", error);
             this.setState( state => ({
