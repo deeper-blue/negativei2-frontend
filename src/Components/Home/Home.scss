@@ -1,0 +1,16 @@
+@import '../../index.scss';
+
+.home-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - #{$header});
+}
+
+.button.home-link {
+    margin: 10px auto;
+    /*&:first-child {
+        margin-top: 20px;
+    }*/
+}

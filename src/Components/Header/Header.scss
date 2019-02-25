@@ -1,20 +1,146 @@
-.Header {
-    background-color: #123123;
+@import '../../index.scss';
+@import './tooltip.scss';
+
+#header {
+    z-index: 7;
+    background-color: map-get($colors, darker-blue);
     color: white;
-    height: 8vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px 0px 10px;
+    position: fixed;
+    width: 100vw;
+    box-sizing: border-box;
+    #dock {
+        display: inline-flex;
+        flex-direction: row;
+        #dock-burger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: $header;
+            cursor: pointer;
+            .bar-1, .bar-2, .bar-3 {
+                width: 35px;
+                height: 5px;
+                margin: 5px;
+                border-radius: 1px;
+                background-color: white;
+                @include transition(all 0.25s);
+            }
+            .bar-2 {
+                margin: 0px 5px;
+            }
+        }
+        .change {
+            .bar-1 {
+                background-color: map-get($colors, pale-red) !important;
+                opacity: 0.5;
+                @include transform(rotate(-45deg) translate(-6px, 6px));
+            }
+            .bar-2 {
+                opacity: 0;
+                @include transform(rotate(-90deg));
+            }
+            .bar-3 {
+                background-color: map-get($colors, pale-red) !important;
+                @include transform(rotate(45deg) translate(-8px, -8px));
+            }
+        }
+        #dock-profile {
+            display: flex;
+            align-items: center;
+            #dock-profile-icon {
+                height: 30px;
+                margin: 2px 5px 0px 5px;
+            }
+        }
+        #dock-auth {
+            display: flex;
+            align-items: center;
+            #dock-auth-icon {
+                height: 30px;
+                margin: 2px 2px 0px 5px;
+            }
+        }
+        .dock-item {
+            height: $header;
+            @include transition(filter 0.25s, transform 0.125s);
+            &:hover {
+                @include filter(brightness(80%));
+            }
+            &:active {
+                @include transform(scale(0.95));
+            }
+        }
+    }
 }
 
-a {
-    color:white;
+#home-link {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
 }
 
-a:hover, a:active {
-    background-color: aliceblue;
+#spacer {
+    height: $header;
+    width: 100vw;
 }
 
-.Home {
-    margin: 1%;
+#page-hide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    width: 100vw;
+    min-height: 0;
+    background-color: rgba(0, 0, 0, 0);
+    @include transition(all 0.25s);
+}
+.page-hide-reveal {
+    background-color: rgba(0, 0, 0, 0.541) !important;
+    min-height: 100vh !important;
+}
+
+#navigator {
+    z-index: 7;
+    position: fixed;
+    display: block;
+    right: -20px;
+    top: $header;
+    max-width: 0;
+    border-radius: 0px 0px 0px 2px;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
+    box-sizing: border-box;
+    @include transition(background-color 0.25s);
+    .nav-title {
+        margin-top: 0;
+        color: white;
+    }
+    a {
+        display: block;
+        margin: 5px 0px;
+    }
+    hr {
+        border: 0px;
+        border-top: 1px solid rgba(108, 159, 173, 0.171);
+        margin: 15px 0px;
+    }
+    p span {
+        color: map-get($colors, react-blue);
+    }
+    @include media-width($breakpoint) {
+        width: 100vw;
+        height: calc(100vh - $header);
+    }
+}
+.navigator-reveal {
+    right: 0px !important;
+    background-color: map-get($colors, dark-blue) !important;
+    max-width: 100vw !important;
+    min-width: 175px !important;
+    padding: 20px !important;
 }

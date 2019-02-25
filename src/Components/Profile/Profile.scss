@@ -1,0 +1,34 @@
+.profile {
+    text-align: center;
+    padding:25px;
+}
+
+.content {
+    display: inline-block;
+}
+
+.tabs {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tab{
+    width: 100%;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.table {
+    margin-top: 25px;
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+.egg {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }

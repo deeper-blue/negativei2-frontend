@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image {
+    height: 124px;
+    width: 124px;
+    border-radius: 50%;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
