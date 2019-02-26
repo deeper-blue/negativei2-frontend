@@ -57,21 +57,35 @@ class Join extends React.Component {
                 <table className="match-list">
                     <thead>
                         <tr>
-                            <td><b>Creator</b></td>
-                            <td><b>Open slots</b></td>
-                            <td></td>
+                            <th>Game ID</th>
+                            <th>Creator ID</th>
+                            <th>Open slots</th>
+                            <th>Black</th>
+                            <th>White</th>
+                            <th>Time Limit</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             this.state.game_list.map((row, index) => (
                                 <tr>
+                                    <td>{row.id}</td>
                                     <td>{row.creator}</td>
-                                    <td></td>
-                                    <td>d</td>
+                                    <td>{row.free_slots}</td>
+                                    <td>{row.players.black}</td>
+                                    <td>{row.players.white}</td>
+                                    <td>{row.time}</td>
                                 </tr>
                             ))
                         }
+                        <tr>
+                                <td>asfd</td>
+                                <td>asdf</td>
+                                <td>asdf</td>
+                                <td>asdf</td>
+                                <td>asdf</td>
+                                <td>asdf</td>
+                            </tr>
                         {/* <tr>
                             <td>{this.state.game_list.statusText}</td>
                             <td>1</td>
