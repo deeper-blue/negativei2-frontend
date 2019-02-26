@@ -24,12 +24,12 @@ class Join extends React.Component {
     }
 
     componentDidMount() {
-        this.somehttprequestshit(url);
+        this.httpRequest(url);
 
 
     }
 
-    somehttprequestshit(url){
+    httpRequest(url){
         axios.get(url)
             .then(function(response) {
                 console.log(response);
@@ -39,7 +39,6 @@ class Join extends React.Component {
                 console.log(error);
             })
             .then(function (){
-                console.log('poop');
                 this.setState( state => ({
                     loaded: true,
                 }));
