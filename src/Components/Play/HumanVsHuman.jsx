@@ -71,6 +71,8 @@ class HumanVsHuman extends Component {
         if (move === null) return;
 
         // legal move
+        
+
         this.setState(({ history, pieceSquare }) => ({
             fen: this.game.fen(),
             history: this.game.history({ verbose: true }),
