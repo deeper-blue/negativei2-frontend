@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
@@ -13,20 +13,12 @@ class Join extends React.Component {
 
         this.state = {
             loaded: false,
-            game_list: [],
-            game_id: '',
-            creator_id: '',
-            black_id: '',
-            white_id: '',
-            game_time: '',
-            free_slots: ''
+            game_list: []
         }
     }
 
     componentDidMount() {
         this.httpRequest(url);
-
-
     }
 
     httpRequest(url){
