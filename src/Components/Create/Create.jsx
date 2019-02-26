@@ -16,7 +16,7 @@ function validate(hours, minutes, P1, P2) {
             errors.push("Minutes can't be empty");
         }
     } else {
-        if (minutes === 0 && hours === 0) {
+        if (minutes === '0' && hours === '0') {
             errors.push("You cannot play for 0 seconds and 0 hours");
         }
     }
@@ -67,7 +67,6 @@ class Create extends React.Component {
             this.setState({ errors });
             return;
         } else {
-            this.props.history.push('/play');
             this.createGame();
         }
     }
@@ -75,17 +74,24 @@ class Create extends React.Component {
     createGame() {
         var formData = new FormData();
         var time = (this.state.hours * 3600) + (this.state.minutes * 60);
+        var player1;
+        var player2;
 
-        formData.set('creator_id', '123');
-        formData.set('player1_id', '123');
-        formData.set('player2_id', '123');
-        formData.set('board_id', '123');
+        this.state.P1 === 'me' ? player1 = this.state.user : player1 = this.state.P1;
+        this.state.P2 === 'me' ? player2 = this.state.user : player2 = this.state.P2;
+
+        formData.set('creator_id', this.state.user);
+        formData.set('player1_id', player1);
+        formData.set('player2_id', player2);
+        formData.set('board_id', 'kevin');
         formData.set('time_per_player', time);
 
         axios.post('http://negativei2-server.herokuapp.com/creategame', formData)
             .then(function (response) {
                 console.log(response);
-            })
+                console.log('/play/' + response.data.id);
+                this.props.history.push('/play/' + response.data.id);
+            }.bind(this))
             .catch(function (error) {
                 console.log(error);
             })
@@ -103,8 +109,8 @@ class Create extends React.Component {
                             value={this.state.P1}
                             onChange={evt => this.setState({ P1: evt.target.value })}>>
                             <option value="me">Me, myself and I</option>
-                            <option value="robot">Deeper Blue</option>
-                            <option value="human">Another human</option>
+                            <option value="AI">Deeper Blue</option>
+                            <option value="OPEN">Another human</option>
                         </select>
                     </label>
                     <br />
@@ -116,8 +122,8 @@ class Create extends React.Component {
                             value={this.state.P2}
                             onChange={evt => this.setState({ P2: evt.target.value })}>
                             <option value="me">Me, myself and I</option>
-                            <option value="robot">Deeper Blue</option>
-                            <option value="human">Another human</option>
+                            <option value="AI">Deeper Blue</option>
+                            <option value="OPEN">Another human</option>
                         </select>
                     </label>
                     <br />
@@ -161,6 +167,5 @@ class Create extends React.Component {
         );
     }
 }
-
 
 export default Create;

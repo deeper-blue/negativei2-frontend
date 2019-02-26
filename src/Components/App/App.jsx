@@ -23,6 +23,7 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/create" component={Create} />
+          <Route exact path="/play/:gameid?" component={Play} />
           <Route exact path="/play" component={Play} />
           <Route exact path="/join" component={Join} />
           <Route component={FourOhFour} />
