@@ -1,36 +1,51 @@
+@import '../../../index.scss';
+
 .header {
     display: flex;
     flex-direction: row;
-    border: 2px solid black;
-    border-radius: 2px;
+    max-height: 128px;
+    padding: 15px;
+    border: 2px solid map-get($map: $colors, $key: middle-dark-blue);
+    border-radius: 15px;
+    // background-color: map-get($map: $colors, $key: middle-dark-blue)
+    background-color: transparent;
+    color: map-get($map: $colors, $key: middle-dark-blue);
+    font-weight: bold;
 }
 
 .profile-picture {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
+    flex-direction: row;
     justify-content: center;
-    margin-right: 15px;
-    margin-left: 15px;
+    flex-grow: 1;
 }
 
 .player-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
+    flex-grow: 2;
 }
 
 .image {
-    height: 124px;
-    width: 124px;
+    max-height: 128px;
+    max-width: 128px;
     border-radius: 50%;
 }
 
 .stats {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .stat {
     display: flex;
     flex-direction: column;
+}
+
+
+.profile-name {
+    font-size: 30px;
 }
