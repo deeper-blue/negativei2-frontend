@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
+import Spinner from '../Spinner';
 
-const url = 'http://negativei2-server.herokuapp.com/getgame/cpDDuKjtxdHPHumk40P7'
+const url = 'http://negativei2-server.herokuapp.com/gamelist'
 
 class Join extends React.Component {
 
@@ -11,6 +12,7 @@ class Join extends React.Component {
         super(props);
 
         this.state = {
+            loaded: false,
             game_list: [],
             game_id: '',
             creator_id: '',
@@ -38,13 +40,16 @@ class Join extends React.Component {
             })
             .then(function (){
                 console.log('poop');
-            });
+                this.setState( state => ({
+                    loaded: true,
+                }));
+            }.bind(this));
     }
 
     parse(response) {
 
         this.setState( state => ({
-            // game_list: response,
+            game_list: response,
             game_id: response.id,
             creator_id: response
         }));
@@ -52,48 +57,39 @@ class Join extends React.Component {
 
     render() {
         return (
-            <div className='matches'>
-                <h1>Open matches</h1>
-                <table className="match-list">
-                    <thead>
-                        <tr>
-                            <th>Game ID</th>
-                            <th>Creator ID</th>
-                            <th>Open slots</th>
-                            <th>Black</th>
-                            <th>White</th>
-                            <th>Time Limit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.game_list.map((row, index) => (
-                                row.free_slots = 0 ? null :
-                                <tr>
-                                    <td>{row.id}</td>
-                                    <td>{row.creator}</td>
-                                    <td>{row.free_slots}</td>
-                                    <td>{row.players.b ? row.players.b : 'PLAY'}</td>
-                                    <td>{row.players.w ? row.players.w : 'PLAY'}</td>
-                                    <td>{row.time}</td>
-                                </tr>
-                            ))
-                        }
-                        <tr>
-                                <td>asfd</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
+            <div>
+                {this.state.loaded ?
+                <div className='matches'>
+                    <h1>Open matches</h1>
+                    <table className="match-list">
+                        <thead>
+                            <tr>
+                                <th>Game ID</th>
+                                <th>Creator ID</th>
+                                <th>Open slots</th>
+                                <th>Black</th>
+                                <th>White</th>
+                                <th>Time Limit</th>
                             </tr>
-                        {/* <tr>
-                            <td>{this.state.game_list.statusText}</td>
-                            <td>1</td>
-                            <td><Link to='/play'>Play!</Link></td>
-                        </tr> */}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.game_list.data.map((row, index) => (
+                                    row.free_slots = 0 ? null :
+                                    <tr>
+                                        <td>{row.id}</td>
+                                        <td>{row.creator}</td>
+                                        <td>{row.free_slots}</td>
+                                        <td>{row.players.b ? row.players.b : 'PLAY'}</td>
+                                        <td>{row.players.w ? row.players.w : 'PLAY'}</td>
+                                        <td>{row.time_controls}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div> :
+                <Spinner />}
             </div>
         );
     }
