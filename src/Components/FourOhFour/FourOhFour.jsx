@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 class FourOhFour extends Component {
 
@@ -63,7 +62,7 @@ class FourOhFour extends Component {
                     </div>
                     <div className='info'>
                         <p>Whoopsie poopsie! Looks like we couldn't find that page for you!</p>
-                        <p>Maybe you'd like to go back to our <Link to="/">home page</Link>?</p>
+                        <p>Maybe you'd like to go back to our <a href="/">home page</a>?</p>
                     </div>
                 </div>
             </StyledDiv>
