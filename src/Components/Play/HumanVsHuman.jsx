@@ -62,7 +62,6 @@ class HumanVsHuman extends Component {
 
     onDrop = ({ sourceSquare, targetSquare }) => {
         // see if the move is legal
-        console.log('still working1')
         let move = this.game.move({
             from: sourceSquare,
             to: targetSquare,
@@ -70,7 +69,6 @@ class HumanVsHuman extends Component {
         });
 
         // illegal move
-        console.log(move);
         if (move === null) return;
 
         // legal move
@@ -81,7 +79,6 @@ class HumanVsHuman extends Component {
         formData.set('move', move.san);
         formData.set('userid', this.props.userid);
 
-        console.log('move');
         // send request to server
         axios.post('http://negativei2-server.herokuapp.com/makemove', formData)
             .then(function(response) {
