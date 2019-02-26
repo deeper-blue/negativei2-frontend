@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import Chess from 'chess.js';
+import axios from 'axios';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
@@ -61,6 +62,7 @@ class HumanVsHuman extends Component {
 
     onDrop = ({ sourceSquare, targetSquare }) => {
         // see if the move is legal
+        console.log('still working1')
         let move = this.game.move({
             from: sourceSquare,
             to: targetSquare,
@@ -68,10 +70,26 @@ class HumanVsHuman extends Component {
         });
 
         // illegal move
+        console.log(move);
         if (move === null) return;
 
         // legal move
-        
+
+        // create makemove form
+        var formData = new FormData();
+        formData.set('gameid', this.props.gameid);
+        formData.set('move', move.san);
+        formData.set('userid', this.props.userid);
+
+        console.log('move');
+        // send request to server
+        axios.post('http://negativei2-server.herokuapp.com/makemove', formData)
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
 
         this.setState(({ history, pieceSquare }) => ({
             fen: this.game.fen(),

@@ -8,7 +8,7 @@ class Play extends Component {
     render() {
         return (
             <div className="game-area">
-                <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]}>
+                <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]} userid=''>
                 {({
                     position,
                     onDrop,
