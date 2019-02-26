@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './Create.scss';
+import { auth } from '../Firebase';
 
 
 function validate(hours, minutes, P1, P2) {
@@ -35,11 +36,25 @@ class Create extends React.Component {
             minutes: "",
             P1: "me",
             P2: "me",
-
+            user: null,
             errors: []
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.initAuthListener();
+    }
+
+    initAuthListener(){
+        auth.onAuthStateChanged(function (user) {
+            if (user) {
+                this.setState({user: user.uid});
+            } else {
+                this.setState({user: 'none'});
+            }
+        }.bind(this));
     }
 
     handleSubmit(e) {
@@ -59,12 +74,13 @@ class Create extends React.Component {
 
     createGame() {
         var formData = new FormData();
+        var time = (this.state.hours * 3600) + (this.state.minutes * 60);
 
         formData.set('creator_id', '123');
         formData.set('player1_id', '123');
         formData.set('player2_id', '123');
         formData.set('board_id', '123');
-        formData.set('time_per_player', 123);
+        formData.set('time_per_player', time);
 
         axios.post('http://negativei2-server.herokuapp.com/creategame', formData)
             .then(function (response) {
