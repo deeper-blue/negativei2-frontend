@@ -16,7 +16,7 @@ function validate(hours, minutes, P1, P2) {
             errors.push("Minutes can't be empty");
         }
     } else {
-        if (minutes === 0 && hours === 0) {
+        if (minutes === '0' && hours === '0') {
             errors.push("You cannot play for 0 seconds and 0 hours");
         }
     }
@@ -67,7 +67,6 @@ class Create extends React.Component {
             this.setState({ errors });
             return;
         } else {
-            this.props.history.push('/play');
             this.createGame();
         }
     }
@@ -90,7 +89,9 @@ class Create extends React.Component {
         axios.post('http://negativei2-server.herokuapp.com/creategame', formData)
             .then(function (response) {
                 console.log(response);
-            })
+                console.log('/play/' + response.data.id);
+                this.props.history.push('/play/' + response.data.id);
+            }.bind(this))
             .catch(function (error) {
                 console.log(error);
             })
