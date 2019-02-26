@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 class FourOhFour extends Component {
 
@@ -40,13 +41,13 @@ class FourOhFour extends Component {
                 padding: 15px;
             }
 
-            @keyframes image-spin {	
-                from {	
-                    transform: rotate(0deg);	
-                }	
-                to {	
-                    transform: rotate(360deg);	
-                }	
+            @keyframes image-spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
             }
 
         `;
@@ -62,7 +63,7 @@ class FourOhFour extends Component {
                     </div>
                     <div className='info'>
                         <p>Whoopsie poopsie! Looks like we couldn't find that page for you!</p>
-                        <p>Maybe you'd like to go back to our <a href="/">home page</a>?</p>
+                        <p>Maybe you'd like to go back to our <Link to="/">home page</Link>?</p>
                     </div>
                 </div>
             </StyledDiv>
