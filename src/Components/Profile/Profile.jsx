@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import Header from './Header';
 import Table from './Table';
+import Options from './Options';
 import firebase from '../Firebase';
 import Spinner from '../Spinner';
 import './Profile.scss';
@@ -102,7 +103,7 @@ class Profile extends Component {
             case 2:
                 return <div>This is where stats will go when they are implemented</div>;
             case 3:
-                return <div>This is where profile options will go when they are implemented</div>;
+                return <Options />;
             default:
                 return null;
         }
