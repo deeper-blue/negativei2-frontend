@@ -13,7 +13,6 @@ class Play extends Component {
 
         this.state = {
             user: null,
-            loaded: false
         }
     }
 
@@ -37,7 +36,7 @@ class Play extends Component {
                 {
                     this.state.user ? 
                     <div className='game-area'>
-                        <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]} userid=''>
+                        <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]} userid={this.state.user}>
                         {({
                             position,
                             onDrop,
