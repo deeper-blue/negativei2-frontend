@@ -75,9 +75,9 @@ class HumanVsHuman extends Component {
 
         // create makemove form
         var formData = new FormData();
-        formData.set('gameid', this.props.gameid);
+        formData.set('game_id', this.props.gameid);
         formData.set('move', move.san);
-        formData.set('userid', this.props.userid);
+        formData.set('user_id', this.props.userid);
 
         // send request to server
         axios.post('http://negativei2-server.herokuapp.com/makemove', formData)
