@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Header.scss';
 import { auth } from '../Firebase';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
     navToggled = false;
@@ -54,24 +55,24 @@ class Header extends Component {
         return (
             <div>
                 <header id="header">
-                    <a href="/" id="home-link" className="link-blue">
+                    <Link to="/" id="home-link" className="link-blue">
                         HOME
-                    </a>
+                    </Link>
                     <nav id="dock">
                         <div id="dock-auth" className="dock-item" tooltip={this.state.user ? 'Logout' : 'Login'} tooltip-position="bottom">
-                            <a href={this.state.user ? '/logout' : '/login'}>
+                            <Link to={this.state.user ? '/logout' : '/login'}>
                                 {this.state.user ?
                                 <img src="/assets/header/logout.png" alt="Logout" id="dock-auth-icon"></img>
                                 :
                                 <img src="/assets/header/login.png" alt="Login" id="dock-auth-icon"></img>
                                 }
-                            </a>
+                            </Link>
                         </div>
                         {this.state.user ?
                         <div id="dock-profile" className="dock-item" tooltip="Profile" tooltip-position="bottom">
-                            <a href="/profile">
+                            <Link to="/profile">
                                 <img src="/assets/header/profile.png" alt="Profile" id="dock-profile-icon"></img>
-                            </a>
+                            </Link>
                         </div>
                             : ''
                         }
@@ -86,17 +87,15 @@ class Header extends Component {
                 <div id="page-hide" onClick={this.toggleNav}></div>
                 <div id="navigator">
                     <p className="nav-title">Pages</p>
-                    <a href="/" className="link-yellow shadow">Home</a>
-                    <a href="/create" className="link-yellow shadow">New game</a>
-                    <a href="/join" className="link-yellow shadow">Join game</a>
+                    <Link to="/" className="link-yellow shadow">Home</Link>
+                    <Link to="/create" className="link-yellow shadow">New game</Link>
+                    <Link to="/join" className="link-yellow shadow">Join game</Link>
                     <hr />
                     <p className="nav-title">{this.state.user ? <span>{this.state.user.displayName}</span> : 'Guest'}</p>
-                    <a
-                      className="link-yellow shadow"
-                      href={this.state.user ? '/logout' : '/login'}>
+                    <Link className="link-yellow shadow" to={this.state.user ? '/logout' : '/login'}>
                       {this.state.user ? 'Logout' : 'Login'}
-                    </a>
-                    {this.state.user ? <a className="link-yellow shadow" href="/profile">View profile</a> : ''}
+                    </Link>
+                    {this.state.user ? <Link className="link-yellow shadow" to="/profile">View profile</Link> : ''}
                 </div>
             </div>
         );
