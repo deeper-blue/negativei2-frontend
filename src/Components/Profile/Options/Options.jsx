@@ -17,18 +17,32 @@ class Options extends React.Component {
     constructor(){
         super();
 
-        this.state = { value:'' };
+        this.state = { name:'' };
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleNameChange(event) {
+        this.setState({name: event.target.value});
+    }
+
+    handlePPChange(event) {
+        this.setState({picture: event.target.value});
+    }
+
+    handleNameSubmit(e) {
+        e.preventDefault();
+
+
+    }
+
+    handlePPSubmit(e) {
+        e.preventDefault();
     }
 
     render(){
         return(
             <StyledDiv>
                 <div className='display_name'>
-                    <form onSubmit='sadf' >
+                    <form onSubmit={this.handleNameSubmit} >
                         <label>
                             Name: <input type='text' value={this.state.value} onChange={this.handleNameChange} />
                         </label>
