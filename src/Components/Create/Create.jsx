@@ -36,7 +36,7 @@ class Create extends React.Component {
             minutes: "",
             P1: "me",
             P2: "me",
-            user: null,
+            user: '23',
             errors: []
         };
 
@@ -75,11 +75,16 @@ class Create extends React.Component {
     createGame() {
         var formData = new FormData();
         var time = (this.state.hours * 3600) + (this.state.minutes * 60);
+        var player1;
+        var player2;
 
-        formData.set('creator_id', '123');
-        formData.set('player1_id', '123');
-        formData.set('player2_id', '123');
-        formData.set('board_id', '123');
+        this.state.P1 === 'me' ? player1 = this.state.user : player1 = this.state.P1;
+        this.state.P2 === 'me' ? player2 = this.state.user : player2 = this.state.P2;
+
+        formData.set('creator_id', this.state.user);
+        formData.set('player1_id', player1);
+        formData.set('player2_id', player2);
+        formData.set('board_id', 'kevin');
         formData.set('time_per_player', time);
 
         axios.post('http://negativei2-server.herokuapp.com/creategame', formData)
@@ -103,8 +108,8 @@ class Create extends React.Component {
                             value={this.state.P1}
                             onChange={evt => this.setState({ P1: evt.target.value })}>>
                             <option value="me">Me, myself and I</option>
-                            <option value="robot">Deeper Blue</option>
-                            <option value="human">Another human</option>
+                            <option value="AI">Deeper Blue</option>
+                            <option value="OPEN">Another human</option>
                         </select>
                     </label>
                     <br />
@@ -116,8 +121,8 @@ class Create extends React.Component {
                             value={this.state.P2}
                             onChange={evt => this.setState({ P2: evt.target.value })}>
                             <option value="me">Me, myself and I</option>
-                            <option value="robot">Deeper Blue</option>
-                            <option value="human">Another human</option>
+                            <option value="AI">Deeper Blue</option>
+                            <option value="OPEN">Another human</option>
                         </select>
                     </label>
                     <br />
