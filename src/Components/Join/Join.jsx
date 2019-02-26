@@ -68,12 +68,13 @@ class Join extends React.Component {
                     <tbody>
                         {
                             this.state.game_list.map((row, index) => (
+                                row.free_slots = 0 ? null :
                                 <tr>
                                     <td>{row.id}</td>
                                     <td>{row.creator}</td>
                                     <td>{row.free_slots}</td>
-                                    <td>{row.players.black}</td>
-                                    <td>{row.players.white}</td>
+                                    <td>{row.players.b ? row.players.b : 'PLAY'}</td>
+                                    <td>{row.players.w ? row.players.w : 'PLAY'}</td>
                                     <td>{row.time}</td>
                                 </tr>
                             ))
