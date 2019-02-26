@@ -39,6 +39,12 @@ class Header extends Component {
         this.resizeNav(this.navToggled);
     }
 
+    closeNav = () => {
+        if (this.navToggled === true) {
+            this.toggleNav();
+        }
+    }
+
     resizeNav = (bool) => {
         var pageHide = document.getElementById('page-hide');
         var navigator = document.getElementById('navigator');
@@ -55,24 +61,24 @@ class Header extends Component {
         return (
             <div>
                 <header id="header">
-                    <Link to="/" id="home-link" className="link-blue">
+                    <Link onClick={this.closeNav} to="/" id="home-link" className="link-blue">
                         HOME
                     </Link>
                     <nav id="dock">
                         <div id="dock-auth" className="dock-item" tooltip={this.state.user ? 'Logout' : 'Login'} tooltip-position="bottom">
-                            <Link to={this.state.user ? '/logout' : '/login'}>
+                            <a onClick={this.closeNav} href={this.state.user ? '/logout' : '/login'}>
                                 {this.state.user ?
                                 <img src="/assets/header/logout.png" alt="Logout" id="dock-auth-icon"></img>
                                 :
                                 <img src="/assets/header/login.png" alt="Login" id="dock-auth-icon"></img>
                                 }
-                            </Link>
+                            </a>
                         </div>
                         {this.state.user ?
                         <div id="dock-profile" className="dock-item" tooltip="Profile" tooltip-position="bottom">
-                            <Link to="/profile">
+                            <a onClick={this.closeNav} href="/profile">
                                 <img src="/assets/header/profile.png" alt="Profile" id="dock-profile-icon"></img>
-                            </Link>
+                            </a>
                         </div>
                             : ''
                         }
@@ -87,15 +93,15 @@ class Header extends Component {
                 <div id="page-hide" onClick={this.toggleNav}></div>
                 <div id="navigator">
                     <p className="nav-title">Pages</p>
-                    <Link to="/" className="link-yellow shadow">Home</Link>
-                    <Link to="/create" className="link-yellow shadow">New game</Link>
-                    <Link to="/join" className="link-yellow shadow">Join game</Link>
+                    <Link onClick={this.closeNav} to="/" className="link-yellow shadow">Home</Link>
+                    <Link onClick={this.closeNav} to="/create" className="link-yellow shadow">New game</Link>
+                    <a onClick={this.closeNav} href="/join" className="link-yellow shadow">Join game</a>
                     <hr />
                     <p className="nav-title">{this.state.user ? <span>{this.state.user.displayName}</span> : 'Guest'}</p>
-                    <Link className="link-yellow shadow" to={this.state.user ? '/logout' : '/login'}>
+                    <a onClick={this.closeNav} className="link-yellow shadow" href={this.state.user ? '/logout' : '/login'}>
                       {this.state.user ? 'Logout' : 'Login'}
-                    </Link>
-                    {this.state.user ? <Link className="link-yellow shadow" to="/profile">View profile</Link> : ''}
+                    </a>
+                    {this.state.user ? <a onClick={this.closeNav} className="link-yellow shadow" href="/profile">View profile</a> : ''}
                 </div>
             </div>
         );
