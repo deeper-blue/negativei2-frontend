@@ -15,12 +15,12 @@ import HumanVsHuman from './Components/Play/HumanVsHuman.jsx';
 import Spinner from './Components/Spinner';
 
 describe(Play, function() {
-  // describe(HumanVsHuman, function() {
-  //   it('renders a HumanVsHuman component', () => {
-  //     const wrapper = mount(<Play />);
-  //     expect(wrapper.find(Spinner).exists()).toBe(true);
-  //   });
-  // });
+  describe(HumanVsHuman, function() {
+    it('renders a HumanVsHuman component', () => {
+      const wrapper = mount(<Play />);
+      expect(wrapper.find(Spinner).exists()).toBe(true);
+    });
+  });
 
   describe('Move tracker', function() {
     // Write move tracker unit tests here
