@@ -16,7 +16,7 @@ function validate(hours, minutes, P1, P2) {
             errors.push("Minutes can't be empty");
         }
     } else {
-        if (minutes === 0 && hours === 0) {
+        if (minutes === '0' && hours === '0') {
             errors.push("You cannot play for 0 seconds and 0 hours");
         }
     }
