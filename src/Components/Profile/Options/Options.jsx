@@ -31,11 +31,21 @@ class Options extends React.Component {
     handleNameSubmit(e) {
         e.preventDefault();
 
+            const name = this.state.name;
 
+            this.updateProfile('name', name);
     }
 
     handlePPSubmit(e) {
         e.preventDefault();
+
+        const picture = this.state.picture;
+
+        this.updateProfile('pic', picture);
+    }
+
+    updateProfile(field, value) {
+
     }
 
     render(){
