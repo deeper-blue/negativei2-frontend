@@ -43,7 +43,7 @@ class Login extends Component {
       <div id="login-wrapper">
         <div id="login">
           <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} className="test"/>
-          <Link id="guest-button" to='/' class="button">
+          <Link id="guest-button" to='/' className="button">
             Play as guest
           </Link>
         </div>
