@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './Create.scss';
+import Spinner from '../Spinner';
 import { auth } from '../Firebase';
 
 
@@ -36,7 +37,7 @@ class Create extends React.Component {
             minutes: "",
             P1: "me",
             P2: "me",
-            user: '23',
+            user: null,
             errors: []
         };
 
@@ -100,70 +101,77 @@ class Create extends React.Component {
     render() {
         const { errors } = this.state;
         return (
-            <form onSubmit={this.handleSubmit} >
-                <div id="config_form">
-                    <label>
-                        Player 1 (White):
-                        <br />
-                        <select
-                            value={this.state.P1}
-                            onChange={evt => this.setState({ P1: evt.target.value })}>>
-                            <option value="me">Me, myself and I</option>
-                            <option value="AI">Deeper Blue</option>
-                            <option value="OPEN">Another human</option>
-                        </select>
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        Player 2 (Black):
-                        <br />
-                        <select
-                            value={this.state.P2}
-                            onChange={evt => this.setState({ P2: evt.target.value })}>
-                            <option value="me">Me, myself and I</option>
-                            <option value="AI">Deeper Blue</option>
-                            <option value="OPEN">Another human</option>
-                        </select>
-                    </label>
-                    <br />
-                    <br />
-                    Hours:
-                    <br />
-                    <input
-                        value={this.state.hours}
-                        onChange={evt => this.setState({ hours: evt.target.value })}
-                        type="number"
-                        placeholder="Hours"
-                        min="0"
-                        max="2"
-                    />
-                    <br />
-                    <br />
-                    Minutes:
-                    <br />
-                    <input
-                        value={this.state.minutes}
-                        onChange={evt => this.setState({ minutes: evt.target.value })}
-                        type="number"
-                        placeholder="Minutes"
-                        min="0"
-                        max="59"
-                    />
-                    <br />
-                    <br />
+            <div>
+                {
+                    this.state.user ?
+                        <form onSubmit={this.handleSubmit} >
+                            <div id="config_form">
+                                <label>
+                                    Player 1 (White):
+                                    <br />
+                                    <select
+                                        value={this.state.P1}
+                                        onChange={evt => this.setState({ P1: evt.target.value })}>>
+                                        <option value="me">Me, myself and I</option>
+                                        <option value="AI">Deeper Blue</option>
+                                        <option value="OPEN">Another human</option>
+                                    </select>
+                                </label>
+                                <br />
+                                <br />
+                                <label>
+                                    Player 2 (Black):
+                                    <br />
+                                    <select
+                                        value={this.state.P2}
+                                        onChange={evt => this.setState({ P2: evt.target.value })}>
+                                        <option value="me">Me, myself and I</option>
+                                        <option value="AI">Deeper Blue</option>
+                                        <option value="OPEN">Another human</option>
+                                    </select>
+                                </label>
+                                <br />
+                                <br />
+                                Hours:
+                                <br />
+                                <input
+                                    value={this.state.hours}
+                                    onChange={evt => this.setState({ hours: evt.target.value })}
+                                    type="number"
+                                    placeholder="Hours"
+                                    min="0"
+                                    max="2"
+                                />
+                                <br />
+                                <br />
+                                Minutes:
+                                <br />
+                                <input
+                                    value={this.state.minutes}
+                                    onChange={evt => this.setState({ minutes: evt.target.value })}
+                                    type="number"
+                                    placeholder="Minutes"
+                                    min="0"
+                                    max="59"
+                                />
+                                <br />
+                                <br />
 
-                    <button type="submit" id="btn_play">
-                        Let's play!
-                    </button>
-                </div>
-                <div id="Errors">
-                    {errors.map(error => (
-                        <p key={error}>Error: {error}</p>
-                    ))}
-                </div>
+                                <button type="submit" id="btn_play">
+                                    Let's play!
+                                </button>
+                            </div>
+                            <div id="Errors">
+                                {errors.map(error => (
+                                    <p key={error}>Error: {error}</p>
+                                ))}
+                            </div>
 
-            </form>
+                        </form>
+                        :
+                        <Spinner />
+                }
+            </div>
         );
     }
 }
