@@ -86,7 +86,7 @@ class Create extends React.Component {
         formData.set('board_id', 'kevin');
         formData.set('time_per_player', time);
 
-        axios.post('http://negativei2-server.herokuapp.com/creategame', formData)
+        axios.post('https://negativei2-server.herokuapp.com/creategame', formData)
             .then(function (response) {
                 console.log(response);
                 console.log('/play/' + response.data.id);
