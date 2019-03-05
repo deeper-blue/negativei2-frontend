@@ -23,6 +23,9 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
+        var fen = this.updateGame();
+        this.game = new Chess(fen);
+        console.log(this.game.fen());
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -52,7 +55,7 @@ class HumanVsHuman extends Component {
         // Undo the move
         this.game.undo();
 
-        // Construct a HTTP POST query and fill it
+        // Construct a HTTP POST query
         var query = new FormData();
         query.set('game_id', this.props.gameid);
         query.set('move', san);
@@ -106,6 +109,21 @@ class HumanVsHuman extends Component {
                 }
             });
     };
+
+    updateGame = () => {
+        // Send the GET request to the server
+        var self = this;
+        axios.get(`http://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
+            .then(function(response) {
+                var fen = response.data.fen;
+                self.setState({fen: response.data.fen});
+                return fen;
+            })
+            .catch(function(error) {
+                console.log(error);
+                return self.game.fen();
+            });
+    }
 
     /** Updates the move turn color indicator.
      * @param move - The move object representing the move that was just made.
