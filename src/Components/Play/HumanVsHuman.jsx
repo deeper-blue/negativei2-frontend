@@ -102,14 +102,7 @@ class HumanVsHuman extends Component {
                 tmp.html(error.response.data);
 
                 var message = $('p', tmp).text();
-
-                if (message.includes('_schema')) {// If schema error:
-                    message = message.replace(/'_schema'/,'"_schema"');
-                    var json = JSON.parse(message);
-                    console.log(json['_schema']);
-                } else {// Other errors (500 etc.)
-                    console.log(message);
-                }
+                console.log(message);
             });
     };
 
