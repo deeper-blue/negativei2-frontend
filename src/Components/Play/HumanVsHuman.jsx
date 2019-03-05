@@ -23,6 +23,12 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
+
+        /** Loads the game from the server and updates:
+         * - The current internal game representation (this.game)
+         * - The move tracker (loads all of the moves from the server)
+         * - The turn indicator (according to the server)
+         */
         this.loadGame();
     }
 
@@ -33,6 +39,7 @@ class HumanVsHuman extends Component {
      * @param targetSquare - The target square (if the move was drag and drop, otherwise, undefined)
      */
     handleMove = (dragged, clickedSquare, sourceSquare, targetSquare) => {
+        // Ensure we have an updated internal game representation (fetch any updates from the server)
         this.updateGame();
 
         var self = this;
@@ -159,6 +166,9 @@ class HumanVsHuman extends Component {
         }
     }
 
+    /** Loads all of the moves in an array (from the server) into the move tracker.
+     * @param {Array} history - The history of moves played in the game.
+     */
     loadMoveTracker = history => {
         history.forEach(function(move) {
             if (move.side === "w") {
@@ -178,7 +188,7 @@ class HumanVsHuman extends Component {
         });
     }
 
-    /** Updates the move turn tracker.
+    /** Updates the move turn tracker with a single move.
      * @param number - The move number of the move that was just made.
      * @param side - The color representing the current side to play.
      * @param san - The move in SAN.
