@@ -23,9 +23,7 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
-        var fen = this.updateGame();
-        this.game = new Chess(fen);
-        console.log(this.game.fen());
+        this.loadGame();
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -35,62 +33,60 @@ class HumanVsHuman extends Component {
      * @param targetSquare - The target square (if the move was drag and drop, otherwise, undefined)
      */
     handleMove = (dragged, clickedSquare, sourceSquare, targetSquare) => {
-        /** @todo Update this.state.fen with the FEN string from /getgame - this should be done before anything else. */
+        this.updateGame();
 
-        // Create move object
+        var self = this;
+
+        // Create move data
         var moveData = {
             from: (dragged ? sourceSquare : this.state.pieceSquare),
             to: (dragged ? targetSquare : clickedSquare),
             promotion: 'q' // Always promote to a queen for simplicity
         }
 
-        var move = this.game.move(moveData);
+        // Test the move on a cloned game object to check that it's fine
+        var clone = new Chess(this.game.fen());
+        var move = clone.move(moveData);
 
         /* Illegal move */
         if (move === null) return;
 
-        var san = move.san;
-
         /* Legal move */
-        // Undo the move
-        this.game.undo();
 
         // Construct a HTTP POST query
         var query = new FormData();
         query.set('game_id', this.props.gameid);
-        query.set('move', san);
+        query.set('move', move.san);
         query.set('user_id', this.props.userid);
 
         // Send the POST request to the server
-        axios.post('http://negativei2-server.herokuapp.com/makemove', query)
+        axios.post('https://negativei2-server.herokuapp.com/makemove', query)
             .then(function(response) {
-                console.log(response);
-
-                // Re-make the move
-                var move = this.game.move(moveData);
-
                 // Update the turn indicator
-                this.updateTurnIndicator(move);
+                self.updateTurnIndicator(response.data.turn);
 
-                // Adding the move to the move tracker
-                let history = this.game.history();
-                let moveNumber = Math.ceil(history.length/2.0);
-
-                // Update move counter
-                this.updateMoveCounter(move, moveNumber);
+                // Add the move to the move tracker
+                var move = response.data.history[response.data.history.length-1];
+                self.updateMoveTracker(move.move_count, move.side, move.san);
 
                 // Update the state
                 if (dragged) { // Drag and drop
-                    this.setState(({ history, pieceSquare }) => ({
-                        fen: this.game.fen(),
-                        history: this.game.history({ verbose: true }),
+                    self.setState(({ history, pieceSquare }) => ({
+                        fen: self.game.fen(),
+                        history: self.game.history({ verbose: true }),
                         squareStyles: squareStyling({ pieceSquare, history })
-                    }));
+                    }), () => {
+                        // Update game after FEN state is set
+                        self.updateGame();
+                    });
                 } else { // Click and drop
-                    this.setState({
-                        fen: this.game.fen(),
-                        history: this.game.history({ verbose: true }),
+                    self.setState({
+                        fen: self.game.fen(),
+                        history: self.game.history({ verbose: true }),
                         pieceSquare: ''
+                    }, () => {
+                        // Update game after FEN state is set
+                        self.updateGame();
                     });
                 }
             })
@@ -110,34 +106,51 @@ class HumanVsHuman extends Component {
             });
     };
 
-    updateGame = () => {
+    /** Loads the game for the first time (synchronises client's board with server's internal board) */
+    loadGame = () => {
         // Send the GET request to the server
         var self = this;
-        axios.get(`http://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
+        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
             .then(function(response) {
                 var fen = response.data.fen;
-                self.setState({fen: response.data.fen});
-                return fen;
+                self.game.load(fen);
+                self.setState({fen: fen});
+                self.updateTurnIndicator(response.data.turn);
+                self.loadMoveTracker(response.data.history);
             })
             .catch(function(error) {
                 console.log(error);
-                return self.game.fen();
+            });
+    }
+
+    /** Updates the game (synchronises client's board with server's internal board) */
+    updateGame = () => {
+        // Send the GET request to the server
+        var self = this;
+        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
+            .then(function(response) {
+                var fen = response.data.fen;
+                self.game.load(fen);
+                self.setState({fen: fen});
+            })
+            .catch(function(error) {
+                console.log(error);
             });
     }
 
     /** Updates the move turn color indicator.
-     * @param move - The move object representing the move that was just made.
+     * @param side - The color representing the current side to play.
      */
-    updateTurnIndicator = move => {
+    updateTurnIndicator = side => {
         let turnIcon = $("#turn-icon")
-        if (move.color === "w") {
+        if (side === "w") {
             turnIcon.css({
                 "background-color": "black",
                 "color":            "white",
                 "border-color":     "grey"
             });
             turnIcon.text("Black");
-        } else if (move.color === "b") {
+        } else if (side === "b") {
             turnIcon.css({"background-color": "white",
                 "color": "black",
                 "border-color": "lightgrey"
@@ -146,24 +159,44 @@ class HumanVsHuman extends Component {
         }
     }
 
+    loadMoveTracker = history => {
+        history.forEach(function(move) {
+            if (move.side === "w") {
+                $('<tr>',{
+                    'id' : `moves-${move.move_count}`,
+                    'html': $('<td>', {
+                        'id': `move-${move.move_count}`
+                    }).html(move.move_count).add($('<td>', {
+                        'id': `move-${move.move_count}-w`
+                    }).html(move.san).add($('<td>', {
+                        'id': `move-${move.move_count}-b`
+                    })))
+                }).appendTo('#move-tracker tbody');
+            } else if (move.side === "b") {
+                $(`#move-${move.move_count}-b`).html(move.san);
+            }
+        });
+    }
+
     /** Updates the move turn tracker.
-     * @param move - The move object representing the move that was just made.
      * @param number - The move number of the move that was just made.
+     * @param side - The color representing the current side to play.
+     * @param san - The move in SAN.
      */
-    updateMoveTracker = (move, number) => {
-        if (move.color === "w") {
+    updateMoveTracker = (number, side, san) => {
+        if (side === "w") {
             $('<tr>',{
                 'id' : `moves-${number}`,
                 'html': $('<td>', {
                     'id': `move-${number}`
                 }).html(number).add($('<td>', {
                     'id': `move-${number}-w`
-                }).html(move.san).add($('<td>', {
+                }).html(san).add($('<td>', {
                     'id': `move-${number}-b`
                 })))
             }).appendTo('#move-tracker tbody');
-        } else if (move.color === "b") {
-            $(`#move-${number}-b`).html(move.san);
+        } else if (side === "b") {
+            $(`#move-${number}-b`).html(san);
         }
     }
 
