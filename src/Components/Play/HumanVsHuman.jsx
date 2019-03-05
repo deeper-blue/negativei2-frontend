@@ -25,6 +25,130 @@ class HumanVsHuman extends Component {
         this.game = new Chess();
     }
 
+    /** Handles move-making with click-and-drop or drag-and-drop.
+     * @param {boolean} dragged - Whether the move was a drag and drop (if false, then click and drop)
+     * @param clickedSquare - The clicked square (if the move was click and drop, otherwise, undefined)
+     * @param sourceSquare - The source square (if the move was drag and drop, otherwise, undefined)
+     * @param targetSquare - The target square (if the move was drag and drop, otherwise, undefined)
+     */
+    handleMove = (dragged, clickedSquare, sourceSquare, targetSquare) => {
+        /** @todo Update this.state.fen with the FEN string from /getgame - this should be done before anything else. */
+
+        // Create move object
+        var moveData = {
+            from: (dragged ? sourceSquare : this.state.pieceSquare),
+            to: (dragged ? targetSquare : clickedSquare),
+            promotion: 'q' // Always promote to a queen for simplicity
+        }
+
+        var move = this.game.move(moveData);
+
+        /* Illegal move */
+        if (move === null) return;
+
+        var san = move.san;
+
+        /* Legal move */
+        // Undo the move
+        this.game.undo();
+
+        // Construct a HTTP POST query and fill it
+        var query = new FormData();
+        query.set('game_id', this.props.gameid);
+        query.set('move', san);
+        query.set('user_id', this.props.userid);
+
+        // Send the POST request to the server
+        axios.post('http://negativei2-server.herokuapp.com/makemove', query)
+            .then(function(response) {
+                console.log(response);
+
+                // Re-make the move
+                var move = this.game.move(moveData);
+
+                // Update the turn indicator
+                this.updateTurnIndicator(move);
+
+                // Adding the move to the move tracker
+                let history = this.game.history();
+                let moveNumber = Math.ceil(history.length/2.0);
+
+                // Update move counter
+                this.updateMoveCounter(move, moveNumber);
+
+                // Update the state
+                if (dragged) { // Drag and drop
+                    this.setState(({ history, pieceSquare }) => ({
+                        fen: this.game.fen(),
+                        history: this.game.history({ verbose: true }),
+                        squareStyles: squareStyling({ pieceSquare, history })
+                    }));
+                } else { // Click and drop
+                    this.setState({
+                        fen: this.game.fen(),
+                        history: this.game.history({ verbose: true }),
+                        pieceSquare: ''
+                    });
+                }
+            })
+            .catch(function(error) {
+                var tmp = $('<div></div>');
+                tmp.html(error.response.data);
+
+                var message = $('p', tmp).text();
+
+                if (message.includes('_schema')) {// If schema error:
+                    message = message.replace(/'_schema'/,'"_schema"');
+                    var json = JSON.parse(message);
+                    console.log(json['_schema']);
+                } else {// Other errors (500 etc.)
+                    console.log(message);
+                }
+            });
+    };
+
+    /** Updates the move turn color indicator.
+     * @param move - The move object representing the move that was just made.
+     */
+    updateTurnIndicator = move => {
+        let turnIcon = $("#turn-icon")
+        if (move.color === "w") {
+            turnIcon.css({
+                "background-color": "black",
+                "color":            "white",
+                "border-color":     "grey"
+            });
+            turnIcon.text("Black");
+        } else if (move.color === "b") {
+            turnIcon.css({"background-color": "white",
+                "color": "black",
+                "border-color": "lightgrey"
+            });
+            turnIcon.text("White");
+        }
+    }
+
+    /** Updates the move turn tracker.
+     * @param move - The move object representing the move that was just made.
+     * @param number - The move number of the move that was just made.
+     */
+    updateMoveTracker = (move, number) => {
+        if (move.color === "w") {
+            $('<tr>',{
+                'id' : `moves-${number}`,
+                'html': $('<td>', {
+                    'id': `move-${number}`
+                }).html(number).add($('<td>', {
+                    'id': `move-${number}-w`
+                }).html(move.san).add($('<td>', {
+                    'id': `move-${number}-b`
+                })))
+            }).appendTo('#move-tracker tbody');
+        } else if (move.color === "b") {
+            $(`#move-${number}-b`).html(move.san);
+        }
+    }
+
     // keep clicked square style and remove hint squares
     removeHighlightSquare = () => {
         this.setState(({ pieceSquare, history }) => ({
@@ -34,8 +158,6 @@ class HumanVsHuman extends Component {
 
     // show possible moves
     highlightSquare = (sourceSquare, squaresToHighlight) => {
-        // Highlight current square?
-        //const highlightStyles = [sourceSquare, ...squaresToHighlight].reduce(
         const highlightStyles = [...squaresToHighlight].reduce(
             (a, c) => {
                 return {
@@ -60,77 +182,8 @@ class HumanVsHuman extends Component {
         }));
     };
 
-    onDrop = ({ sourceSquare, targetSquare }) => {
-        // see if the move is legal
-        let move = this.game.move({
-            from: sourceSquare,
-            to: targetSquare,
-            promotion: 'q' // always promote to a queen for example simplicity
-        });
-
-        // illegal move
-        if (move === null) return;
-
-        // legal move
-
-        // create makemove form
-        var formData = new FormData();
-        formData.set('game_id', this.props.gameid);
-        formData.set('move', move.san);
-        formData.set('user_id', this.props.userid);
-
-        // send request to server
-        axios.post('http://negativei2-server.herokuapp.com/makemove', formData)
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-
-        this.setState(({ history, pieceSquare }) => ({
-            fen: this.game.fen(),
-            history: this.game.history({ verbose: true }),
-            squareStyles: squareStyling({ pieceSquare, history })
-        }));
-
-        // Changing the turn indicator
-        let turnIcon = $("#turn-icon")
-        if (move.color === "w") {
-            turnIcon.css({
-                "background-color": "black",
-                "color":            "white",
-                "border-color":     "grey"
-            });
-            turnIcon.text("Black");
-        } else if (move.color === "b") {
-            turnIcon.css({
-                "background-color": "white",
-                "color": "black",
-                "border-color": "lightgrey"
-            });
-            turnIcon.text("White");
-        }
-
-        // Adding the move to the move tracker
-        let history = this.game.history();
-        let moveNumber = Math.ceil(history.length/2.0);
-
-        if (move.color === "w") {
-            $('<tr>',{
-                'id' : `moves-${moveNumber}`,
-                'html': $('<td>', {
-                    'id': `move-${moveNumber}`
-                }).html(moveNumber).add($('<td>', {
-                    'id': `move-${moveNumber}-w`
-                }).html(move.san).add($('<td>', {
-                    'id': `move-${moveNumber}-b`
-                })))
-            }).appendTo('#move-tracker tbody');
-        } else if (move.color === "b") {
-            $(`#move-${moveNumber}-b`).html(move.san);
-        }
-    };
+    // Drag and drop move
+    onDrop = ({ sourceSquare, targetSquare }) => this.handleMove(true, undefined, sourceSquare, targetSquare);
 
     onMouseOverSquare = square => {
         // get list of possible moves for this square
@@ -162,32 +215,21 @@ class HumanVsHuman extends Component {
         });
     };
 
+    // Click and drop move
     onSquareClick = square => {
         this.setState(({ history }) => ({
             squareStyles: squareStyling({ pieceSquare: square, history }),
             pieceSquare: square
         }));
 
-        let move = this.game.move({
-            from: this.state.pieceSquare,
-            to: square,
-            promotion: 'q' // always promote to a queen for example simplicity
-        });
-
-        // illegal move
-        if (move === null) return;
-
-        this.setState({
-            fen: this.game.fen(),
-            history: this.game.history({ verbose: true }),
-            pieceSquare: ''
-        });
+        this.handleMove(false, square, undefined, undefined)
     };
 
-    onSquareRightClick = square =>
+    onSquareRightClick = square => {
         this.setState({
             squareStyles: { [square]: { backgroundColor: 'deepPink' } }
         });
+    }
 
     render() {
         const { fen, dropSquareStyle, squareStyles } = this.state;
@@ -216,12 +258,12 @@ const squareStyling = ({ pieceSquare, history }) => {
         [pieceSquare]: { backgroundColor: 'rgba(0, 159, 252, 0.4)' },
         ...(history.length && {
             [sourceSquare]: {
-            backgroundColor: 'rgba(0, 159, 252, 0.4)'
+                backgroundColor: 'rgba(0, 159, 252, 0.4)'
             }
         }),
         ...(history.length && {
             [targetSquare]: {
-            backgroundColor: 'rgba(0, 159, 252, 0.4)'
+                backgroundColor: 'rgba(0, 159, 252, 0.4)'
             }
         })
     };
