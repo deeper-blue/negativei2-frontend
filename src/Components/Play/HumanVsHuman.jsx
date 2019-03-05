@@ -150,14 +150,14 @@ class HumanVsHuman extends Component {
      */
     updateTurnIndicator = side => {
         let turnIcon = $("#turn-icon")
-        if (side === "w") {
+        if (side === "b") {
             turnIcon.css({
                 "background-color": "black",
                 "color":            "white",
                 "border-color":     "grey"
             });
             turnIcon.text("Black");
-        } else if (side === "b") {
+        } else if (side === "w") {
             turnIcon.css({"background-color": "white",
                 "color": "black",
                 "border-color": "lightgrey"
