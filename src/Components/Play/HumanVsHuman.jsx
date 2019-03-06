@@ -80,7 +80,7 @@ class HumanVsHuman extends Component {
         formData.set('user_id', this.props.userid);
 
         // send request to server
-        axios.post('http://negativei2-server.herokuapp.com/makemove', formData)
+        axios.post('https://negativei2-server.herokuapp.com/makemove', formData)
             .then(function(response) {
                 console.log(response);
             })
