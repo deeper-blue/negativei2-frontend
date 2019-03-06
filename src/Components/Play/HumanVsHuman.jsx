@@ -106,16 +106,11 @@ class HumanVsHuman extends Component {
             });
     };
 
-<<<<<<< HEAD
     /** Loads the game for the first time (synchronises client's board with server's internal board) */
     loadGame = () => {
         // Send the GET request to the server
         var self = this;
         axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
-=======
-        // send request to server
-        axios.post('https://negativei2-server.herokuapp.com/makemove', formData)
->>>>>>> master
             .then(function(response) {
                 var fen = response.data.fen;
                 self.game.load(fen);
