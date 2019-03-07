@@ -21,7 +21,7 @@ function Sidebar (props) {
                 </div>
             </div>
             <div id="manual-move-input">
-                <form>
+                <form id="move-input-form">
                     <input id="move-input-text" type="text" placeholder="Enter move..."></input>
                     <input id="move-input-submit" type="submit" name="input-move" value="Move!" className="button small small-font"></input>
                 </form>
