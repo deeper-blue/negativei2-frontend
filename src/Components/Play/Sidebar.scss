@@ -8,6 +8,42 @@ $dark-blue: rgb(65, 139, 182);
     width: 25vw;
     min-width: 275px;
     margin-left: 20px;
+    border-radius: 1px;
+    border: 1px solid map-get($colors, paler-blue);
+    @include media-width(600px) {
+        margin-top: 20px;
+        margin-left: 0px;
+        width: 100%;
+    }
+}
+
+#sidebar #tab-headers {
+    border-bottom: 1px solid grey;
+    .tab-header {
+        @include appearance(none);
+        width: 50%;
+        padding: 5px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        outline: 0;
+        font-size: 1rem;
+        cursor: pointer;
+        border: 0px solid transparent;
+        text-decoration: none;
+        text-align: center;
+        @include transition(all 0.2s);
+        &:hover {
+            background-color: rgb(180,180,180);
+        }
+    }
+    .active-tab {
+        background-color: rgb(130, 130, 130);
+        color: white;
+    }
+}
+
+#sidebar #tabs #moves-tab {
+    display: none;
 }
 
 #turn-indicator {
@@ -115,16 +151,14 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-#move-tracker-wrapper {
+#move-tab-wrapper {
     display: flex;
-    height: 70%;
-    margin: 7px;
+    margin: 5px;
     box-sizing: border-box;
     border: 2px solid rgb(166, 174, 179);
     border-radius: 3px;
     background-color: white;
     overflow-y: auto;
-    height: 320px; // Have to specify height >:(
 }
 
 #move-tracker {

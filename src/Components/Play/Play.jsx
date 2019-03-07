@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import HumanVsHuman from './HumanVsHuman';
 import Spinner from '../Spinner';
 import { auth } from '../Firebase';
+import $ from 'jquery';
 
 class Play extends Component {
 
@@ -30,13 +31,39 @@ class Play extends Component {
         }.bind(this))
     }
 
+    resizeBoard = screenWidth => {
+        var width = 300;
+        if (screenWidth < 600) {
+            if (screenWidth < 500) {
+                width = 300;
+            } else {
+                width = 0.6 * screenWidth;
+            }
+        } else {
+            if (screenWidth < 1000) {
+                width = 0.4 * screenWidth;
+            } else {
+                width = 400;
+            }
+        }
+
+        $('#move-tab-wrapper').css({
+            'height': `${width-45}px`
+        });
+
+        return width;
+    }
+
     render() {
         return (
             <div>
                 {
-                    this.state.user ? 
+                    this.state.user ?
                     <div className='game-area'>
-                        <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]} userid={this.state.user}>
+                        <HumanVsHuman
+                        gameid={this.props.location.pathname.split('/')[2]}
+                        userid={this.state.user}
+                        >
                         {({
                             position,
                             onDrop,
@@ -49,8 +76,7 @@ class Play extends Component {
                             onSquareRightClick
                         }) => (
                             <Chessboard
-                            id="humanVsHuman"
-                            calcWidth={({ screenWidth, screenHeight }) => (screenWidth || screenHeight) < 550 ? 300 : 500}
+                            calcWidth={({ screenWidth, screenHeight }) => this.resizeBoard(screenWidth)}
                             position={position}
                             onDrop={onDrop}
                             onMouseOverSquare={onMouseOverSquare}
@@ -70,7 +96,7 @@ class Play extends Component {
                         )}
                         </HumanVsHuman>
                         <Sidebar />
-                    </div> : 
+                    </div> :
                     <div>
                         <Spinner />
                     </div>

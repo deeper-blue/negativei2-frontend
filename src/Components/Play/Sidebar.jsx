@@ -1,8 +1,75 @@
 import React from 'react';
 import './Sidebar.scss'
 
+var currentTab = 'game';
+
+function openTab(t) {
+    if (currentTab === t) return;
+
+    currentTab = t;
+
+    var header = `${t}-header`;
+    var tab = `${t}-tab`;
+
+    var headers = document.getElementsByClassName('tab-header');
+    for (var i = 0; i < headers.length; i++) {
+        headers[i].classList.toggle('active-tab');
+    }
+
+    var tabs = document.getElementsByClassName('tab');
+    for (var j = 0; j < tabs.length; j++) {
+        tabs[j].style.display = "none";
+    }
+
+    document.getElementById(tab).style.display = "block";
+    document.getElementById(header);
+}
+
 function Sidebar (props) {
     return (
+        <div id="sidebar">
+            <div id="tab-headers">
+                <button
+                id="game-header"
+                class="tab-header active-tab"
+                onClick={() => openTab('game')}
+                >Game
+                </button>
+
+                <button
+                id="moves-header"
+                class="tab-header"
+                onClick={() => openTab('moves')}
+                >Moves
+                </button>
+            </div>
+            <div id="tabs">
+                <div id="game-tab" class="tab">
+                    <div id="game-tab-wrapper">
+                    Game controls
+                    </div>
+                </div>
+                <div id="moves-tab" class="tab">
+                    <div id="move-tab-wrapper">
+                        <table id="move-tracker">
+                            <tbody>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>White</th>
+                                    <th>Black</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Sidebar;
+
+/*
         <div id="sidebar">
             <div id="turn-indicator">
                 <div id="turn-text">
@@ -48,7 +115,4 @@ function Sidebar (props) {
                 </table>
             </div>
         </div>
-    );
-}
-
-export default Sidebar;
+*/
