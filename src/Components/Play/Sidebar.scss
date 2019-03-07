@@ -9,7 +9,8 @@ $dark-blue: rgb(65, 139, 182);
     min-width: 275px;
     margin-left: 20px;
     border-radius: 1px;
-    border: 1px solid map-get($colors, paler-blue);
+    border: 1px solid rgb(189, 189, 189);
+    background-color: rgb(221, 222, 231);
     @include media-width(600px) {
         margin-top: 20px;
         margin-left: 0px;
@@ -29,15 +30,17 @@ $dark-blue: rgb(65, 139, 182);
         font-size: 1rem;
         cursor: pointer;
         border: 0px solid transparent;
+        background-color: rgb(132, 118, 148);
+        color: rgb(193, 180, 206);
         text-decoration: none;
         text-align: center;
         @include transition(all 0.2s);
         &:hover {
-            background-color: rgb(180,180,180);
+            background-color: rgb(103, 95, 129);
         }
     }
     .active-tab {
-        background-color: rgb(130, 130, 130);
+        background-color: rgb(95, 82, 139);
         color: white;
     }
 }
@@ -46,11 +49,19 @@ $dark-blue: rgb(65, 139, 182);
     display: none;
 }
 
+#game-tab-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
 #turn-indicator {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    height: 10%;
+    height: 3rem;
     #turn-text {
         display: flex;
         justify-content: center;
@@ -73,13 +84,13 @@ $dark-blue: rgb(65, 139, 182);
 }
 
 #timer {
-    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(175,175,175);
+    background-color: rgb(151, 151, 151);
     border-radius: 2px;
-    margin: 7px;
+    height: 2rem;
+    margin: 5px;
     box-sizing: border-box;
     #timer-white {
         display: flex;
@@ -101,7 +112,7 @@ $dark-blue: rgb(65, 139, 182);
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    height: 10%;
+    height: 3rem;
     form {
         display: flex;
         flex-direction: row;
@@ -151,7 +162,7 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-#move-tab-wrapper {
+#moves-tab-wrapper {
     display: flex;
     margin: 5px;
     box-sizing: border-box;

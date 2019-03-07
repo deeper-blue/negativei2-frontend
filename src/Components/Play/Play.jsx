@@ -39,15 +39,23 @@ class Play extends Component {
             } else {
                 width = 0.6 * screenWidth;
             }
+
+            $('#game-tab-wrapper').css({
+                'height': 'auto'
+            });
         } else {
             if (screenWidth < 1000) {
                 width = 0.4 * screenWidth;
             } else {
                 width = 400;
             }
+
+            $('#game-tab-wrapper').css({
+                'height': `${width-45}px`
+            });
         }
 
-        $('#move-tab-wrapper').css({
+        $('#moves-tab-wrapper').css({
             'height': `${width-45}px`
         });
 
