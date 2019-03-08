@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
+import Spinner from '../Spinner';
 
-const sum = 'http://negativei2-server.herokuapp.com/getgame/sadjlsda'
+const url = 'https://negativei2-server.herokuapp.com/gamelist'
 
 class Join extends React.Component {
 
@@ -11,52 +12,75 @@ class Join extends React.Component {
         super(props);
 
         this.state = {
-            doodoo: ''
+            loaded: false,
+            game_list: []
         }
     }
 
     componentDidMount() {
-        this.somehttprequestshit(sum);
-
-
+        this.httpRequest(url);
     }
 
-    somehttprequestshit(url){
+    httpRequest(url){
         axios.get(url)
             .then(function(response) {
                 console.log(response);
-                this.fuck(response);
+                this.parse(response);
             }.bind(this))
             .catch( function (error) {
                 console.log(error);
             })
             .then(function (){
-                console.log('poop');
-            });
+                this.setState( state => ({
+                    loaded: true,
+                }));
+            }.bind(this));
     }
 
-    fuck(shit) {
+    parse(response) {
+
         this.setState( state => ({
-            doodoo: shit
-        }))
+            game_list: response,
+            game_id: response.id,
+            creator_id: response
+        }));
     }   
 
     render() {
         return (
-            <div className='matches'>
-                <h1>Open matches</h1>
-                <table className="match-list">
-                    <tr>
-                        <td><b>Creator</b></td>
-                        <td><b>Open slots</b></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{this.state.doodoo.statusText}</td>
-                        <td>1</td>
-                        <td><Link to='/play'>Play!</Link></td>
-                    </tr>
-                </table>
+            <div>
+                {this.state.loaded ?
+                <div className='matches'>
+                    <h1>Open matches</h1>
+                    <table className="match-list">
+                        <thead>
+                            <tr>
+                                <th>Game ID</th>
+                                <th>Creator ID</th>
+                                <th>Open slots</th>
+                                <th>Black</th>
+                                <th>White</th>
+                                <th>Time Limit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.game_list.data.map((row, index) => (
+                                    row.free_slots = 0 ? null :
+                                    <tr>
+                                        <td>{row.id}</td>
+                                        <td>{row.creator}</td>
+                                        <td>{row.free_slots}</td>
+                                        <td>{row.players.b ? row.players.b : 'PLAY'}</td>
+                                        <td>{row.players.w ? row.players.w : 'PLAY'}</td>
+                                        <td>{row.time_controls}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div> :
+                <Spinner />}
             </div>
         );
     }
