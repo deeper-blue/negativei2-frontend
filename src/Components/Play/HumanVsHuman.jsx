@@ -30,6 +30,9 @@ class HumanVsHuman extends Component {
          * - The turn indicator (according to the server)
          */
         this.loadGame();
+
+        // Create the move entry submit form hook.
+        this.moveEntrySubmitHook();
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -203,16 +206,27 @@ class HumanVsHuman extends Component {
         }
     }
 
+    /** Hooks into the move entry form submit action with jQuery,
+     * allowing for handleMove() to be called from the HumanVsHuman component.
+     */
     moveEntrySubmitHook = () => {
+        var self = this;
+
+        // Lambda for splitting a string at a provided index.
         var splitAt = index => x => [x.slice(0, index), x.slice(index)];
 
         $('#move-input-form').submit(function(event) {
+            // Prevent the default form submission action.
             event.preventDefault();
 
+            // Read the text from the input element - eliminating whitespace.
             var text = $('#move-input-text').val().replace(/\s/g, '');
-            var from, to = splitAt(2)(text);
 
-            console.log(from, to);
+            // Split the text into two sections: source square and target square.
+            var source, target = splitAt(2)(text);
+
+            // Treat the move as dragging from one square to another (in handleMove).
+            self.handleMove(true, undefined, source, target);
         });
     }
 
