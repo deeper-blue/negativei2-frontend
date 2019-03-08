@@ -223,7 +223,8 @@ class HumanVsHuman extends Component {
             var text = $('#move-input-text').val().replace(/\s/g, '');
 
             // Split the text into two sections: source square and target square.
-            var source, target = splitAt(2)(text);
+            var source, target;
+            [source, target] = splitAt(2)(text);
 
             // Treat the move as dragging from one square to another (in handleMove).
             self.handleMove(true, undefined, source, target);
