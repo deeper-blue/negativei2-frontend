@@ -4,7 +4,7 @@ import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
 
-const url = 'http://negativei2-server.herokuapp.com/gamelist'
+const url = 'https://negativei2-server.herokuapp.com/gamelist'
 
 class Join extends React.Component {
 
