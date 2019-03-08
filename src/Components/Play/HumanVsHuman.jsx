@@ -4,6 +4,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import Chess from 'chess.js';
 import axios from 'axios';
+import opensocket from 'socket.io-client';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
@@ -23,6 +24,7 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
+        this.socket = opensocket('https://negativei2-server.herokuapp.com');
 
         /** Loads the game from the server and updates:
          * - The current internal game representation (this.game)
@@ -39,9 +41,6 @@ class HumanVsHuman extends Component {
      * @param targetSquare - The target square (if the move was drag and drop, otherwise, undefined)
      */
     handleMove = (dragged, clickedSquare, sourceSquare, targetSquare) => {
-        // Ensure we have an updated internal game representation (fetch any updates from the server)
-        this.updateGame();
-
         var self = this;
 
         // Create move data
@@ -72,28 +71,18 @@ class HumanVsHuman extends Component {
                 // Update the turn indicator
                 self.updateTurnIndicator(response.data.turn);
 
-                // Add the move to the move tracker
-                var move = response.data.history[response.data.history.length-1];
-                self.updateMoveTracker(move.move_count, move.side, move.san);
-
                 // Update the state
                 if (dragged) { // Drag and drop
                     self.setState(({ history, pieceSquare }) => ({
                         fen: self.game.fen(),
                         history: self.game.history({ verbose: true }),
                         squareStyles: squareStyling({ pieceSquare, history })
-                    }), () => {
-                        // Update game after FEN state is set
-                        self.updateGame();
-                    });
+                    }));
                 } else { // Click and drop
                     self.setState({
                         fen: self.game.fen(),
                         history: self.game.history({ verbose: true }),
                         pieceSquare: ''
-                    }, () => {
-                        // Update game after FEN state is set
-                        self.updateGame();
                     });
                 }
             })
@@ -117,6 +106,9 @@ class HumanVsHuman extends Component {
                 self.setState({fen: fen});
                 self.updateTurnIndicator(response.data.turn);
                 self.loadMoveTracker(response.data.history);
+                // register for updates
+                self.socket.emit('register', response.data.id);
+                self.socket.on('move', self.updateGameState);
             })
             .catch(function(error) {
                 console.log(error);
@@ -129,13 +121,22 @@ class HumanVsHuman extends Component {
         var self = this;
         axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
             .then(function(response) {
-                var fen = response.data.fen;
-                self.game.load(fen);
-                self.setState({fen: fen});
+                self.updateGameState(response.data);
             })
             .catch(function(error) {
                 console.log(error);
             });
+    }
+
+    /** Helper function to set the game state */
+    updateGameState = (gameState) => {
+        console.log(`Updating game state {gameState}`);
+        var fen = gameState.fen;
+        this.game.load(fen);
+        this.updateTurnIndicator(gameState.turn);
+        let move = gameState.history[gameState.history.length-1];
+        this.updateMoveTracker(move.move_count, move.side, move.san);
+        this.setState({fen: fen});
     }
 
     /** Updates the move turn color indicator.
