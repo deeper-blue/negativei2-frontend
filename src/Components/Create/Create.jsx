@@ -107,6 +107,19 @@ class Create extends React.Component {
                         <form onSubmit={this.handleSubmit} >
                             <div id="config_form">
                                 <label>
+                                    Controller:
+                                    <br />
+                                    <select
+                                        value={this.state.P1}
+                                        onChange={evt => this.setState({ P1: evt.target.value })}>>
+                                        <option value="1">Board 1</option>
+                                        <option value="2">Board 2</option>
+                                        <option value="3">Board 3</option>
+                                    </select>
+                                </label>
+                                <br />
+                                <br />
+                                <label>
                                     Player 1 (White):
                                     <br />
                                     <select
@@ -157,7 +170,7 @@ class Create extends React.Component {
                                 <br />
                                 <br />
 
-                                <button type="submit" id="btn_play">
+                                <button type="submit" class = "button large large-font home-link">
                                     Let's play!
                                 </button>
                             </div>
