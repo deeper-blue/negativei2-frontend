@@ -220,7 +220,11 @@ class HumanVsHuman extends Component {
             event.preventDefault();
 
             // Read the text from the input element - eliminating whitespace.
-            var text = $('#move-input-text').val().replace(/\s/g, '');
+            var textDOM = $('#move-input-text')
+            var text = textDOM.val().replace(/\s/g, '');
+
+            // Clear the text input box
+            textDOM.val('');
 
             // Split the text into two sections: source square and target square.
             var source, target;
