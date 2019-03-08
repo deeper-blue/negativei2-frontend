@@ -203,6 +203,19 @@ class HumanVsHuman extends Component {
         }
     }
 
+    moveEntrySubmitHook = () => {
+        var splitAt = index => x => [x.slice(0, index), x.slice(index)];
+
+        $('#move-input-form').submit(function(event) {
+            event.preventDefault();
+
+            var text = $('#move-input-text').val().replace(/\s/g, '');
+            var from, to = splitAt(2)(text);
+
+            console.log(from, to);
+        });
+    }
+
     // keep clicked square style and remove hint squares
     removeHighlightSquare = () => {
         this.setState(({ pieceSquare, history }) => ({
