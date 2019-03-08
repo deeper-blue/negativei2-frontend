@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Header from './Header';
 import Table from './Table';
 import Options from './Options';
-import firebase from '../Firebase';
+import firebase, { auth } from '../Firebase';
 import Spinner from '../Spinner';
 import './Profile.scss';
 import '../../index.scss';
@@ -31,6 +31,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: null,
             profileID: this.props.location.pathname.split('/')[2],
             tab: 1,
             loaded: false,
@@ -103,18 +104,21 @@ class Profile extends Component {
             case 2:
                 return <div>This is where stats will go when they are implemented</div>;
             case 3:
-                return <Options profileID={this.state.profileID}/>;
+                return <Options profileID={this.state.user}/>;
             default:
                 return null;
         }
     }
 
     componentDidMount(){
-        var profileID = this.props.location.pathname.split('/')[2];
-        this.setState(state => ({
-            profileID: profileID
-        }));
-        this.getProfileInfo(profileID);
+        auth.onAuthStateChanged(function (user) {
+            if (user) {
+                this.setState({user: user.uid});
+            } else {
+                this.setState({user: 'none'});
+            }
+        }.bind(this));  
+        this.getProfileInfo(this.state.profileID);
     }
 
     componentDidUpdate() {
@@ -125,31 +129,37 @@ class Profile extends Component {
     render() {
 
         return (
-            <div className='profile'>
-                {this.state.loaded ?
-                    <div className='content'>
-                        <Header profileData={this.state.profileData} profileID={this.state.profileID}/>
-                        <div className='tabs'>
-                            <div className='tab'>
-                                <Button onClick={() => this.goTable()} primary={this.state.primary1}>
-                                    Table
-                                </Button>
+            <div>
+                {this.state.user ?
+                    <div className='profile'>
+                        {this.state.loaded ?
+                            <div className='content'>
+                                <Header profileData={this.state.profileData} profileID={this.state.profileID}/>
+                                <div className='tabs'>
+                                    <div className='tab'>
+                                        <Button onClick={() => this.goTable()} primary={this.state.primary1}>
+                                            Table
+                                        </Button>
+                                    </div>
+                                    <div className='tab'>
+                                        <Button onClick={() => this.goStats()} primary={this.state.primary2}>
+                                            Stats
+                                        </Button>
+                                    </div>
+                                    {this.state.user == this.state.profileID ?
+                                        <div className='tab'>
+                                            <Button onClick={() => this.goOptions()} primary={this.state.primary3}>
+                                                Options
+                                            </Button>
+                                        </div>
+                                    : null}
+                                </div>
+                                <div className='table'>
+                                    {/* {this.state.tab ? <Table userID={this.state.profileID} /> : Stats} */}
+                                    {this.componentSwitch(this.state.tab)}
+                                </div>
                             </div>
-                            <div className='tab'>
-                                <Button onClick={() => this.goStats()} primary={this.state.primary2}>
-                                    Stats
-                                </Button>
-                            </div>
-                            <div className='tab'>
-                                <Button onClick={() => this.goOptions()} primary={this.state.primary3}>
-                                    Options
-                                </Button>
-                            </div>
-                        </div>
-                        <div className='table'>
-                            {/* {this.state.tab ? <Table userID={this.state.profileID} /> : Stats} */}
-                            {this.componentSwitch(this.state.tab)}
-                        </div>
+                        : <Spinner /> }
                     </div>
                 : <Spinner /> }
             </div>
