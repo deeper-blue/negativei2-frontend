@@ -103,14 +103,18 @@ class Profile extends Component {
             case 2:
                 return <div>This is where stats will go when they are implemented</div>;
             case 3:
-                return <Options />;
+                return <Options profileID={this.state.profileID}/>;
             default:
                 return null;
         }
     }
 
     componentDidMount(){
-        this.getProfileInfo(this.props.location.pathname.split('/')[2]);
+        var profileID = this.props.location.pathname.split('/')[2];
+        this.setState(state => ({
+            profileID: profileID
+        }));
+        this.getProfileInfo(profileID);
     }
 
     componentDidUpdate() {

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import firebase from '../../Firebase';
 
 const StyledDiv = styled.div`
     
@@ -18,6 +19,10 @@ class Options extends React.Component {
         super();
 
         this.state = { name:'' };
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleNameSubmit = this.handleNameSubmit.bind(this);
+        this.handlePPChange = this.handlePPChange.bind(this);
+        this.handlePPSubmit = this.handlePPSubmit.bind(this);
     }
 
     handleNameChange(event) {
@@ -31,9 +36,9 @@ class Options extends React.Component {
     handleNameSubmit(e) {
         e.preventDefault();
 
-            const name = this.state.name;
+        const name = this.state.name;
 
-            this.updateProfile('name', name);
+        this.updateProfile('name', name);
     }
 
     handlePPSubmit(e) {
@@ -45,6 +50,21 @@ class Options extends React.Component {
     }
 
     updateProfile(field, value) {
+        const db = firebase.firestore();
+        var profileRef = db.collection('users').doc(this.props.profileID);
+
+        var my_obj = {}
+        my_obj[field] = value;
+        profileRef.update(
+            my_obj
+        )
+        .then(function() {
+            console.log('Document Updated');
+            window.location.reload();
+        })
+        .catch(function(error) {
+            console.error('error updating document', error);
+        });
 
     }
 
@@ -60,7 +80,7 @@ class Options extends React.Component {
                     </form>
                 </div>
                 <div className='display_picture'>
-                    <form onSubmit='sadf' >
+                    <form onSubmit={this.handlePPSubmit} >
                         <label>
                             Profile Picture: <input type='text' value={this.state.value} onChange={this.handlePPChange} />
                         </label>
