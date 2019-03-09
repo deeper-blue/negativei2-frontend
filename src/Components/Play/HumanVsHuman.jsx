@@ -68,9 +68,6 @@ class HumanVsHuman extends Component {
         // Send the POST request to the server
         axios.post('https://negativei2-server.herokuapp.com/makemove', query)
             .then(function(response) {
-                // Update the turn indicator
-                self.updateTurnIndicator(response.data.turn);
-
                 // Update the state
                 if (dragged) { // Drag and drop
                     self.setState(({ history, pieceSquare }) => ({
