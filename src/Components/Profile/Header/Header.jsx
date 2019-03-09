@@ -8,7 +8,7 @@ class Header extends React.Component {
             <div>
                 <div className="header">
                     <div className="profile-picture">
-                        <img src={this.props.profileData.pic} className='image' alt="logo" />
+                        <img src={this.props.profileData.pic} className='image' alt="dp" />
                     </div>
                     <div className='player-info'>
                         <div className='profile-name'>
