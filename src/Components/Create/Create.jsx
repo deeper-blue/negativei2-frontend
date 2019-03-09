@@ -5,9 +5,12 @@ import Spinner from '../Spinner';
 import { auth } from '../Firebase';
 
 
-function validate(hours, minutes, P1, P2) {
+function validate(hours, minutes, P1, P2, board_id) {
     const errors = [];
 
+    if (board_id != "kevin") {
+        errors.push("Board not available!");
+    }
     if (hours.length === 0 || minutes.length === 0) {
         if (hours.length === 0) {
             errors.push("Hours can't be empty");
@@ -38,6 +41,7 @@ class Create extends React.Component {
             P1: "me",
             P2: "me",
             user: null,
+            board_id: "",
             errors: []
         };
 
@@ -61,9 +65,9 @@ class Create extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { hours, minutes, P1, P2 } = this.state;
+        const { hours, minutes, P1, P2, board_id } = this.state;
         this.setState({ errors: [] });
-        const errors = validate(hours, minutes, P1, P2);
+        const errors = validate(hours, minutes, P1, P2, board_id);
         if (errors.length > 0) {
             this.setState({ errors });
             return;
@@ -106,17 +110,15 @@ class Create extends React.Component {
                     this.state.user ?
                         <form onSubmit={this.handleSubmit} >
                             <div id="config_form">
-                                <label>
-                                    Controller:
-                                    <br />
-                                    <select
-                                        value={this.state.P1}
-                                        onChange={evt => this.setState({ P1: evt.target.value })}>>
-                                        <option value="1">Board 1</option>
-                                        <option value="2">Board 2</option>
-                                        <option value="3">Board 3</option>
-                                    </select>
-                                </label>
+                                <br />
+                                Board ID:
+                                <br />
+                                <input
+                                    value={this.state.board_id}
+                                    onChange={evt => this.setState({ board_id: evt.target.value })}
+                                    type="text"
+                                    placeholder="Board ID"
+                                />
                                 <br />
                                 <br />
                                 <label>
