@@ -114,7 +114,7 @@ class HumanVsHuman extends Component {
 
     /** Helper function to set the game state */
     updateGameState = (gameState) => {
-        console.log(`Updating game state {gameState}`);
+        console.log(`Updating game state ${gameState}`);
         var fen = gameState.fen;
         this.game.load(fen);
         this.updateTurnIndicator(gameState.turn);
