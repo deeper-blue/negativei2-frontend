@@ -136,7 +136,8 @@ class HumanVsHuman extends Component {
             });
             turnIcon.text("Black");
         } else if (side === "w") {
-            turnIcon.css({"background-color": "white",
+            turnIcon.css({
+                "background-color": "white",
                 "color": "black",
                 "border-color": "lightgrey"
             });
