@@ -146,16 +146,17 @@ class Profile extends Component {
                                             Stats
                                         </Button>
                                     </div>
-                                    {this.state.user == this.state.profileID ?
-                                        <div className='tab'>
-                                            <Button onClick={() => this.goOptions()} primary={this.state.primary3}>
-                                                Options
-                                            </Button>
-                                        </div>
-                                    : null}
+                                    {
+                                        this.state.user === this.state.profileID ?
+                                            <div className='tab'>
+                                                <Button onClick={() => this.goOptions()} primary={this.state.primary3}>
+                                                    Options
+                                                </Button>
+                                            </div>
+                                        : null
+                                    }
                                 </div>
                                 <div className='table'>
-                                    {/* {this.state.tab ? <Table userID={this.state.profileID} /> : Stats} */}
                                     {this.componentSwitch(this.state.tab)}
                                 </div>
                             </div>
