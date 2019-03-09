@@ -149,21 +149,9 @@ class HumanVsHuman extends Component {
      * @param {Array} history - The history of moves played in the game.
      */
     loadMoveTracker = history => {
+        var self = this;
         history.forEach(function(move) {
-            if (move.side === "w") {
-                $('<tr>',{
-                    'id' : `moves-${move.move_count}`,
-                    'html': $('<td>', {
-                        'id': `move-${move.move_count}`
-                    }).html(move.move_count).add($('<td>', {
-                        'id': `move-${move.move_count}-w`
-                    }).html(move.san).add($('<td>', {
-                        'id': `move-${move.move_count}-b`
-                    })))
-                }).appendTo('#move-tracker tbody');
-            } else if (move.side === "b") {
-                $(`#move-${move.move_count}-b`).html(move.san);
-            }
+            self.updateMoveTracker(move.move_count, move.side, move.san);
         });
     }
 
