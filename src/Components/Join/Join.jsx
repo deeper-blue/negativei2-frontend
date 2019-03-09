@@ -1,10 +1,10 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
 
-const url = 'https://negativei2-server.herokuapp.com/gamelist'
+const url = 'https://negativei2-server.herokuapp.com/'
 
 class Join extends React.Component {
 
@@ -18,10 +18,10 @@ class Join extends React.Component {
     }
 
     componentDidMount() {
-        this.httpRequest(url);
+        this.httpGetRequest(url + 'gamelist');
     }
 
-    httpRequest(url){
+    httpGetRequest(url){
         axios.get(url)
             .then(function(response) {
                 console.log(response);
@@ -44,7 +44,25 @@ class Join extends React.Component {
             game_id: response.id,
             creator_id: response
         }));
-    }   
+    }
+
+    httpPostRequest(url, data) {
+        axios.post(url, data)
+            .then(function(response) {
+                console.log(response);
+                this.props.history.push('/play/' + response.data.id);
+            }.bind(this))
+            .catch(function(error) {
+                console.log(error);
+            })
+    }
+
+    joinGame(game_id, side) {
+        var formData = new FormData();
+        formData.set('game_id', game_id);
+        formData.set('player_id', side);
+        formData.set('side', side);
+    }
 
     render() {
         return (
@@ -71,8 +89,8 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td>{row.creator}</td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.b ? row.players.b : 'PLAY'}</td>
-                                        <td>{row.players.w ? row.players.w : 'PLAY'}</td>
+                                        <td>{row.players.b ? row.players.b : <Link to=''>PLAY</Link>}</td>
+                                        <td>{row.players.w ? row.players.w : <Link to=''>PLAY</Link>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
