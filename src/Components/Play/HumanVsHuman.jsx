@@ -112,19 +112,6 @@ class HumanVsHuman extends Component {
             });
     }
 
-    /** Updates the game (synchronises client's board with server's internal board) */
-    updateGame = () => {
-        // Send the GET request to the server
-        var self = this;
-        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
-            .then(function(response) {
-                self.updateGameState(response.data);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-    }
-
     /** Helper function to set the game state */
     updateGameState = (gameState) => {
         console.log(`Updating game state {gameState}`);
