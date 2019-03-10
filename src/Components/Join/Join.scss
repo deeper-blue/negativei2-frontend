@@ -6,13 +6,27 @@
     height: 100%;
 }
 
+h1 {
+    color: rgb(26, 55, 82);
+}
+
 .match-list {
     margin: 30px;
-    font-size: 2em;
+    font-size: 2vmin;
+    border: 2px solid rgb(40, 86, 129);
+    border-radius: 10px;
+    border-collapse: collapse;
 
-    tr {
-        td {
-            padding: 5px;
-        }
+    text-align: center;
+
+    color: rgb(26, 55, 82);
+
+    thead{
+        color: #f3d19f;
+    }
+    
+    th{
+        background-color: rgb(40, 86, 129);
+        padding: 25px 5px 25px 5px;
     }
 }
