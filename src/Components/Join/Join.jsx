@@ -60,7 +60,6 @@ class Join extends React.Component {
     }
 
     httpPostRequest(url, data) {
-        console.log('dab');
         axios.post(url, data)
             .then(function(response) {
                 console.log(response);
@@ -77,8 +76,6 @@ class Join extends React.Component {
         formData.set('game_id', game_id);
         formData.set('player_id', this.state.user);
         formData.set('side', side);
-
-        console.log('okay')
 
         this.httpPostRequest(url + 'joingame', formData);
     }
