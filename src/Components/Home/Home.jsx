@@ -28,6 +28,16 @@ class Home extends React.Component {
         }.bind(this));
     }
 
+    redirector(){
+        if(user === 'none'){
+            //do something
+        } else if(user.isAnonymous){
+            //do something else
+        } else {
+            
+        }
+    }
+
     render(){
         return(
             <div>
