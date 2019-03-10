@@ -91,8 +91,8 @@ class Join extends React.Component {
                                 <th>Game ID</th>
                                 <th>Creator ID</th>
                                 <th>Open slots</th>
-                                <th>Black</th>
                                 <th>White</th>
+                                <th>Black</th>
                                 <th>Time Limit</th>
                             </tr>
                         </thead>
@@ -104,8 +104,8 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td>{row.creator}</td>
                                         <td>{row.free_slots}</td>
+                                        <td>{row.players.w ? row.players.w : <Link to={'play/'} onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</Link>}</td>
                                         <td>{row.players.b ? row.players.b : <Link to={'play/'} onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</Link>}</td>
-                                        <td>{row.players.w ? row.players.w : <Link to={'play/' + row.id} onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</Link>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
