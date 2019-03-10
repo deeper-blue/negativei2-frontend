@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
+import { auth } from '../Firebase';
 
 const url = 'https://negativei2-server.herokuapp.com/'
 
@@ -13,12 +14,26 @@ class Join extends React.Component {
 
         this.state = {
             loaded: false,
-            game_list: []
+            game_list: [],
+            user: null
         }
+
+        this.joinGame = this.joinGame.bind(this);
     }
 
     componentDidMount() {
         this.httpGetRequest(url + 'gamelist');
+        this.initAuthListener();
+    }
+
+    initAuthListener(){
+        auth.onAuthStateChanged(function (user) {
+            if (user) {
+                this.setState({user: user.uid});
+            } else {
+                this.setState({user: 'none'});
+            }
+        }.bind(this));
     }
 
     httpGetRequest(url){
@@ -60,14 +75,18 @@ class Join extends React.Component {
     joinGame(game_id, side) {
         var formData = new FormData();
         formData.set('game_id', game_id);
-        formData.set('player_id', side);
+        formData.set('player_id', this.state.user);
         formData.set('side', side);
+
+        console.log('okay')
+
+        // this.httpPostRequest(url + 'joingame', formData);
     }
 
     render() {
         return (
             <div>
-                {this.state.loaded ?
+                {this.state.loaded && this.state.user ?
                 <div className='matches'>
                     <h1>Open matches</h1>
                     <table className="match-list">
@@ -89,8 +108,8 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td>{row.creator}</td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.b ? row.players.b : <Link to=''>PLAY</Link>}</td>
-                                        <td>{row.players.w ? row.players.w : <Link to=''>PLAY</Link>}</td>
+                                        <td>{row.players.b ? row.players.b : <Link to={'play/' + row.id}>PLAY</Link>}</td>
+                                        <td>{row.players.w ? row.players.w : <Link to={'play/' + row.id}>PLAY</Link>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
