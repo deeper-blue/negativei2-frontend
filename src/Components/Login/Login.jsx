@@ -34,6 +34,12 @@ class Login extends Component {
     });
   }
 
+  anonAuth(){
+    auth.signInAnonymously().catch(function(error) {
+      console.log(error);
+    });
+  }
+
   render() {
     return (
       this.state.user
@@ -43,9 +49,12 @@ class Login extends Component {
       <div id="login-wrapper">
         <div id="login">
           <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} className="test"/>
-          <Link id="guest-button" to='/' className="button">
+          {/* <Link id="guest-button" to='/' className="button">
             Play as guest
-          </Link>
+          </Link> */}
+          <button id='guest-button' className='button' onClick={() => this.anonAuth()}>
+            Play as guest
+          </button>
         </div>
       </div>
     );
