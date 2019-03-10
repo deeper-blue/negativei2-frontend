@@ -17,8 +17,6 @@ class Join extends React.Component {
             game_list: [],
             user: null
         }
-
-        this.joinGame = this.joinGame.bind(this);
     }
 
     componentDidMount() {
@@ -62,6 +60,7 @@ class Join extends React.Component {
     }
 
     httpPostRequest(url, data) {
+        console.log('dab');
         axios.post(url, data)
             .then(function(response) {
                 console.log(response);
@@ -72,7 +71,8 @@ class Join extends React.Component {
             })
     }
 
-    joinGame(game_id, side) {
+    joinGame(game_id, side, e) {
+        // e.preventDefault();
         var formData = new FormData();
         formData.set('game_id', game_id);
         formData.set('player_id', this.state.user);
@@ -80,7 +80,7 @@ class Join extends React.Component {
 
         console.log('okay')
 
-        // this.httpPostRequest(url + 'joingame', formData);
+        this.httpPostRequest(url + 'joingame', formData);
     }
 
     render() {
@@ -108,8 +108,8 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td>{row.creator}</td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.b ? row.players.b : <Link to={'play/' + row.id}>PLAY</Link>}</td>
-                                        <td>{row.players.w ? row.players.w : <Link to={'play/' + row.id}>PLAY</Link>}</td>
+                                        <td>{row.players.b ? row.players.b : <Link to={'play/' + row.id} onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</Link>}</td>
+                                        <td>{row.players.w ? row.players.w : <Link to={'play/' + row.id} onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</Link>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
