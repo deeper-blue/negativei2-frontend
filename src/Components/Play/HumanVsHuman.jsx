@@ -4,6 +4,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import Chess from 'chess.js';
 import axios from 'axios';
+import opensocket from 'socket.io-client';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
@@ -23,6 +24,7 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
+        this.socket = opensocket('https://negativei2-server.herokuapp.com');
 
         /** Loads the game from the server and updates:
          * - The current internal game representation (this.game)
@@ -30,6 +32,9 @@ class HumanVsHuman extends Component {
          * - The turn indicator (according to the server)
          */
         this.loadGame();
+
+        // Create the move entry submit form hook.
+        this.moveEntrySubmitHook();
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -39,9 +44,6 @@ class HumanVsHuman extends Component {
      * @param targetSquare - The target square (if the move was drag and drop, otherwise, undefined)
      */
     handleMove = (dragged, clickedSquare, sourceSquare, targetSquare) => {
-        // Ensure we have an updated internal game representation (fetch any updates from the server)
-        this.updateGame();
-
         var self = this;
 
         // Create move data
@@ -69,31 +71,18 @@ class HumanVsHuman extends Component {
         // Send the POST request to the server
         axios.post('https://negativei2-server.herokuapp.com/makemove', query)
             .then(function(response) {
-                // Update the turn indicator
-                self.updateTurnIndicator(response.data.turn);
-
-                // Add the move to the move tracker
-                var move = response.data.history[response.data.history.length-1];
-                self.updateMoveTracker(move.move_count, move.side, move.san);
-
                 // Update the state
                 if (dragged) { // Drag and drop
                     self.setState(({ history, pieceSquare }) => ({
                         fen: self.game.fen(),
                         history: self.game.history({ verbose: true }),
                         squareStyles: squareStyling({ pieceSquare, history })
-                    }), () => {
-                        // Update game after FEN state is set
-                        self.updateGame();
-                    });
+                    }));
                 } else { // Click and drop
                     self.setState({
                         fen: self.game.fen(),
                         history: self.game.history({ verbose: true }),
                         pieceSquare: ''
-                    }, () => {
-                        // Update game after FEN state is set
-                        self.updateGame();
                     });
                 }
             })
@@ -117,25 +106,24 @@ class HumanVsHuman extends Component {
                 self.setState({fen: fen});
                 self.updateTurnIndicator(response.data.turn);
                 self.loadMoveTracker(response.data.history);
+                // register for updates
+                self.socket.emit('register', response.data.id);
+                self.socket.on('move', self.updateGameState);
             })
             .catch(function(error) {
                 console.log(error);
             });
     }
 
-    /** Updates the game (synchronises client's board with server's internal board) */
-    updateGame = () => {
-        // Send the GET request to the server
-        var self = this;
-        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
-            .then(function(response) {
-                var fen = response.data.fen;
-                self.game.load(fen);
-                self.setState({fen: fen});
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+    /** Helper function to set the game state */
+    updateGameState = (gameState) => {
+        console.log(`Updating game state ${gameState}`);
+        var fen = gameState.fen;
+        this.game.load(fen);
+        this.updateTurnIndicator(gameState.turn);
+        let move = gameState.history[gameState.history.length-1];
+        this.updateMoveTracker(move.move_count, move.side, move.san);
+        this.setState({fen: fen});
     }
 
     /** Updates the move turn color indicator.
@@ -151,7 +139,8 @@ class HumanVsHuman extends Component {
             });
             turnIcon.text("Black");
         } else if (side === "w") {
-            turnIcon.css({"background-color": "white",
+            turnIcon.css({
+                "background-color": "white",
                 "color": "black",
                 "border-color": "lightgrey"
             });
@@ -163,21 +152,9 @@ class HumanVsHuman extends Component {
      * @param {Array} history - The history of moves played in the game.
      */
     loadMoveTracker = history => {
+        var self = this;
         history.forEach(function(move) {
-            if (move.side === "w") {
-                $('<tr>',{
-                    'id' : `moves-${move.move_count}`,
-                    'html': $('<td>', {
-                        'id': `move-${move.move_count}`
-                    }).html(move.move_count).add($('<td>', {
-                        'id': `move-${move.move_count}-w`
-                    }).html(move.san).add($('<td>', {
-                        'id': `move-${move.move_count}-b`
-                    })))
-                }).appendTo('#move-tracker tbody');
-            } else if (move.side === "b") {
-                $(`#move-${move.move_count}-b`).html(move.san);
-            }
+            self.updateMoveTracker(move.move_count, move.side, move.san);
         });
     }
 
@@ -201,6 +178,35 @@ class HumanVsHuman extends Component {
         } else if (side === "b") {
             $(`#move-${number}-b`).html(san);
         }
+    }
+
+    /** Hooks into the move entry form submit action with jQuery,
+     * allowing for handleMove() to be called from the HumanVsHuman component.
+     */
+    moveEntrySubmitHook = () => {
+        var self = this;
+
+        // Lambda for splitting a string at a provided index.
+        var splitAt = index => x => [x.slice(0, index), x.slice(index)];
+
+        $('#move-input-form').submit(function(event) {
+            // Prevent the default form submission action.
+            event.preventDefault();
+
+            // Read the text from the input element - eliminating whitespace.
+            var textDOM = $('#move-input-text')
+            var text = textDOM.val().replace(/\s/g, '');
+
+            // Clear the text input box
+            textDOM.val('');
+
+            // Split the text into two sections: source square and target square.
+            var source, target;
+            [source, target] = splitAt(2)(text);
+
+            // Treat the move as dragging from one square to another (in handleMove).
+            self.handleMove(true, undefined, source, target);
+        });
     }
 
     // keep clicked square style and remove hint squares
