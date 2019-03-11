@@ -84,20 +84,7 @@ class Home extends React.Component {
                     this.state.user 
                 ?
                     <div>
-                        {
-                            this.state.user === 'none' 
-                        ?
-                            <Redirect to='/login'/>
-                        :
-                            <div className='home-links'>
-                                <Link to='/create' className="button large large-font home-link">
-                                    Create game
-                                </Link>
-                                <Link to='/join' className="button large large-font home-link">
-                                    Join game
-                                </Link>
-                            </div>
-                        }
+                        {this.redirector()}
                     </div>
                 : 
                     <Spinner />
