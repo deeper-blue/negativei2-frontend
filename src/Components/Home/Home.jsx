@@ -11,8 +11,25 @@ class Home extends React.Component {
 
         this.state = {
             user: null,
-            anon: null
+            anon: null,
+            display: 'spin'
         }
+
+        this.display_options = [
+            <Spinner />,
+            (
+                <div className='home-links'>
+                    <Link to='/create' className="button large large-font home-link">
+                        Create game
+                    </Link>
+                    <Link to='/join' className="button large large-font home-link">
+                        Join game
+                    </Link>
+                </div>
+            ), 
+            <Redirect to='/login'/>, 
+            <Redirect to={'/profile/creation/' + this.state.user} />
+        ];
     }
 
     componentDidMount(){
@@ -30,6 +47,7 @@ class Home extends React.Component {
             } else {
                 this.setState({user: 'none'});
             }
+            this.stateHandler();
         }.bind(this));
     }
 
@@ -39,14 +57,14 @@ class Home extends React.Component {
 
         docRef.get().then(function(doc) {
             if(doc.exists){
-                console.log('hyuck');
                 this.setState({
-                    exists: true
+                    exists: true,
+                    display: 1
                 })
             } else {
-                console.log('hyick');
                 this.setState({
-                    exists: false
+                    exists: false,
+                    display: 3
                 })
             }
         }.bind(this))
@@ -65,16 +83,20 @@ class Home extends React.Component {
         )
     }
 
-    redirector(){
+    stateHandler(){
 
         if(this.state.user === 'none'){
-            return <Redirect to='/login'/>;
+            this.setState({display: 2});
         } else if(this.state.anon){
-            return (this.homePage());
+            this.setState({display: 1});
         } else {
             this.getProfileInfo();
-            console.log('yh fyuck me dude');
+            this.setState({display: 0});
         }
+    }
+
+    redirector(comp){
+        return(this.display_options[comp]);
     }
 
     render(){
@@ -84,7 +106,7 @@ class Home extends React.Component {
                     this.state.user 
                 ?
                     <div>
-                        {this.redirector()}
+                        {this.redirector(this.state.display)}
                     </div>
                 : 
                     <Spinner />
