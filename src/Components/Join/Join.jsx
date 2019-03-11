@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
-import { auth } from '../Firebase';
+import firebase, { auth } from '../Firebase';
 
 const url = 'https://negativei2-server.herokuapp.com/'
 
 class Join extends React.Component {
+
+    user_dictionary= {};
 
     constructor(props){
         super(props);
@@ -15,8 +17,12 @@ class Join extends React.Component {
         this.state = {
             loaded: false,
             game_list: [],
-            user: null
+            user: null,
+            user_dictionary: {}
         }
+
+        this.semaphore = 0;
+        this.getUsername = this.getUsername.bind(this);
     }
 
     componentDidMount() {
@@ -51,12 +57,50 @@ class Join extends React.Component {
     }
 
     parse(response) {
-
+        var id_set = new Set();
+        
         this.setState( state => ({
             game_list: response,
             game_id: response.id,
-            creator_id: response
         }));
+
+        response.data.forEach(function(element) {
+            if(element.creator){id_set.add(element.creator)}
+            if(element.b){id_set.add(element.b)}
+            if(element.w){id_set.add(element.w)}
+        });
+
+        console.log(id_set);    
+
+        id_set.forEach(function(element){
+            if(this.semaphore === null){
+                this.semaphore = 0;
+            } else {
+                this.semaphore++;
+            }
+            console.log(element);
+            this.getUsername(element);
+        }.bind(this));
+    }
+
+    getUsername(user_id) {
+        const db = firebase.firestore();
+        const docRef = db.collection('users').doc(user_id);
+        console.log('asdfdaf');
+
+        docRef.get().then(function(response) {
+            console.log(this.semaphore);
+            if(response.exists){
+                this.user_dictionary[user_id] = response.data().name;
+                console.log(this.user_dictionary);
+            }
+            this.semaphore--;
+            if(this.semaphore === 0){
+                this.setState({
+                    user_dictionary: this.user_dictionary
+                });
+            }
+        }.bind(this));
     }
 
     httpPostRequest(url, data) {
@@ -82,7 +126,7 @@ class Join extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loaded && this.state.user ?
+                {this.state.loaded && this.state.user && this.semaphore === 0 ?
                 <div className='matches'>
                     <h1>Open matches</h1>
                     <table className="match-list">
@@ -102,10 +146,10 @@ class Join extends React.Component {
                                     row.free_slots = 0 ? null :
                                     <tr>
                                         <td>{row.id}</td>
-                                        <td>{row.creator}</td>
+                                        <td>{this.state.user_dictionary[row.creator]}</td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.w ? row.players.w : <Link to={'play/'} onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</Link>}</td>
-                                        <td>{row.players.b ? row.players.b : <Link to={'play/'} onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</Link>}</td>
+                                        <td>{row.players.w ? this.state.user_dictionary[row.players.w] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
+                                        <td>{row.players.b ? this.state.user_dictionary[row.players.b] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
