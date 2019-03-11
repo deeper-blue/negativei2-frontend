@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { auth } from '../Firebase';
+import firebase, { auth } from '../Firebase';
 import Spinner from '../Spinner';
 import './Home.scss';
 
@@ -10,7 +10,8 @@ class Home extends React.Component {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            anon: null
         }
     }
 
@@ -21,20 +22,58 @@ class Home extends React.Component {
     initAuthListener(){
         auth.onAuthStateChanged(function (user) {
             if (user) {
-                this.setState({user: user.uid});
+                this.setState({
+                    user: user.uid,
+                    anon: user.isAnonymous,
+                    exists: null,
+                });
             } else {
                 this.setState({user: 'none'});
             }
         }.bind(this));
     }
 
+    getProfileInfo() {
+        const db = firebase.firestore();
+        const docRef = db.collection('users').doc(this.state.user);
+
+        docRef.get().then(function(doc) {
+            if(doc.exists){
+                console.log('hyuck');
+                this.setState({
+                    exists: true
+                })
+            } else {
+                console.log('hyick');
+                this.setState({
+                    exists: false
+                })
+            }
+        }.bind(this))
+    }
+
+    homePage(){
+        return(
+            <div className='home-links'>
+                <Link to='/create' className="button large large-font home-link">
+                    Create game
+                </Link>
+                <Link to='/join' className="button large large-font home-link">
+                    Join game
+                </Link>
+            </div>
+        )
+    }
+
     redirector(){
-        if(user === 'none'){
-            //do something
-        } else if(user.isAnonymous){
-            //do something else
+
+        if(this.state.user === 'none'){
+            return <Redirect to='/login'/>;
+        } else if(this.state.anon){
+            return (this.homePage());
         } else {
-            
+            this.getProfileInfo();
+            console.log('yh fyuck me dude');
         }
     }
 
@@ -46,7 +85,7 @@ class Home extends React.Component {
                 ?
                     <div>
                         {
-                            this.state.user == 'none' 
+                            this.state.user === 'none' 
                         ?
                             <Redirect to='/login'/>
                         :
