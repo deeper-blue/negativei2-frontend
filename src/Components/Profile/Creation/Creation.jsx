@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import firebase, { auth } from '../../Firebase';
+import Spinner from '../../Spinner';
 
 const StyledDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items:center;
+    text-align: center; 
 
     input {
         width: max-content;
@@ -18,12 +21,28 @@ class Creation extends React.Component {
 
         this.state = {
             name: '',
-            picture: ''
+            picture: '',
+            user: null
         }
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handlePPChange = this.handlePPChange.bind(this);
         this.handleProfileSubmit = this.handleProfileSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.initAuthListener();
+    }
+
+    initAuthListener(){
+        auth.onAuthStateChanged(function (user) {
+            if (user) {
+                this.setState({user: user.uid});
+                this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png');
+            } else {
+                this.setState({user: 'none'});
+            }
+        }.bind(this));
     }
 
     handleNameChange(event){
@@ -34,29 +53,55 @@ class Creation extends React.Component {
         this.setState({picture: event.target.value});
     }
 
-    handleProfileSubmit(){
+    handleProfileSubmit(e){
+        e.preventDefault();
+        console.log('asdf');
+        var name = this.state.name;
+        var picture = this.state.picture;
 
+        if(!name || !picture){
+            return;
+        }
+
+        this.createProfile(name, picture);
+    }
+
+    createProfile(name, picture){
+        const db = firebase.firestore();
+        var profileRef = db.collection('users').doc(this.state.user);
+
+        var profileObj = {}
+        profileObj['name'] = name;
+        profileObj['pic'] = picture;
+        console.log(profileObj);
+        profileRef.update(profileObj)
+            .catch(function(error) {
+                console.error('error updating document ', error);
+            });
     }
 
     render() {
         return(
             <StyledDiv>
-                <div className='display_name'>
-                    <form onSubmit={this.handleNameSubmit} >
-                        <label>
-                            Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
-                        </label>
-                        <input type='submit' value='Submit' />
-                    </form>
-                </div>
-                <div className='display_picture'>
-                    <form onSubmit={this.handlePPSubmit} >
-                        <label>
+                {
+                    this.state.user 
+                ?
+                    <form onSubmit={this.handleProfileSubmit} >
+                        <div className='display_name'>
+                            <label>
+                                Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
+                            </label>
+                        </div>  
+                        <div className='display_picture'>
+                            <label>
                                 Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
-                        </label>
+                            </label>
+                        </div>
                         <input type='submit' value='Submit' />
                     </form>
-                </div>
+                : 
+                    <Spinner />
+                }
             </StyledDiv>
         )
     }
