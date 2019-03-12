@@ -23,8 +23,19 @@ class Creation extends React.Component {
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handlePPChange = this.handlePPChange.bind(this);
-        this.handleNameSubmit = this.handleNameSubmit.bind(this);
-        this.handlePPSubmit = this.handlePPSubmit.bind(this);
+        this.handleProfileSubmit = this.handleProfileSubmit.bind(this);
+    }
+
+    handleNameChange(event){
+        this.setState({name: event.target.value});
+    }
+
+    handlePPChange(event) {
+        this.setState({picture: event.target.value});
+    }
+
+    handleProfileSubmit(){
+
     }
 
     render() {
