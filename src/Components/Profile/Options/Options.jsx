@@ -18,7 +18,7 @@ class Options extends React.Component {
     constructor(){
         super();
 
-        this.state = { name:'' };
+        this.state = { name:'', picture: '' };
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSubmit = this.handleNameSubmit.bind(this);
         this.handlePPChange = this.handlePPChange.bind(this);
@@ -74,7 +74,7 @@ class Options extends React.Component {
                 <div className='display_name'>
                     <form onSubmit={this.handleNameSubmit} >
                         <label>
-                            Name: <input type='text' value={this.state.value} onChange={this.handleNameChange} />
+                            Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
                         </label>
                         <input type='submit' value='Submit' />
                     </form>
@@ -82,7 +82,7 @@ class Options extends React.Component {
                 <div className='display_picture'>
                     <form onSubmit={this.handlePPSubmit} >
                         <label>
-                            Profile Picture: <input type='text' value={this.state.value} onChange={this.handlePPChange} />
+                            Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
                         </label>
                         <input type='submit' value='Submit' />
                     </form>
