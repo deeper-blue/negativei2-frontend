@@ -1,0 +1,33 @@
+@import '../../index.scss';
+
+.btn-group-links {
+  margin:auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - #{$header});
+}
+
+#results {
+  display: none;
+  // <table id="results">
+  &.displayed {
+    // <table id="results" class="displayed">
+    display: block;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+  }
+}
+
+#board {
+  display: none;
+  &.displayed {
+    display: block;
+  }
+}
+
+#results td, #results th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
