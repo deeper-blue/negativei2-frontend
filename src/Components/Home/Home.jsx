@@ -7,6 +7,7 @@ function Home (props) {
 
     return (
         <div className='home-links'>
+            <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="banner"></img>
             <Link to='/create' className="button large large-font home-link">
                 Create game
             </Link>

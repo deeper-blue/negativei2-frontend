@@ -8,9 +8,11 @@
     height: calc(100vh - #{$header});
 }
 
+#banner {
+    height: 200px;
+    margin-bottom: 50px;
+}
+
 .button.home-link {
     margin: 10px auto;
-    /*&:first-child {
-        margin-top: 20px;
-    }*/
 }
