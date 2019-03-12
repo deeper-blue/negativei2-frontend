@@ -97,6 +97,46 @@ $tooltip: (
     }
 }
 
+[tooltip-very-large]{
+    position: relative;
+
+    &:hover {
+        &::before, &::after {
+            opacity: 1;
+        }
+    }
+
+    &::before, &::after {
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        opacity: 0;
+        color: map-get($tooltip, 'color');
+        @include transition(opacity 0.25s);
+    }
+
+    &::before {
+        content: "";
+        transform: translateX(-50%);
+        border-width: map-get($tooltip, 'border-width');
+        border-style: map-get($tooltip, 'border-style');
+        border-color: map-get($tooltip, 'border-color');
+        z-index: 100;
+    }
+
+    &::after {
+        content: attr(tooltip-very-large);
+        transform: translateX(-50%) translateY(-100%);
+        background-color: map-get($tooltip, 'background-color');
+        text-align: center;
+        padding: map-get($tooltip, 'padding');
+        font-size: map-get($tooltip, 'font-size');
+        min-width: 140px;
+        border-radius: map-get($tooltip, 'border-radius');
+        pointer-events: none;
+    }
+}
+
 [tooltip-position='left'] {
     &::before, &::after {
         left: 0%;
