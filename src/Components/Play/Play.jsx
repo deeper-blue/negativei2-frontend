@@ -18,6 +18,7 @@ class Play extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Deeper Blue: Play';
         this.initAuthListener();
     }
 

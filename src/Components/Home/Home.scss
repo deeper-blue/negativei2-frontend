@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-.home-links {
+#wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,9 +8,21 @@
     height: calc(100vh - #{$header});
 }
 
+.home-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    @include media-width(500px) {
+        flex-direction: column;
+    };
+}
+
+#banner {
+    height: 200px;
+    margin-bottom: 50px;
+}
+
 .button.home-link {
-    margin: 10px auto;
-    /*&:first-child {
-        margin-top: 20px;
-    }*/
+    margin: 10px;
 }

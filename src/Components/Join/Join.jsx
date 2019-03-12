@@ -18,6 +18,7 @@ class Join extends React.Component {
     }
 
     componentDidMount() {
+        document.title = 'Deeper Blue: Join Game';
         this.httpRequest(url);
     }
 
@@ -44,7 +45,7 @@ class Join extends React.Component {
             game_id: response.id,
             creator_id: response
         }));
-    }   
+    }
 
     render() {
         return (
