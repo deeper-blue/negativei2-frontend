@@ -2,6 +2,9 @@
   "name": "negativei2-frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+      "node": "11.11.0"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "chess.js": "0.10.2",

@@ -136,7 +136,7 @@
     }
     @include media-width($breakpoint) {
         width: 100vw;
-        height: calc(100vh - $header);
+        height: calc(100vh - #{$header});
     }
 }
 .navigator-reveal {
