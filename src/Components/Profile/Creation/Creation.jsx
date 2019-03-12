@@ -38,7 +38,7 @@ class Creation extends React.Component {
         auth.onAuthStateChanged(function (user) {
             if (user) {
                 this.setState({user: user.uid});
-                this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png');
+                this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png', false);
             } else {
                 this.setState({user: 'none'});
             }
@@ -63,10 +63,10 @@ class Creation extends React.Component {
             return;
         }
 
-        this.createProfile(name, picture);
+        this.createProfile(name, picture, true);
     }
 
-    createProfile(name, picture){
+    createProfile(name, picture, redirect){
         const db = firebase.firestore();
         var profileRef = db.collection('users').doc(this.state.user);
 
@@ -75,6 +75,12 @@ class Creation extends React.Component {
         profileObj['pic'] = picture;
         console.log(profileObj);
         profileRef.update(profileObj)
+            .then(function(){
+                console.log('Document updated');
+                if(redirect){
+                    this.props.history.push('/');
+                }                
+            }.bind(this))
             .catch(function(error) {
                 console.error('error updating document ', error);
             });
