@@ -59,7 +59,7 @@ class Create extends React.Component {
             P1: "me",
             P2: "me",
             user: null,
-            board_id: "",
+            board_id: "kevin",
             friend_1: "",
             friend_2: "",
             errors: []
@@ -213,7 +213,7 @@ class Create extends React.Component {
                                 <br />
                                 <br />
 
-                                <button type="submit" class = "button large large-font home-link">
+                                <button type="submit" className = "button large large-font home-link">
                                     Let's play!
                                 </button>
                             </div>
