@@ -5,9 +5,13 @@ import Spinner from '../Spinner';
 import { auth } from '../Firebase';
 
 
-function validate(hours, minutes, P1, P2) {
+function validate(hours, minutes, P1, P2, board_id, friend_1, friend_2) {
     const errors = [];
 
+    if (board_id !== "kevin") {
+        // check if board id is available DYNAMICALLY
+        errors.push("Board not available!");
+    }
     if (hours.length === 0 || minutes.length === 0) {
         if (hours.length === 0) {
             errors.push("Hours can't be empty");
@@ -17,13 +21,30 @@ function validate(hours, minutes, P1, P2) {
             errors.push("Minutes can't be empty");
         }
     } else {
-        if (minutes === '0' && hours === '0') {
+        if (minutes === 0 && hours === 0) {
             errors.push("You cannot play for 0 seconds and 0 hours");
         }
     }
 
     if (P1 === "me" && P2 === "me") {
         errors.push("You cannot play against yourself!");
+    }
+
+    if (P1 === "friend"){
+        if (friend_1 === ""){
+            errors.push("Add a username for player 1");
+        } else if (friend_1 !== "kevin123"){
+            // check if friend_1 is a valid username DYNAMICALLY
+            errors.push("Player 1 username is not valid");
+        }
+    }
+    if (P2 === "friend"){
+        if (friend_2 === ""){
+            errors.push("Add a username for player 2");
+        } else if (friend_2 !== "kevin321"){
+            // check if friend_2 is a valid username DYNAMICALLY
+            errors.push("Player 2 username is not valid");
+        }
     }
 
     return errors;
@@ -33,11 +54,14 @@ class Create extends React.Component {
     constructor() {
         super();
         this.state = {
-            hours: "",
-            minutes: "",
+            hours: 0,
+            minutes: 0,
             P1: "me",
             P2: "me",
             user: null,
+            board_id: "kevin",
+            friend_1: "",
+            friend_2: "",
             errors: []
         };
 
@@ -61,9 +85,9 @@ class Create extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { hours, minutes, P1, P2 } = this.state;
+        const { hours, minutes, P1, P2, board_id, friend_1, friend_2 } = this.state;
         this.setState({ errors: [] });
-        const errors = validate(hours, minutes, P1, P2);
+        const errors = validate(hours, minutes, P1, P2, board_id, friend_1, friend_2);
         if (errors.length > 0) {
             this.setState({ errors });
             return;
@@ -78,6 +102,7 @@ class Create extends React.Component {
         var player1;
         var player2;
 
+        // P1 and P2 are not player IDs!!!!
         this.state.P1 === 'me' ? player1 = this.state.user : player1 = this.state.P1;
         this.state.P2 === 'me' ? player2 = this.state.user : player2 = this.state.P2;
 
@@ -106,6 +131,17 @@ class Create extends React.Component {
                     this.state.user ?
                         <form onSubmit={this.handleSubmit} >
                             <div id="config_form">
+                                <br />
+                                Board ID:
+                                <br />
+                                <input
+                                    value={this.state.board_id}
+                                    onChange={evt => this.setState({ board_id: evt.target.value })}
+                                    type="text"
+                                    placeholder="kevin"
+                                />
+                                <br />
+                                <br />
                                 <label>
                                     Player 1 (White):
                                     <br />
@@ -114,9 +150,19 @@ class Create extends React.Component {
                                         onChange={evt => this.setState({ P1: evt.target.value })}>>
                                         <option value="me">Me, myself and I</option>
                                         <option value="AI">Deeper Blue</option>
-                                        <option value="OPEN">Another human</option>
+                                        <option value="friend">A friend</option>
+                                        <option value="OPEN">Random player</option>
                                     </select>
                                 </label>
+                                <br />
+                                Friend username:
+                                <br />
+                                <input
+                                    value={this.state.friend_1}
+                                    onChange={evt => this.setState({ friend_1: evt.target.value })}
+                                    type="text"
+                                    placeholder="kevin123"
+                                />
                                 <br />
                                 <br />
                                 <label>
@@ -127,9 +173,19 @@ class Create extends React.Component {
                                         onChange={evt => this.setState({ P2: evt.target.value })}>
                                         <option value="me">Me, myself and I</option>
                                         <option value="AI">Deeper Blue</option>
-                                        <option value="OPEN">Another human</option>
+                                        <option value="friend">A friend</option>
+                                        <option value="OPEN">Random player</option>
                                     </select>
                                 </label>
+                                <br />
+                                Friend username:
+                                <br />
+                                <input
+                                    value={this.state.friend_2}
+                                    onChange={evt => this.setState({ friend_2: evt.target.value })}
+                                    type="text"
+                                    placeholder="kevin321"
+                                />
                                 <br />
                                 <br />
                                 Hours:
@@ -157,7 +213,7 @@ class Create extends React.Component {
                                 <br />
                                 <br />
 
-                                <button type="submit" id="btn_play">
+                                <button type="submit" className = "button large large-font home-link">
                                     Let's play!
                                 </button>
                             </div>
