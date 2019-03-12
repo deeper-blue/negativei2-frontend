@@ -22,7 +22,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-      this.initAuthListener();
+    document.title = 'Deeper Blue: Login';
+    this.initAuthListener();
   }
 
   initAuthListener() {

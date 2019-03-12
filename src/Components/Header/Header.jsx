@@ -61,8 +61,8 @@ class Header extends Component {
         return (
             <div>
                 <header id="header">
-                    <Link onClick={this.closeNav} to="/" id="home-link" className="link-blue">
-                        HOME
+                    <Link onClick={this.closeNav} to="/" id="home-link">
+                        <img src="/assets/deeper-blue/logo/logo-alpha.svg" alt="Home"></img>
                     </Link>
                     <nav id="dock">
                         <div id="dock-auth" className="dock-item" tooltip={this.state.user ? 'Logout' : 'Login'} tooltip-position="bottom">
