@@ -8,7 +8,7 @@ import { auth } from '../Firebase';
 function validate(hours, minutes, P1, P2, board_id, friend_1, friend_2) {
     const errors = [];
 
-    if (board_id != "kevin") {
+    if (board_id !== "kevin") {
         // check if board id is available DYNAMICALLY
         errors.push("Board not available!");
     }
@@ -33,7 +33,7 @@ function validate(hours, minutes, P1, P2, board_id, friend_1, friend_2) {
     if (P1 === "friend"){
         if (friend_1 === ""){
             errors.push("Add a username for player 1");
-        } else if (friend_1 != "kevin123"){
+        } else if (friend_1 !== "kevin123"){
             // check if friend_1 is a valid username DYNAMICALLY
             errors.push("Player 1 username is not valid");
         }
@@ -41,7 +41,7 @@ function validate(hours, minutes, P1, P2, board_id, friend_1, friend_2) {
     if (P2 === "friend"){
         if (friend_2 === ""){
             errors.push("Add a username for player 2");
-        } else if (friend_2 != "kevin321"){
+        } else if (friend_2 !== "kevin321"){
             // check if friend_2 is a valid username DYNAMICALLY
             errors.push("Player 2 username is not valid");
         }
