@@ -79,8 +79,10 @@
 }
 
 #home-link {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
+    display: flex;
+    img {
+        height: 30px;
+    }
 }
 
 #spacer {

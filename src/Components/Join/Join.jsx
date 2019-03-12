@@ -25,6 +25,7 @@ class Join extends React.Component {
     }
 
     componentDidMount() {
+        document.title = 'Deeper Blue: Join Game';
         this.httpGetRequest(url + 'gamelist');
         this.initAuthListener();
     }

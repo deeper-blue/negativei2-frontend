@@ -109,6 +109,7 @@ class Profile extends Component {
     }
 
     componentDidMount(){
+        document.title = 'Deeper Blue: Profile';
         this.getProfileInfo(this.props.location.pathname.split('/')[2]);
     }
 

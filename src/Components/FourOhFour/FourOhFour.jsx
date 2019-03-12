@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 class FourOhFour extends Component {
 
+    componentDidMount() {
+        document.title = 'Deeper Blue: 404';
+    }
+
     render() {
 
         const StyledDiv =  styled.div`
