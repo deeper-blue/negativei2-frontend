@@ -63,10 +63,10 @@ class Creation extends React.Component {
             return;
         }
 
-        this.createProfile(name, picture, true);
+        this.updateProfile(name, picture, true);
     }
 
-    createProfile(name, picture, redirect){
+    createProfile(name, picture){
         const db = firebase.firestore();
         var profileRef = db.collection('users').doc(this.state.user);
 
@@ -74,16 +74,31 @@ class Creation extends React.Component {
         profileObj['name'] = name;
         profileObj['pic'] = picture;
         console.log(profileObj);
+        profileRef.set(profileObj)
+            .then(function(){
+                console.log('Document updated');             
+            })
+            .catch(function(error) {
+                console.error('error creating document ', error);
+            });
+    }
+
+    updateProfile(name, picture){
+        const db = firebase.firestore();
+        var profileRef = db.collection('users').doc(this.state.user);
+
+        var profileObj = {}
+        profileObj['name'] = name;
+        profileObj['pic'] = picture;
+        
         profileRef.update(profileObj)
             .then(function(){
-                console.log('Document updated');
-                if(redirect){
-                    this.props.history.push('/');
-                }                
-            }.bind(this))
+                console.log('Document updates');
+                this.props.history.push('/');
+            })
             .catch(function(error) {
-                console.error('error updating document ', error);
-            });
+                console.error('error updating document', error);
+            })
     }
 
     render() {
