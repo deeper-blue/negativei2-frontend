@@ -79,8 +79,10 @@
 }
 
 #home-link {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
+    display: flex;
+    img {
+        height: 30px;
+    }
 }
 
 #spacer {
@@ -134,7 +136,7 @@
     }
     @include media-width($breakpoint) {
         width: 100vw;
-        height: calc(100vh - $header);
+        height: calc(100vh - #{$header});
     }
 }
 .navigator-reveal {

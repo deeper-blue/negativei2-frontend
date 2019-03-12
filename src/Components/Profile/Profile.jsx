@@ -111,6 +111,7 @@ class Profile extends Component {
     }
 
     componentDidMount(){
+        document.title = 'Deeper Blue: Profile';
         auth.onAuthStateChanged(function (user) {
             if (user) {
                 this.setState({user: user.uid});

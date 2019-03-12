@@ -19,14 +19,18 @@ class Home extends React.Component {
         this.display_options = {
             'spinner': <Spinner />,
             'home': (
-                        <div className='home-links'>
-                            <Link to='/create' className="button large large-font home-link">
-                                Create game
-                            </Link>
-                            <Link to='/join' className="button large large-font home-link">
-                                Join game
-                            </Link>
-                        </div>
+                <div id="wrapper">
+                    <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="banner"></img>
+        
+                    <div className='home-links'>
+                        <Link to='/create' className="button large large-font home-link">
+                            Create game
+                        </Link>
+                        <Link to='/join' className="button large large-font home-link">
+                            Join game
+                        </Link>
+                    </div>
+                </div>
                     ),
             'login': <Redirect to='/login' />,
             'create': <Redirect to={'/profile/creation/' + this.state.user} />
@@ -34,6 +38,7 @@ class Home extends React.Component {
     }
 
     componentDidMount(){
+        document.title = 'Deeper Blue: Home';
         this.initAuthListener();
     }
 
