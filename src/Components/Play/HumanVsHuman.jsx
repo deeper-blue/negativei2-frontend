@@ -270,6 +270,7 @@ class HumanVsHuman extends Component {
     drawOfferAnswer = (draw_offers) => {
         if ((draw_offers.w.made && draw_offers.w.accepted) || (draw_offers.b.made && draw_offers.b.accepted)) {
             // Go to end game screen
+            //this.props.history.push('/endgame');
         } else {
             // Show rejection window
             const conf_box = document.getElementById("draw-rejection-confirmation");
@@ -299,7 +300,7 @@ class HumanVsHuman extends Component {
     }
 
     // Deals with the received draw offer
-    drawOfferReceived = (draw_offers, players) => {
+    drawOfferReceived = () => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
 
@@ -346,7 +347,8 @@ class HumanVsHuman extends Component {
                     // Close offer window
                     conf_box.style.display = "none";
 
-                    // Go to end page
+                    // Go to end game page
+                    //this.props.history.push('/endgame');
                 })
                 .catch(function(error) {
                     var tmp = $('<div></div>');
@@ -412,8 +414,7 @@ class HumanVsHuman extends Component {
                         conf_box.style.display = "none";
 
                         // Go to end game screen
-                        //window.location.href = "http://localhost:3000/create";
-                        //this.props.history.push('/create');
+                        //this.props.history.push('/endgame');
                     })
                     .catch(function(error) {
                         var tmp = $('<div></div>');
@@ -452,6 +453,7 @@ class HumanVsHuman extends Component {
                 conf_box.style.display = "none";
 
                 // Go to end game screen
+                //this.props.history.push('/endgame');
             }
         }
 
@@ -461,6 +463,7 @@ class HumanVsHuman extends Component {
             conf_box.style.display = "none";
 
             // Go to end game screen
+            //this.props.history.push('/endgame');
         }
     }
 
