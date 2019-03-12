@@ -45,6 +45,7 @@ class Create extends React.Component {
     }
 
     componentDidMount() {
+        document.title = 'Deeper Blue: Create Game';
         this.initAuthListener();
     }
 

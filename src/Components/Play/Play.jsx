@@ -17,6 +17,7 @@ class Play extends Component {
     }
 
     componentDidMount() {
+        document.title = 'Deeper Blue: Play';
         this.initAuthListener();
     }
 
@@ -34,7 +35,7 @@ class Play extends Component {
         return (
             <div>
                 {
-                    this.state.user ? 
+                    this.state.user ?
                     <div className='game-area'>
                         <HumanVsHuman gameid={this.props.location.pathname.split('/')[2]} userid={this.state.user}>
                         {({
@@ -70,7 +71,7 @@ class Play extends Component {
                         )}
                         </HumanVsHuman>
                         <Sidebar />
-                    </div> : 
+                    </div> :
                     <div>
                         <Spinner />
                     </div>
