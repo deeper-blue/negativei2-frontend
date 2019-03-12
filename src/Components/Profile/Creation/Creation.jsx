@@ -55,7 +55,7 @@ class Creation extends React.Component {
 
     handleProfileSubmit(e){
         e.preventDefault();
-        console.log('asdf');
+        
         var name = this.state.name;
         var picture = this.state.picture;
 

@@ -16,22 +16,21 @@ class Home extends React.Component {
             display: 'spin'
         }
 
-        // This list contains the 4 different jsx elements that need to be loaded depending on the user's state
-        this.display_options = [
-            <Spinner />,
-            (
-                <div className='home-links'>
-                    <Link to='/create' className="button large large-font home-link">
-                        Create game
-                    </Link>
-                    <Link to='/join' className="button large large-font home-link">
-                        Join game
-                    </Link>
-                </div>
-            ), 
-            <Redirect to='/login'/>, 
-            <Redirect to={'/profile/creation/' + this.state.user} />
-        ];
+        this.display_options = {
+            'spinner': <Spinner />,
+            'home': (
+                        <div className='home-links'>
+                            <Link to='/create' className="button large large-font home-link">
+                                Create game
+                            </Link>
+                            <Link to='/join' className="button large large-font home-link">
+                                Join game
+                            </Link>
+                        </div>
+                    ),
+            'login': <Redirect to='/login' />,
+            'create': <Redirect to={'/profile/creation/' + this.state.user} />
+        }
     }
 
     componentDidMount(){
@@ -43,8 +42,7 @@ class Home extends React.Component {
             if (user) {
                 this.setState({
                     user: user.uid,
-                    anon: user.isAnonymous,
-                    exists: null,
+                    anon: user.isAnonymous
                 });
             } else {
                 this.setState({user: 'none'});
@@ -62,12 +60,12 @@ class Home extends React.Component {
             if(doc.exists){
                 this.setState({
                     exists: true,
-                    display: 1
+                    display: 'home'
                 })
             } else {
                 this.setState({
                     exists: false,
-                    display: 3
+                    display: 'create'
                 })
             }
         }.bind(this))
@@ -77,12 +75,12 @@ class Home extends React.Component {
     stateHandler(){
 
         if(this.state.user === 'none'){
-            this.setState({display: 2});
+            this.setState({display: 'login'});
         } else if(this.state.anon){
-            this.setState({display: 1});
+            this.setState({display: 'home'});
         } else {
             this.getProfileInfo();
-            this.setState({display: 0});
+            this.setState({display: 'spinner'});
         }
     }
 

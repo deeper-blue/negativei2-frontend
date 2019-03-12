@@ -49,9 +49,6 @@ class Login extends Component {
       <div id="login-wrapper">
         <div id="login">
           <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} className="test"/>
-          {/* <Link id="guest-button" to='/' className="button">
-            Play as guest
-          </Link> */}
           <button id='guest-button' className='button' onClick={() => this.anonAuth()}>
             Play as guest
           </button>
