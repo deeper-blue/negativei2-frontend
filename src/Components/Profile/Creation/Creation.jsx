@@ -20,6 +20,11 @@ class Creation extends React.Component {
             name: '',
             picture: ''
         }
+
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handlePPChange = this.handlePPChange.bind(this);
+        this.handleNameSubmit = this.handleNameSubmit.bind(this);
+        this.handlePPSubmit = this.handlePPSubmit.bind(this);
     }
 
     render() {
