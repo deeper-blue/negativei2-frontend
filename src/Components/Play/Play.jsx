@@ -34,31 +34,14 @@ class Play extends Component {
     resizeBoard = screenWidth => {
         var width = 300;
         if (screenWidth < 600) {
-            if (screenWidth < 500) {
-                width = 300;
-            } else {
-                width = 0.6 * screenWidth;
-            }
-
-            $('#game-tab-wrapper').css({
-                'height': 'auto'
-            });
+            width = (screenWidth < 500) ? 300 : 0.6*screenWidth;
+            $('#game-tab-wrapper').css({'height': 'auto'});
         } else {
-            if (screenWidth < 1000) {
-                width = 0.4 * screenWidth;
-            } else {
-                width = 400;
-            }
-
-            $('#game-tab-wrapper').css({
-                'height': `${width-45}px`
-            });
+            width = (screenWidth < 1000) ? 0.4*screenWidth : 400;
+            $('#game-tab-wrapper').css({'height': `${width-45}px`});
         }
 
-        $('#moves-tab-wrapper').css({
-            'height': `${width-45}px`
-        });
-
+        $('#moves-tab-wrapper').css({'height': `${width-45}px`});
         return width;
     }
 
