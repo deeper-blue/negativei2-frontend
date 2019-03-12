@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Join.scss';
 import axios from 'axios';
 import Spinner from '../Spinner';
@@ -68,9 +67,7 @@ class Join extends React.Component {
             if(element.creator){id_set.add(element.creator)}
             if(element.b){id_set.add(element.b)}
             if(element.w){id_set.add(element.w)}
-        });
-
-        console.log(id_set);    
+        });  
 
         id_set.forEach(function(element){
             if(this.semaphore === null){
@@ -78,7 +75,6 @@ class Join extends React.Component {
             } else {
                 this.semaphore++;
             }
-            console.log(element);
             this.getUsername(element);
         }.bind(this));
     }
@@ -86,13 +82,10 @@ class Join extends React.Component {
     getUsername(user_id) {
         const db = firebase.firestore();
         const docRef = db.collection('users').doc(user_id);
-        console.log('asdfdaf');
 
         docRef.get().then(function(response) {
-            console.log(this.semaphore);
             if(response.exists){
                 this.user_dictionary[user_id] = response.data().name;
-                console.log(this.user_dictionary);
             }
             this.semaphore--;
             if(this.semaphore === 0){
@@ -126,9 +119,10 @@ class Join extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loaded && this.state.user && this.semaphore === 0 ?
+                {this.state.loaded && this.state.user ?
                 <div className='matches'>
                     <h1>Open matches</h1>
+                    {this.semaphore === 0 ?
                     <table className="match-list">
                         <thead>
                             <tr>
@@ -156,6 +150,7 @@ class Join extends React.Component {
                             }
                         </tbody>
                     </table>
+                    : <Spinner />}
                 </div> :
                 <Spinner />}
             </div>
