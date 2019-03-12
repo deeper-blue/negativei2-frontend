@@ -59,6 +59,7 @@ class Sidebar extends Component {
     /** Cleans a transcript by lowercasing and performing a substitution
      * according to a map of common homophones and similar incorrect words.
      * @param {string} transcript - The transcript to clean.
+     * @returns {string} - The cleaned transcript.
      */
     cleanTranscript = (transcript) => {
         transcript = transcript.toLowerCase();
@@ -82,6 +83,8 @@ class Sidebar extends Component {
         Object.keys(substitutionMap).forEach(function (incorrect) {
             transcript = transcript.replace(new RegExp(incorrect, 'gi'), substitutionMap[incorrect]);
         });
+
+        return transcript;
     }
 
     /** Handles speech recognition and transcripts. */
