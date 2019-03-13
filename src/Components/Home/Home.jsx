@@ -17,11 +17,11 @@ class Home extends React.Component {
         }
 
         this.display_options = {
-            'spinner': <Spinner />,
+            'spinner': <Spinner fullPage={true}/>,
             'home': (
                 <div id="wrapper">
                     <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="banner"></img>
-        
+
                     <div className='home-links'>
                         <Link to='/create' className="button large large-font home-link">
                             Create game
@@ -93,13 +93,13 @@ class Home extends React.Component {
         return(
             <div>
                 {
-                    this.state.user 
+                    this.state.user
                 ?
                     <div>
                         {this.display_options[this.state.display]}
                     </div>
-                : 
-                    <Spinner />
+                :
+                    <Spinner fullPage={true}/>
                 }
             </div>
         );

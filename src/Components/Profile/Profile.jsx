@@ -118,7 +118,7 @@ class Profile extends Component {
             } else {
                 this.setState({user: 'none'});
             }
-        }.bind(this));  
+        }.bind(this));
         this.getProfileInfo(this.state.profileID);
     }
 
@@ -161,9 +161,9 @@ class Profile extends Component {
                                     {this.componentSwitch(this.state.tab)}
                                 </div>
                             </div>
-                        : <Spinner /> }
+                        : <Spinner fullPage={false}/> }
                     </div>
-                : <Spinner /> }
+                : <Spinner fullPage={true}/> }
             </div>
         );
     }

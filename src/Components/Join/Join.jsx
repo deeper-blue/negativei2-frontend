@@ -58,7 +58,7 @@ class Join extends React.Component {
 
     parse(response) {
         var id_set = new Set();
-        
+
         this.setState( state => ({
             game_list: response,
             game_id: response.id,
@@ -68,7 +68,7 @@ class Join extends React.Component {
             if(element.creator){id_set.add(element.creator)}
             if(element.b){id_set.add(element.b)}
             if(element.w){id_set.add(element.w)}
-        });  
+        });
 
         id_set.forEach(function(element){
             if(this.semaphore === null){
@@ -151,9 +151,9 @@ class Join extends React.Component {
                             }
                         </tbody>
                     </table>
-                    : <Spinner />}
+                    : <Spinner fullPage={false}/>}
                 </div> :
-                <Spinner />}
+                <Spinner fullPage={true}/>}
             </div>
         );
     }
