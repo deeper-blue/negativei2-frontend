@@ -89,9 +89,7 @@ class Play extends Component {
                         </HumanVsHuman>
                         <Sidebar />
                     </div> :
-                    <div>
-                        <Spinner />
-                    </div>
+                    <Spinner fullPage={true}/>
                 }
             </div>
         );
