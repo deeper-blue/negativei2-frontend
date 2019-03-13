@@ -9,13 +9,60 @@ $dark-blue: rgb(65, 139, 182);
     width: 25vw;
     min-width: 275px;
     margin-left: 20px;
+    border-radius: 1px;
+    border: 1px solid rgb(189, 189, 189);
+    background-color: rgb(221, 222, 231);
+    @include media-width(600px) {
+        margin-top: 20px;
+        margin-left: 0px;
+        width: 100%;
+    }
+}
+
+#sidebar #tab-headers {
+    border-bottom: 1px solid grey;
+    .tab-header {
+        @include appearance(none);
+        width: 50%;
+        padding: 5px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        outline: 0;
+        font-size: 1rem;
+        cursor: pointer;
+        border: 0px solid transparent;
+        background-color: rgb(132, 118, 148);
+        color: rgb(193, 180, 206);
+        text-decoration: none;
+        text-align: center;
+        @include transition(all 0.2s);
+        &:hover {
+            background-color: rgb(103, 95, 129);
+        }
+    }
+    .active-tab {
+        background-color: rgb(95, 82, 139);
+        color: white;
+    }
+}
+
+#sidebar #tabs #moves-tab {
+    display: none;
+}
+
+#game-tab-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 #turn-indicator {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    height: 10%;
+    height: 3rem;
     #turn-text {
         display: flex;
         justify-content: center;
@@ -38,13 +85,13 @@ $dark-blue: rgb(65, 139, 182);
 }
 
 #timer {
-    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(175,175,175);
+    background-color: rgb(151, 151, 151);
     border-radius: 2px;
-    margin: 7px;
+    height: 2rem;
+    margin: 5px;
     box-sizing: border-box;
     #timer-white {
         display: flex;
@@ -66,7 +113,7 @@ $dark-blue: rgb(65, 139, 182);
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    height: 10%;
+    height: 3rem;
     form {
         display: flex;
         flex-direction: row;
@@ -90,13 +137,28 @@ $dark-blue: rgb(65, 139, 182);
             justify-content: center;
             align-items: center;
             border-radius: 2px;
-            // background-color: seagreen;
+            box-sizing: border-box;
             background-color: rgb(122, 35, 35);
+            border: 2px outset rgb(150, 85, 85);
             width: 100%;
             height: 100%;
+            @include user-select(none);
+            @include transition(all 0.1s);
             img {
                 width: 20px;
                 height: 20px;
+            }
+            &.change {
+                background-color: seagreen;
+                border-color: rgb(146, 175, 146);
+                border-style: inset;
+            }
+            &.disabled {
+                border-color: rgb(133, 132, 132);
+                background-color: rgb(100, 100, 100);
+            }
+            &:hover {
+                border-style: inset;
             }
         }
     }
@@ -116,16 +178,14 @@ $dark-blue: rgb(65, 139, 182);
     }
 }
 
-#move-tracker-wrapper {
+#moves-tab-wrapper {
     display: flex;
-    height: 70%;
-    margin: 7px;
+    margin: 5px;
     box-sizing: border-box;
     border: 2px solid rgb(166, 174, 179);
     border-radius: 3px;
     background-color: white;
     overflow-y: auto;
-    height: 320px; // Have to specify height >:(
 }
 
 #move-tracker {

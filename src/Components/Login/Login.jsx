@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Login.scss';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import firebase, { auth } from '../Firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
@@ -22,7 +22,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-      this.initAuthListener();
+    document.title = 'Deeper Blue: Login';
+    this.initAuthListener();
   }
 
   initAuthListener() {
@@ -31,6 +32,12 @@ class Login extends Component {
       if (user) { // User
         header.setState({user: user});
       }
+    });
+  }
+
+  anonAuth(){
+    auth.signInAnonymously().catch(function(error) {
+      console.log(error);
     });
   }
 
@@ -43,9 +50,9 @@ class Login extends Component {
       <div id="login-wrapper">
         <div id="login">
           <StyledFirebaseAuth uiConfig={fbUiConfig} firebaseAuth={auth} className="test"/>
-          <Link id="guest-button" to='/' className="button">
+          <button id='guest-button' className='button' onClick={() => this.anonAuth()}>
             Play as guest
-          </Link>
+          </button>
         </div>
       </div>
     );
