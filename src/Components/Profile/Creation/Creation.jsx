@@ -95,7 +95,7 @@ class Creation extends React.Component {
             .then(function(){
                 console.log('Document updates');
                 this.props.history.push('/');
-            })
+            }.bind(this))
             .catch(function(error) {
                 console.error('error updating document', error);
             })
