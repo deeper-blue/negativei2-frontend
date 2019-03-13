@@ -123,12 +123,13 @@ class Join extends React.Component {
                 {this.state.loaded && this.state.user ?
                 <div className='matches'>
                     <h1>Open matches</h1>
+                    <p>Join a game from a list of open games!</p>
                     {this.semaphore === 0 ?
                     <table className="match-list">
                         <thead>
                             <tr>
                                 <th>Game ID</th>
-                                <th>Creator ID</th>
+                                <th>Creator</th>
                                 <th>Open slots</th>
                                 <th>White</th>
                                 <th>Black</th>
@@ -143,9 +144,9 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td>{this.state.user_dictionary[row.creator]}</td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.w ? this.state.user_dictionary[row.players.w] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
-                                        <td>{row.players.b ? this.state.user_dictionary[row.players.b] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
-                                        <td>{row.time_controls}</td>
+                                        <td>{row.players.w ? this.state.user_dictionary[row.players.w] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')} className='join'>JOIN</button>}</td>
+                                        <td>{row.players.b ? this.state.user_dictionary[row.players.b] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')} className='join'>JOIN</button>}</td>
+                                        <td>{Math.floor(row.time_controls/3600) + 'h ' + Math.floor((row.time_controls % 3600)/60) + 'm'}</td>
                                     </tr>
                                 ))
                             }

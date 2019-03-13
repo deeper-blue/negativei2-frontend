@@ -4,9 +4,6 @@
     align-items: center;
     flex-direction: column;
     height: 100%;
-}
-
-h1 {
     color: rgb(26, 55, 82);
 }
 
@@ -21,12 +18,19 @@ h1 {
 
     color: rgb(26, 55, 82);
 
+    .join{
+        background-color: lightblue;
+        border: none;
+        color:blue;
+        border-radius: 3px;
+    }
+
     thead{
         color: #f3d19f;
     }
     
     th{
         background-color: rgb(40, 86, 129);
-        padding: 25px 5px 25px 5px;
+        padding: 25px 10px 25px 10px;
     }
 }
