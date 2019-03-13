@@ -1,16 +1,20 @@
-.spinner {
-    height: 100%;
-    width: 100%;
-}
+@import '../../index.scss';
 
-.pic {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    animation: spin 4s linear infinite;
-}
+#spinner {
+    height: calc(100vh - #{$header});
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
 
-@keyframes spin {
-    from{ transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    img {
+        $dimension: 150px;
+        height: $dimension;
+        width: $dimension;
+    }
+
+    h1 {
+        font-family: 'Lato', sans-serif;
+    }
 }

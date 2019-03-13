@@ -4,8 +4,9 @@ import './Spinner.scss'
 class Spinner extends React.Component {
     render(){
         return (
-            <div className='spinner'>
-                <img src='/assets/profile.jpg' className='pic' alt='spinner' />
+            <div id='spinner'>
+                <img src='/assets/spinner.gif' alt='' />
+                <h1>Loading...</h1>
             </div>
         );
     }
