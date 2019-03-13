@@ -226,7 +226,7 @@ class Create extends React.Component {
 
                         </form>
                         :
-                        <Spinner />
+                        <Spinner fullPage={true}/>
                 }
             </div>
         );
