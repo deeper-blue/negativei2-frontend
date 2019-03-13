@@ -92,7 +92,7 @@ class Table extends Component {
             thead {
                 background-color: rgb(40, 86, 129);
                 color: #f3d19f;
-                
+
                 th {
                     padding: 15px 0px 15px 0px;
                 }
@@ -106,7 +106,7 @@ class Table extends Component {
             td {
                 text-align: center;
             }
-            
+
             .link {
                 color: rgb(26, 55, 82);
                 text-decoration: none;
@@ -152,7 +152,7 @@ class Table extends Component {
                             }
                         </tbody>
                     </Table>
-                : <Spinner />}
+                : <Spinner fullPage={false}/>}
             </div>
         );
     }

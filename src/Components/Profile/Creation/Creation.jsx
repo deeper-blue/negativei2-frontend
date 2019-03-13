@@ -1,18 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import firebase, { auth } from '../../Firebase';
 import Spinner from '../../Spinner';
-
-const StyledDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    text-align: center; 
-
-    input {
-        width: max-content;
-    }
-`;
+import './Creation.scss'
 
 class Creation extends React.Component {
 
@@ -55,7 +44,7 @@ class Creation extends React.Component {
 
     handleProfileSubmit(e){
         e.preventDefault();
-        
+
         var name = this.state.name;
         var picture = this.state.picture;
 
@@ -76,7 +65,7 @@ class Creation extends React.Component {
         console.log(profileObj);
         profileRef.set(profileObj)
             .then(function(){
-                console.log('Document updated');             
+                console.log('Document updated');
             })
             .catch(function(error) {
                 console.error('error creating document ', error);
@@ -90,7 +79,7 @@ class Creation extends React.Component {
         var profileObj = {}
         profileObj['name'] = name;
         profileObj['pic'] = picture;
-        
+
         profileRef.update(profileObj)
             .then(function(){
                 console.log('Document updates');
@@ -103,27 +92,29 @@ class Creation extends React.Component {
 
     render() {
         return(
-            <StyledDiv>
+            <div>
                 {
-                    this.state.user 
+                    this.state.user
                 ?
-                    <form onSubmit={this.handleProfileSubmit} >
-                        <div className='display_name'>
-                            <label>
-                                Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
-                            </label>
-                        </div>  
-                        <div className='display_picture'>
-                            <label>
-                                Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
-                            </label>
-                        </div>
-                        <input type='submit' value='Submit' />
-                    </form>
-                : 
-                    <Spinner />
+                    <div id="creation">
+                        <form onSubmit={this.handleProfileSubmit} >
+                            <div className='display_name'>
+                                <label>
+                                    Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
+                                </label>
+                            </div>
+                            <div className='display_picture'>
+                                <label>
+                                    Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
+                                </label>
+                            </div>
+                            <input type='submit' value='Submit' />
+                        </form>
+                    </div>
+                :
+                    <Spinner fullPage={true}/>
                 }
-            </StyledDiv>
+            </div>
         )
     }
 }
