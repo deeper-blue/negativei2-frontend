@@ -218,3 +218,43 @@ $dark-blue: rgb(65, 139, 182);
         color: white;
     }
 }
+
+#draw-forfeit-buttons {
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    button {
+        margin: 0 20px;
+    }
+}
+
+.button-container {
+    display: inline-block;
+    align-items: center;
+    button {
+        margin: 5px;
+    }
+}
+
+.confirmation-box {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    // When clicked
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-content {
+    background-color: #fefefe;
+    display: block;
+    padding: 10px;
+    border: 1px solid #888;
+    width: auto;
+}

@@ -35,6 +35,12 @@ class HumanVsHuman extends Component {
 
         // Create the move entry submit form hook.
         this.moveEntrySubmitHook();
+
+        this.drawButtonClicked();
+        this.drawOfferListen();
+
+        this.forfeitButtonClicked();
+        this.forfeitListen();
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -207,6 +213,258 @@ class HumanVsHuman extends Component {
             // Treat the move as dragging from one square to another (in handleMove).
             self.handleMove(true, undefined, source, target);
         });
+    }
+
+    // Offer draw to opponent
+    drawButtonClicked = () => {
+        const drawButton = document.getElementById("draw-button");
+        const gameid = this.props.gameid;
+        const userid = this.props.userid;
+        const self = this;
+
+        drawButton.onclick = (event) => {
+            const confBox = document.getElementById("draw-offer-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "flex";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Send draw request to the server if "Send" is clicked
+            const sendDrawBtn = document.getElementById("send-draw");
+            sendDrawBtn.onclick = (event) => {
+                // Construct a HTTP POST query
+                var query = new FormData();
+                query.set('game_id', gameid);
+                query.set('user_id', userid);
+
+                // Send the POST request to the server
+                axios.post('https://negativei2-server.herokuapp.com/drawoffer', query)
+                    .then(function(response) {
+                        // Listen for an answer to the offer
+                        self.socket.on('drawAnswer', self.drawOfferAnswer);
+                        confBox.style.display = "none";
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+
+            // Close window when "Cancel" is clicked
+            const cancelDrawBtn = document.getElementById("cancel-draw");
+            cancelDrawBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    drawOfferAnswer = (draw_offers) => {
+        if ((draw_offers.w.made && draw_offers.w.accepted) || (draw_offers.b.made && draw_offers.b.accepted)) {
+            // Go to end game screen
+            //this.props.history.push('/endgame');
+        } else {
+            // Show rejection window
+            const confBox = document.getElementById("draw-rejection-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "block";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Close window when "Close" is clicked
+            const closeRejectionBtn = document.getElementById("close-rejection");
+            closeRejectionBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    // Listens for a draw offer from the opponent
+    drawOfferListen = () => {
+        var self = this;
+        self.socket.on('drawOffer', self.drawOfferReceived);
+    }
+
+    // Deals with the received draw offer
+    drawOfferReceived = () => {
+        const userid = this.props.userid;
+        const gameid = this.props.gameid;
+
+        const confBox = document.getElementById("draw-received-confirmation");
+
+        // Open the confirmation window
+        confBox.style.display = "block";
+
+        // Construct a HTTP POST query
+        var query = new FormData();
+        query.set('game_id', gameid);
+        query.set('user_id', userid);
+
+        // If the user clicks anywhere outside the box then close it and decline offer
+        window.onclick = (event) => {
+            if (event.target === confBox) {
+                // Decline offer
+                query.set('response', 'false');
+
+                // Send the POST request to the server
+                axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                    .then(function(response) {
+                        // Close offer window
+                        confBox.style.display = "none";
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+        }
+
+        // Accept the draw offer
+        const acceptDrawBtn = document.getElementById("accept-draw");
+        acceptDrawBtn.onclick = (event) => {
+            query.set('response', 'true');
+
+            // Send the POST request to the server
+            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                .then(function(response) {
+                    // Close offer window
+                    confBox.style.display = "none";
+
+                    // Go to end game page
+                    //this.props.history.push('/endgame');
+                })
+                .catch(function(error) {
+                    var tmp = $('<div></div>');
+                    tmp.html(error.response.data);
+
+                    var message = $('p', tmp).text();
+                    console.log(message);
+                });
+        }
+
+        // Close window when "Decline" is clicked
+        const declineDrawBtn = document.getElementById("decline-offer");
+        declineDrawBtn.onclick = (event) => {
+            // Decline offer
+            query.set('response', 'false');
+
+            // Send the POST request to the server
+            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                .then(function(response) {
+                    // Close offer window
+                    confBox.style.display = "none";
+                })
+                .catch(function(error) {
+                    var tmp = $('<div></div>');
+                    tmp.html(error.response.data);
+
+                    var message = $('p', tmp).text();
+                    console.log(message);
+                });
+        }
+    }
+
+    // Forfeits the game
+    forfeitButtonClicked = () => {
+        const forfeitButton = document.getElementById("forfeit-button");
+        const gameid = this.props.gameid;
+        const userid = this.props.userid;
+
+        forfeitButton.onclick = (event) => {
+            const confBox = document.getElementById("forfeit-offer-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "flex";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Send forfeit request
+            const sendForfeitBtn = document.getElementById("send-forfeit");
+            sendForfeitBtn.onclick = (event) => {
+                // Construct a HTTP POST query
+                var query = new FormData();
+                query.set('game_id', gameid);
+                query.set('user_id', userid);
+
+                // Send the POST request to the server
+                axios.post('https://negativei2-server.herokuapp.com/resign', query)
+                    .then(function(response) {
+                        confBox.style.display = "none";
+
+                        // Go to end game screen
+                        //this.props.history.push('/endgame');
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+
+            // Close window when "Cancel" is clicked
+            const cancelForfeitBtn = document.getElementById("cancel-forfeit");
+            cancelForfeitBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    // Listens for the opponent to forfeit
+    forfeitListen = () => {
+        var self = this;
+        self.socket.on('forfeit', self.forfeitReceived);
+    }
+
+    // Deals with the opponent forfeiting the game
+    forfeitReceived = () => {
+        // Show opponent forfeit window
+        const confBox = document.getElementById("opponent-forfeit-confirmation");
+
+        // Open the confirmation window
+        confBox.style.display = "block";
+
+        // If the user clicks anywhere outside the box then close it
+        window.onclick = (event) => {
+            if (event.target === confBox) {
+                confBox.style.display = "none";
+
+                // Go to end game screen
+                //this.props.history.push('/endgame');
+            }
+        }
+
+        // Close window when "Close" is clicked
+        const closeForfeitBtn = document.getElementById("close-forfeit");
+        closeForfeitBtn.onclick = (event) => {
+            confBox.style.display = "none";
+
+            // Go to end game screen
+            //this.props.history.push('/endgame');
+        }
     }
 
     // keep clicked square style and remove hint squares
