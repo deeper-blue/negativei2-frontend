@@ -2,8 +2,15 @@ import React from 'react';
 import './Spinner.scss'
 
 class Spinner extends React.Component {
-    render(){
+    render() {
         return (
+            this.props.fullPage
+            ?
+            <div id='spinner' class='full-page'>
+                <img src='/assets/spinner.gif' alt='' />
+                <h1>Loading...</h1>
+            </div>
+            :
             <div id='spinner'>
                 <img src='/assets/spinner.gif' alt='' />
                 <h1>Loading...</h1>
