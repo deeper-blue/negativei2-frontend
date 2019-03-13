@@ -14,13 +14,14 @@
     }
 
     img {
+        height: 150px;
         $dimension: 150px;
-        height: $dimension;
-        width: $dimension;
     }
 
     h1 {
+        margin-top: 0;
         font-family: 'Lato', sans-serif;
+        color: rgb(84, 70, 122);
         margin-bottom: 0;
     }
 }
