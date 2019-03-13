@@ -223,21 +223,21 @@ class HumanVsHuman extends Component {
         const self = this;
 
         drawButton.onclick = (event) => {
-            const conf_box = document.getElementById("draw-offer-confirmation");
+            const confBox = document.getElementById("draw-offer-confirmation");
 
             // Open the confirmation window
-            conf_box.style.display = "block";
+            confBox.style.display = "flex";
 
             // If the user clicks anywhere outside the box then close it
             window.onclick = (event) => {
-                if (event.target === conf_box) {
-                    conf_box.style.display = "none";
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
                 }
             }
 
             // Send draw request to the server if "Send" is clicked
-            const send_draw_btn = document.getElementById("send-draw");
-            send_draw_btn.onclick = (event) => {
+            const sendDrawBtn = document.getElementById("send-draw");
+            sendDrawBtn.onclick = (event) => {
                 // Construct a HTTP POST query
                 var query = new FormData();
                 query.set('game_id', gameid);
@@ -248,7 +248,7 @@ class HumanVsHuman extends Component {
                     .then(function(response) {
                         // Listen for an answer to the offer
                         self.socket.on('drawAnswer', self.drawOfferAnswer);
-                        conf_box.style.display = "none";
+                        confBox.style.display = "none";
                     })
                     .catch(function(error) {
                         var tmp = $('<div></div>');
@@ -260,9 +260,9 @@ class HumanVsHuman extends Component {
             }
 
             // Close window when "Cancel" is clicked
-            const cancel_draw_btn = document.getElementById("cancel-draw");
-            cancel_draw_btn.onclick = (event) => {
-                conf_box.style.display = "none";
+            const cancelDrawBtn = document.getElementById("cancel-draw");
+            cancelDrawBtn.onclick = (event) => {
+                confBox.style.display = "none";
             }
         }
     }
@@ -273,22 +273,22 @@ class HumanVsHuman extends Component {
             //this.props.history.push('/endgame');
         } else {
             // Show rejection window
-            const conf_box = document.getElementById("draw-rejection-confirmation");
+            const confBox = document.getElementById("draw-rejection-confirmation");
 
             // Open the confirmation window
-            conf_box.style.display = "block";
+            confBox.style.display = "block";
 
             // If the user clicks anywhere outside the box then close it
             window.onclick = (event) => {
-                if (event.target === conf_box) {
-                    conf_box.style.display = "none";
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
                 }
             }
 
             // Close window when "Close" is clicked
-            const close_rejection_btn = document.getElementById("close-rejection");
-            close_rejection_btn.onclick = (event) => {
-                conf_box.style.display = "none";
+            const closeRejectionBtn = document.getElementById("close-rejection");
+            closeRejectionBtn.onclick = (event) => {
+                confBox.style.display = "none";
             }
         }
     }
@@ -304,10 +304,10 @@ class HumanVsHuman extends Component {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
 
-        const conf_box = document.getElementById("draw-received-confirmation");
+        const confBox = document.getElementById("draw-received-confirmation");
 
         // Open the confirmation window
-        conf_box.style.display = "block";
+        confBox.style.display = "block";
 
         // Construct a HTTP POST query
         var query = new FormData();
@@ -316,7 +316,7 @@ class HumanVsHuman extends Component {
 
         // If the user clicks anywhere outside the box then close it and decline offer
         window.onclick = (event) => {
-            if (event.target === conf_box) {
+            if (event.target === confBox) {
                 // Decline offer
                 query.set('response', 'false');
 
@@ -324,7 +324,7 @@ class HumanVsHuman extends Component {
                 axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
                     .then(function(response) {
                         // Close offer window
-                        conf_box.style.display = "none";
+                        confBox.style.display = "none";
                     })
                     .catch(function(error) {
                         var tmp = $('<div></div>');
@@ -337,15 +337,15 @@ class HumanVsHuman extends Component {
         }
 
         // Accept the draw offer
-        const accept_draw_btn = document.getElementById("accept-draw");
-        accept_draw_btn.onclick = (event) => {
+        const acceptDrawBtn = document.getElementById("accept-draw");
+        acceptDrawBtn.onclick = (event) => {
             query.set('response', 'true');
 
             // Send the POST request to the server
             axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
                 .then(function(response) {
                     // Close offer window
-                    conf_box.style.display = "none";
+                    confBox.style.display = "none";
 
                     // Go to end game page
                     //this.props.history.push('/endgame');
@@ -360,8 +360,8 @@ class HumanVsHuman extends Component {
         }
 
         // Close window when "Decline" is clicked
-        const decline_draw_btn = document.getElementById("decline-offer");
-        decline_draw_btn.onclick = (event) => {
+        const declineDrawBtn = document.getElementById("decline-offer");
+        declineDrawBtn.onclick = (event) => {
             // Decline offer
             query.set('response', 'false');
 
@@ -369,7 +369,7 @@ class HumanVsHuman extends Component {
             axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
                 .then(function(response) {
                     // Close offer window
-                    conf_box.style.display = "none";
+                    confBox.style.display = "none";
                 })
                 .catch(function(error) {
                     var tmp = $('<div></div>');
@@ -388,21 +388,21 @@ class HumanVsHuman extends Component {
         const userid = this.props.userid;
 
         forfeitButton.onclick = (event) => {
-            const conf_box = document.getElementById("forfeit-offer-confirmation");
+            const confBox = document.getElementById("forfeit-offer-confirmation");
 
             // Open the confirmation window
-            conf_box.style.display = "block";
+            confBox.style.display = "flex";
 
             // If the user clicks anywhere outside the box then close it
             window.onclick = (event) => {
-                if (event.target === conf_box) {
-                    conf_box.style.display = "none";
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
                 }
             }
 
             // Send forfeit request
-            const send_forfeit_btn = document.getElementById("send-forfeit");
-            send_forfeit_btn.onclick = (event) => {
+            const sendForfeitBtn = document.getElementById("send-forfeit");
+            sendForfeitBtn.onclick = (event) => {
                 // Construct a HTTP POST query
                 var query = new FormData();
                 query.set('game_id', gameid);
@@ -411,7 +411,7 @@ class HumanVsHuman extends Component {
                 // Send the POST request to the server
                 axios.post('https://negativei2-server.herokuapp.com/resign', query)
                     .then(function(response) {
-                        conf_box.style.display = "none";
+                        confBox.style.display = "none";
 
                         // Go to end game screen
                         //this.props.history.push('/endgame');
@@ -426,9 +426,9 @@ class HumanVsHuman extends Component {
             }
 
             // Close window when "Cancel" is clicked
-            const cancel_forfeit_btn = document.getElementById("cancel-forfeit");
-            cancel_forfeit_btn.onclick = (event) => {
-                conf_box.style.display = "none";
+            const cancelForfeitBtn = document.getElementById("cancel-forfeit");
+            cancelForfeitBtn.onclick = (event) => {
+                confBox.style.display = "none";
             }
         }
     }
@@ -442,15 +442,15 @@ class HumanVsHuman extends Component {
     // Deals with the opponent forfeiting the game
     forfeitReceived = () => {
         // Show opponent forfeit window
-        const conf_box = document.getElementById("opponent-forfeit-confirmation");
+        const confBox = document.getElementById("opponent-forfeit-confirmation");
 
         // Open the confirmation window
-        conf_box.style.display = "block";
+        confBox.style.display = "block";
 
         // If the user clicks anywhere outside the box then close it
         window.onclick = (event) => {
-            if (event.target === conf_box) {
-                conf_box.style.display = "none";
+            if (event.target === confBox) {
+                confBox.style.display = "none";
 
                 // Go to end game screen
                 //this.props.history.push('/endgame');
@@ -458,9 +458,9 @@ class HumanVsHuman extends Component {
         }
 
         // Close window when "Close" is clicked
-        const close_forfeit_btn = document.getElementById("close-forfeit");
-        close_forfeit_btn.onclick = (event) => {
-            conf_box.style.display = "none";
+        const closeForfeitBtn = document.getElementById("close-forfeit");
+        closeForfeitBtn.onclick = (event) => {
+            confBox.style.display = "none";
 
             // Go to end game screen
             //this.props.history.push('/endgame');
