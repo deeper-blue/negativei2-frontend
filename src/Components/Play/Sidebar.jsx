@@ -67,8 +67,9 @@ class Sidebar extends Component {
         // Substitution map for homophones or similar incorrect words
         var substitutionMap = {
             eh: 'a',
-            bee: 'b', be: 'b',
+            bee: 'b', be: 'b', me: 'b',
             see: 'c', sea: 'c',
+            of: 'f',
             one: '1', won: '1',
             two: '2', to: '2', too: '2',
             three: '3', tree: '3', free: '3',
@@ -76,7 +77,9 @@ class Sidebar extends Component {
             five: '5', hive: '5',
             six: '6', sex: '6', sax: '6',
             seven: '7',
-            eight: '8', ate: '8', hate: '8'
+            eight: '8', ate: '8', hate: '8',
+            moo: 'move',
+            queer: 'clear'
         }
 
         // Replace any words present in the substitution map
