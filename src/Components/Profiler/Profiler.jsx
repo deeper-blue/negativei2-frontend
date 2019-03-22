@@ -8,7 +8,8 @@ class Profiler extends React.Component {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            anon: null
         }
     }
 
@@ -19,9 +20,14 @@ class Profiler extends React.Component {
     initAuthListener(){
         auth.onAuthStateChanged(function(user) {
             if (user) {
-                this.setState({user: user.uid});
+                this.setState({
+                    user: user.uid,
+                    anon: user.isAnonymous
+                });
             } else {
-                this.setState({user: 'none'});
+                this.setState({
+                    user: 'none'
+                });
             }
         }.bind(this))
     }
@@ -29,9 +35,13 @@ class Profiler extends React.Component {
     render(){
         return(
             <div>
-                {this.state.user ? 
-                <Redirect to={this.state.user === 'none' ? '/login' : '/profile/' + this.state.user}/> : 
-                <div>redirecting...</div>}
+                {
+                    this.state.user 
+                ? 
+                    <Redirect to={this.state.user === 'none' ? '/login' : '/profile/' + this.state.user}/>
+                : 
+                    <div>redirecting...</div>
+                }
             </div>
         )
     }
