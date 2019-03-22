@@ -138,7 +138,7 @@ class Join extends React.Component {
                         <thead>
                             <tr>
                                 <th>Game ID</th>
-                                <th>Creator ID</th>
+                                <th>Creator</th>
                                 <th>Open slots</th>
                                 <th>White</th>
                                 <th>Black</th>
