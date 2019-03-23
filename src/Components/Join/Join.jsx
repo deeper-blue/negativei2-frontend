@@ -141,7 +141,7 @@ class Join extends React.Component {
                                     row.free_slots = 0 ? null :
                                     <tr>
                                         <td>{row.id}</td>
-                                        <td>{this.state.user_dictionary[row.creator]}</td>
+                                        <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.state.user_dictionary[row.creator]}</button></td>
                                         <td>{row.free_slots}</td>
                                         <td>{row.players.w ? this.state.user_dictionary[row.players.w] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
                                         <td>{row.players.b ? this.state.user_dictionary[row.players.b] : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
