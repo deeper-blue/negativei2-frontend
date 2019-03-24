@@ -107,11 +107,13 @@ class HumanVsHuman extends Component {
         var self = this;
         axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
             .then(function(response) {
-                var fen = response.data.fen;
-                self.game.load(fen);
-                self.setState({fen: fen});
-                self.updateTurnIndicator(response.data.turn);
-                self.loadMoveTracker(response.data.history);
+                var game = response.data;
+                self.game.load(game.fen);
+                self.setState({fen: game.fen});
+                self.updateTurnIndicator(game.turn);
+                self.loadMoveTracker(game.history);
+                self.showCheckNotification(game);
+                self.showGameOverNotification(game);
                 // register for updates
                 self.socket.emit('register', response.data.id);
                 self.socket.on('move', self.updateGameState);
@@ -129,7 +131,62 @@ class HumanVsHuman extends Component {
         this.updateTurnIndicator(gameState.turn);
         let move = gameState.history[gameState.history.length-1];
         this.updateMoveTracker(move.move_count, move.side, move.san);
+        this.showCheckNotification(gameState);
+        this.showGameOverNotification(gameState);
         this.setState({fen: fen});
+    }
+
+    objectFlip = obj => {
+        const ret = {};
+        Object.keys(obj).forEach((key) => {
+          ret[obj[key]] = key;
+        });
+        return ret;
+    }
+
+    showCheckNotification = game => {
+        let notification = $('#check');
+        if (game.pgn.endsWith('+')) {
+            if (this.props.userid === game.players[game.turn]) {
+                notification.css({'display': 'block'});
+            }
+        } else {
+            notification.css({'display': 'none'});
+        }
+    }
+
+    showGameOverNotification = game => {
+        let element = $('#game-over');
+        let notification = $('#game-over span')
+        let message = $('#notification-message');
+        let color = this.objectFlip(game.players)[this.props.userid];
+
+        element.removeClass('win lose draw');
+        message.text('');
+
+        if (game.game_over.game_over) {
+            message.text(game.game_over.reason);
+            if (game.result === '1-0') {
+                if (color === 'w') {
+                    element.addClass('win');
+                    notification.text('You won!');
+                } else {
+                    element.addClass('lose');
+                    notification.text('You lost!')
+                }
+            } else if (game.result === '0-1') {
+                if (color === 'w') {
+                    element.addClass('lose');
+                    notification.text('You lost!')
+                } else {
+                    element.addClass('win');
+                    notification.text('You won!');
+                }
+            } else {
+                element.addClass('draw');
+                notification.text("It's a draw!");
+            }
+        }
     }
 
     /** Updates the move turn color indicator.

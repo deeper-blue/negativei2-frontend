@@ -262,23 +262,36 @@ $dark-blue: rgb(65, 139, 182);
 #notifications {
     padding: 5px;
     #check {
-        display: none;
         background-color: rgb(133, 43, 43);
-        color: white;
-        border-radius: 2px;
-        padding: 5px;
     }
     #game-over {
-        display: none;
-        padding: 5px;
-        border-radius: 2px;
-        background-color: rgb(133, 43, 43);
-        color: white;
-        #game-over-reason {
-            color: rgb(218, 168, 168);
+        &.win {
+            display: block;
+            background-color: rgb(32, 70, 32);
+            #notification-message {
+                color: rgb(128, 170, 130);
+            }
+        }
+        &.lose {
+            display: block;
+            background-color: rgb(133, 43, 43);
+            #notification-message {
+                color: rgb(218, 168, 168);
+            }
+        }
+        &.draw {
+            display: block;
+            background-color: rgb(28, 69, 85);
+            #notification-message {
+                color: rgb(101, 152, 172);
+            }
         }
     }
     .notification {
+        display: none;
         text-align: center;
+        color: white;
+        border-radius: 2px;
+        padding: 5px;
     }
 }
