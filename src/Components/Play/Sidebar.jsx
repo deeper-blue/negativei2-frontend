@@ -257,6 +257,13 @@ class Sidebar extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <div id="notifications">
+                                <div id="check" class="notification">You're in check!</div>
+                                <div id="game-over" class="notification">
+                                    Game Over!
+                                    <div id="game-over-reason"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="moves-tab" className="tab">

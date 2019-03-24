@@ -258,3 +258,27 @@ $dark-blue: rgb(65, 139, 182);
     border: 1px solid #888;
     width: auto;
 }
+
+#notifications {
+    padding: 5px;
+    #check {
+        display: none;
+        background-color: rgb(133, 43, 43);
+        color: white;
+        border-radius: 2px;
+        padding: 5px;
+    }
+    #game-over {
+        display: none;
+        padding: 5px;
+        border-radius: 2px;
+        background-color: rgb(133, 43, 43);
+        color: white;
+        #game-over-reason {
+            color: rgb(218, 168, 168);
+        }
+    }
+    .notification {
+        text-align: center;
+    }
+}
