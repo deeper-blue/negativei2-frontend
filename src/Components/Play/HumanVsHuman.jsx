@@ -114,6 +114,7 @@ class HumanVsHuman extends Component {
                 self.loadMoveTracker(game.history);
                 self.showCheckNotification(game);
                 self.showGameOverNotification(game);
+                self.showSide(game);
                 // register for updates
                 self.socket.emit('register', response.data.id);
                 self.socket.on('move', self.updateGameState);
@@ -133,6 +134,7 @@ class HumanVsHuman extends Component {
         this.updateMoveTracker(move.move_count, move.side, move.san);
         this.showCheckNotification(gameState);
         this.showGameOverNotification(gameState);
+        this.showSide(gameState);
         this.setState({fen: fen});
     }
 
@@ -159,33 +161,70 @@ class HumanVsHuman extends Component {
         let element = $('#game-over');
         let notification = $('#game-over span')
         let message = $('#notification-message');
-        let color = this.objectFlip(game.players)[this.props.userid];
 
-        element.removeClass('win lose draw');
+        element.removeClass('win lose draw spectator');
         message.text('');
 
         if (game.game_over.game_over) {
             message.text(game.game_over.reason);
-            if (game.result === '1-0') {
-                if (color === 'w') {
-                    element.addClass('win');
-                    notification.text('You won!');
+            if (Object.values(game.players).includes(this.props.userid)) {
+                let color = this.objectFlip(game.players)[this.props.userid];
+                if (game.result === '1-0') {
+                    if (color === 'w') {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    } else {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    }
+                } else if (game.result === '0-1') {
+                    if (color === 'w') {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    } else {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    }
                 } else {
-                    element.addClass('lose');
-                    notification.text('You lost!')
+                    element.addClass('draw');
+                    notification.text("It's a draw!");
                 }
-            } else if (game.result === '0-1') {
-                if (color === 'w') {
-                    element.addClass('lose');
-                    notification.text('You lost!')
+            } else { // Spectating
+                element.addClass('spectator');
+                if (game.result === '1-0') {
+                    notification.text('White won!');
+                } else if (game.result === '0-1') {
+                    notification.text('Black won!');
                 } else {
-                    element.addClass('win');
-                    notification.text('You won!');
+                    notification.text("It's a draw!");
                 }
-            } else {
-                element.addClass('draw');
-                notification.text("It's a draw!");
             }
+        }
+    }
+
+    showSide = game => {
+        let element = $('#side-wrapper');
+        let message = $('#side-wrapper span')
+        let side = $('#side-message');
+
+        element.removeClass('white black spectator');
+        message.text('');
+        side.text('');
+
+        if (Object.values(game.players).includes(this.props.userid)) {
+            let color = this.objectFlip(game.players)[this.props.userid];
+            message.text('You are playing as:');
+            if (color === 'w') {
+                element.addClass('white');
+                side.text('White');
+            } else if (color === 'b') {
+                element.addClass('black');
+                side.text('Black');
+            }
+        } else { // Not a player in this game
+            element.addClass('spectator');
+            message.text('You are:');
+            side.text('Spectating');
         }
     }
 

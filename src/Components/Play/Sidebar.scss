@@ -286,6 +286,13 @@ $dark-blue: rgb(65, 139, 182);
                 color: rgb(101, 152, 172);
             }
         }
+        &.spectator {
+            display: block;
+            background-color: rgb(28, 69, 85);
+            #notification-message {
+                color: rgb(101, 152, 172);
+            }
+        }
     }
     .notification {
         display: none;

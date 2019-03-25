@@ -22,16 +22,16 @@
     justify-content: center;
     align-items: center;
     margin-top: 15px;
+    margin-bottom: 15px;
     &.white, &.black, &.spectator {
         #side-message {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            margin-left: 10px;
             padding: 4px 7px;
             border-radius: 2px;
             box-sizing: border-box;
-            @include transition(all 0.25s);
         }
     }
     &.white {
