@@ -145,18 +145,10 @@ class Create extends React.Component {
                     this.state.user ?
                         <form className='form' onSubmit={this.handleSubmit} >
                             <div id="config_form">
-                                <br />
-                                Board ID:
-                                <br />
-                                <input
-                                    value={this.state.board_id}
-                                    onChange={evt => this.setState({ board_id: evt.target.value })}
-                                    type="text"
-                                    placeholder="kevin"
-                                />
-                                <br />
-                                <br />
                                 <div className='radio-buttons'>
+                                    <div>
+                                        Player 1
+                                    </div>
                                     <div>
                                         <label>
                                             <input
@@ -188,19 +180,6 @@ class Create extends React.Component {
                                             <input
                                                 type='radio'
                                                 name='P1'
-                                                value='friend'
-                                                checked={this.state.P1 === "friend"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            A friend
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P1'
                                                 value='OPEN'
                                                 checked={this.state.P1 === "OPEN"}
                                                 onChange={this.handleOptionChange}
@@ -210,18 +189,10 @@ class Create extends React.Component {
                                         </label>
                                     </div>
                                 </div>
-                                <br />
-                                Friend username:
-                                <br />
-                                <input
-                                    value={this.state.friend_1}
-                                    onChange={evt => this.setState({ friend_1: evt.target.value })}
-                                    type="text"
-                                    placeholder="kevin123"
-                                />
-                                <br />
-                                <br />
                                 <div className='radio-buttons'>
+                                <div>
+                                    Player 2
+                                </div>
                                     <div>
                                         <label>
                                             <input
@@ -253,19 +224,6 @@ class Create extends React.Component {
                                             <input
                                                 type='radio'
                                                 name='P2'
-                                                value='friend'
-                                                checked={this.state.P2 === "friend"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            A friend
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P2'
                                                 value='OPEN'
                                                 checked={this.state.P2 === "OPEN"}
                                                 onChange={this.handleOptionChange}
@@ -275,17 +233,6 @@ class Create extends React.Component {
                                         </label>
                                     </div>
                                 </div>
-                                <br />
-                                Friend username:
-                                <br />
-                                <input
-                                    value={this.state.friend_2}
-                                    onChange={evt => this.setState({ friend_2: evt.target.value })}
-                                    type="text"
-                                    placeholder="kevin321"
-                                />
-                                <br />
-                                <br />
                                 Hours:
                                 <br />
                                 <input
