@@ -15,7 +15,16 @@
     left: auto;
 }
 
-input {
-    text-align: center;
-    width: 9%;
+.radio-buttons {
+    text-align: left;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-input {
+    margin-right: 30px;
 }

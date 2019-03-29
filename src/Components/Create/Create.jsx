@@ -56,8 +56,8 @@ class Create extends React.Component {
         this.state = {
             hours: 0,
             minutes: 0,
-            P1: "me",
-            P2: "me",
+            P1: "ME",
+            P2: "ME",
             user: null,
             board_id: "kevin",
             friend_1: "",
@@ -66,6 +66,7 @@ class Create extends React.Component {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOptionChange = this.handleOptionChange.bind(this);
     }
 
     componentDidMount() {
@@ -94,6 +95,18 @@ class Create extends React.Component {
             return;
         } else {
             this.createGame();
+        }
+    }
+
+    handleOptionChange(event) {
+        if(event.target.name === "P1"){
+            this.setState({
+                P1: event.target.value
+            })
+        } else if(event.target.name === "P2") {
+            this.setState({
+                P2: event.target.value
+            })
         }
     }
 
@@ -127,10 +140,10 @@ class Create extends React.Component {
     render() {
         const { errors } = this.state;
         return (
-            <div>
+            <div className='container'>
                 {
                     this.state.user ?
-                        <form onSubmit={this.handleSubmit} >
+                        <form className='form' onSubmit={this.handleSubmit} >
                             <div id="config_form">
                                 <br />
                                 Board ID:
@@ -143,18 +156,60 @@ class Create extends React.Component {
                                 />
                                 <br />
                                 <br />
-                                <label>
-                                    Player 1 (White):
-                                    <br />
-                                    <select
-                                        value={this.state.P1}
-                                        onChange={evt => this.setState({ P1: evt.target.value })}>>
-                                        <option value="me">Me, myself and I</option>
-                                        <option value="AI">Deeper Blue</option>
-                                        <option value="friend">A friend</option>
-                                        <option value="OPEN">Random player</option>
-                                    </select>
-                                </label>
+                                <div className='radio-buttons'>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P1'
+                                                value='ME'
+                                                checked={this.state.P1 === "ME"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Me, myself and I
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P1'
+                                                value='AI'
+                                                checked={this.state.P1 === "AI"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Deeper Blue
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P1'
+                                                value='friend'
+                                                checked={this.state.P1 === "friend"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            A friend
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P1'
+                                                value='OPEN'
+                                                checked={this.state.P1 === "OPEN"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Open slot
+                                        </label>
+                                    </div>
+                                </div>
                                 <br />
                                 Friend username:
                                 <br />
@@ -166,18 +221,60 @@ class Create extends React.Component {
                                 />
                                 <br />
                                 <br />
-                                <label>
-                                    Player 2 (Black):
-                                    <br />
-                                    <select
-                                        value={this.state.P2}
-                                        onChange={evt => this.setState({ P2: evt.target.value })}>
-                                        <option value="me">Me, myself and I</option>
-                                        <option value="AI">Deeper Blue</option>
-                                        <option value="friend">A friend</option>
-                                        <option value="OPEN">Random player</option>
-                                    </select>
-                                </label>
+                                <div className='radio-buttons'>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P2'
+                                                value='ME'
+                                                checked={this.state.P2 === "ME"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Me, myself and I
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P2'
+                                                value='AI'
+                                                checked={this.state.P2 === "AI"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Deeper Blue
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P2'
+                                                value='friend'
+                                                checked={this.state.P2 === "friend"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            A friend
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input
+                                                type='radio'
+                                                name='P2'
+                                                value='OPEN'
+                                                checked={this.state.P2 === "OPEN"}
+                                                onChange={this.handleOptionChange}
+                                                className='radio-input'
+                                            />
+                                            Open slot
+                                        </label>
+                                    </div>
+                                </div>
                                 <br />
                                 Friend username:
                                 <br />
