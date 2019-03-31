@@ -58,6 +58,8 @@ class Create extends React.Component {
             minutes: 0,
             P1: "ME",
             P2: "ME",
+            P1time: '0',
+            P2time: '0',
             user: null,
             board_id: "kevin",
             friend_1: "",
@@ -67,6 +69,7 @@ class Create extends React.Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.handleTimeOptionChange = this.handleTimeOptionChange.bind(this);
     }
 
     componentDidMount() {
@@ -110,6 +113,18 @@ class Create extends React.Component {
         }
     }
 
+    handleTimeOptionChange(event) {
+        if(event.target.name === "P1time"){
+            this.setState({
+                P1time: event.target.value
+            })
+        } else if(event.target.name === "P2time"){
+            this.setState({
+                P2time: event.target.value
+            })
+        }
+    }
+
     createGame() {
         var formData = new FormData();
         var time = (this.state.hours * 3600) + (this.state.minutes * 60);
@@ -145,96 +160,187 @@ class Create extends React.Component {
                     this.state.user ?
                         <form className='form' onSubmit={this.handleSubmit} >
                             <div id="config_form">
-                                <div className='radio-buttons'>
+                                <div className='player'>
                                     <div>
                                         Player 1
                                     </div>
                                     <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P1'
-                                                value='ME'
-                                                checked={this.state.P1 === "ME"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Me, myself and I
-                                        </label>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1'
+                                                    value='ME'
+                                                    checked={this.state.P1 === "ME"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Me, myself and I
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1'
+                                                    value='AI'
+                                                    checked={this.state.P1 === "AI"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Deeper Blue
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1'
+                                                    value='OPEN'
+                                                    checked={this.state.P1 === "OPEN"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Open slot
+                                            </label>
+                                        </div>
                                     </div>
                                     <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P1'
-                                                value='AI'
-                                                checked={this.state.P1 === "AI"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Deeper Blue
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P1'
-                                                value='OPEN'
-                                                checked={this.state.P1 === "OPEN"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Open slot
-                                        </label>
+                                        <div>
+                                            Time Control
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1time'
+                                                    value='0'
+                                                    checked={this.state.P1time === "0"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                No time limit
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1time'
+                                                    value='30'
+                                                    checked={this.state.P1time === "30"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                30 minutes
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P1time'
+                                                    value='60'
+                                                    checked={this.state.P1time === "60"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                60 minutes
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='radio-buttons'>
-                                <div>
-                                    Player 2
-                                </div>
+                                <div className='player'>
                                     <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P2'
-                                                value='ME'
-                                                checked={this.state.P2 === "ME"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Me, myself and I
-                                        </label>
+                                        Player 2
                                     </div>
                                     <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P2'
-                                                value='AI'
-                                                checked={this.state.P2 === "AI"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Deeper Blue
-                                        </label>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2'
+                                                    value='ME'
+                                                    checked={this.state.P2 === "ME"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Me, myself and I
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2'
+                                                    value='AI'
+                                                    checked={this.state.P2 === "AI"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Deeper Blue
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2'
+                                                    value='OPEN'
+                                                    checked={this.state.P2 === "OPEN"}
+                                                    onChange={this.handleOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Open slot
+                                            </label>
+                                        </div>
                                     </div>
                                     <div>
-                                        <label>
-                                            <input
-                                                type='radio'
-                                                name='P2'
-                                                value='OPEN'
-                                                checked={this.state.P2 === "OPEN"}
-                                                onChange={this.handleOptionChange}
-                                                className='radio-input'
-                                            />
-                                            Open slot
-                                        </label>
+                                        <div>
+                                            Time Control
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2time'
+                                                    value='0'
+                                                    checked={this.state.P2time === "0"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                No time limit
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2time'
+                                                    value='30'
+                                                    checked={this.state.P2time === "30"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                30 minutes
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2time'
+                                                    value='60'
+                                                    checked={this.state.P2time === "60"}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                60 minutes
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 Hours:
-                                <br />
                                 <input
                                     value={this.state.hours}
                                     onChange={evt => this.setState({ hours: evt.target.value })}
@@ -243,10 +349,7 @@ class Create extends React.Component {
                                     min="0"
                                     max="2"
                                 />
-                                <br />
-                                <br />
                                 Minutes:
-                                <br />
                                 <input
                                     value={this.state.minutes}
                                     onChange={evt => this.setState({ minutes: evt.target.value })}
@@ -255,8 +358,6 @@ class Create extends React.Component {
                                     min="0"
                                     max="59"
                                 />
-                                <br />
-                                <br />
 
                                 <button type="submit" className = "button large large-font home-link">
                                     Let's play!
