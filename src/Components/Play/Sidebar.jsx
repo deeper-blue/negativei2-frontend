@@ -241,9 +241,17 @@ class Sidebar extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <div id="spectator-draw-received" className="confirmation-box">
+                                <div id="draw-received" className="confirmation-content">
+                                    <p>A draw offer has been sent.</p>
+                                    <div class="button-container">
+                                        <button id="spectator-draw-close" className="button small small-font">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="draw-rejection-confirmation" className="confirmation-box">
                                 <div id="rejection-confirmation" className="confirmation-content">
-                                    <p>Your opponent rejects your draw offer.</p>
+                                    <p>The draw offer was rejected.</p>
                                     <div class="button-container">
                                         <button id="close-rejection" className="button small small-font">Close</button>
                                     </div>
@@ -254,6 +262,14 @@ class Sidebar extends Component {
                                     <p>Your opponent forfeits the game.</p>
                                     <div class="button-container">
                                         <button id="close-forfeit" className="button small small-font">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="spectator-forfeit-confirmation" className="confirmation-box">
+                                <div id="opponent-forfeit" className="confirmation-content">
+                                    <p>The game has been forfeited.</p>
+                                    <div class="button-container">
+                                        <button id="spectator-close-forfeit" className="button small small-font">Close</button>
                                     </div>
                                 </div>
                             </div>
