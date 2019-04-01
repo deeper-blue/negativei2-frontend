@@ -6,7 +6,7 @@ import HumanVsHuman from './HumanVsHuman';
 import Spinner from '../Spinner';
 import { auth } from '../Firebase';
 import $ from 'jquery';
-import axios from 'axios';
+import server from '../Server';
 
 class Play extends Component {
 
@@ -61,7 +61,7 @@ class Play extends Component {
         var user = self.state.user;
         var gameID = self.props.location.pathname.split('/')[2]
 
-        axios.get(`https://negativei2-server.herokuapp.com/getgame/${gameID}`)
+        server.get(`/getgame/${gameID}`)
             .then(function(response) {
                 var players = response.data.players
                 if (Object.values(players).includes(user)) {
