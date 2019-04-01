@@ -11,7 +11,7 @@ class Spinner extends React.Component {
         return (
             this.props.fullPage
             ?
-            <div id='spinner' class='full-page'>
+            <div id='spinner' className='full-page'>
                 <img src='/assets/spinner.jpg' alt='' />
                 <h1>{this.text}</h1>
             </div>
