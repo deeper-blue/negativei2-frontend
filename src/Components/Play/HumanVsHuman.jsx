@@ -107,11 +107,14 @@ class HumanVsHuman extends Component {
         var self = this;
         axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
             .then(function(response) {
-                var fen = response.data.fen;
-                self.game.load(fen);
-                self.setState({fen: fen});
-                self.updateTurnIndicator(response.data.turn);
-                self.loadMoveTracker(response.data.history);
+                var game = response.data;
+                self.game.load(game.fen);
+                self.setState({fen: game.fen});
+                self.updateTurnIndicator(game.turn);
+                self.loadMoveTracker(game.history);
+                self.showCheckNotification(game);
+                self.showGameOverNotification(game);
+                self.showSide(game);
                 // register for updates
                 self.socket.emit('register', response.data.id);
                 self.socket.on('move', self.updateGameState);
@@ -129,7 +132,100 @@ class HumanVsHuman extends Component {
         this.updateTurnIndicator(gameState.turn);
         let move = gameState.history[gameState.history.length-1];
         this.updateMoveTracker(move.move_count, move.side, move.san);
+        this.showCheckNotification(gameState);
+        this.showGameOverNotification(gameState);
+        this.showSide(gameState);
         this.setState({fen: fen});
+    }
+
+    objectFlip = obj => {
+        const ret = {};
+        Object.keys(obj).forEach((key) => {
+          ret[obj[key]] = key;
+        });
+        return ret;
+    }
+
+    showCheckNotification = game => {
+        let notification = $('#check');
+        if (game.pgn.endsWith('+')) {
+            if (this.props.userid === game.players[game.turn]) {
+                notification.css({'display': 'block'});
+            }
+        } else {
+            notification.css({'display': 'none'});
+        }
+    }
+
+    showGameOverNotification = game => {
+        let element = $('#game-over');
+        let notification = $('#game-over span')
+        let message = $('#notification-message');
+
+        element.removeClass('win lose draw spectator');
+        message.text('');
+
+        if (game.game_over.game_over) {
+            message.text(game.game_over.reason);
+            if (Object.values(game.players).includes(this.props.userid)) {
+                let color = this.objectFlip(game.players)[this.props.userid];
+                if (game.result === '1-0') {
+                    if (color === 'w') {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    } else {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    }
+                } else if (game.result === '0-1') {
+                    if (color === 'w') {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    } else {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    }
+                } else {
+                    element.addClass('draw');
+                    notification.text("It's a draw!");
+                }
+            } else { // Spectating
+                element.addClass('spectator');
+                if (game.result === '1-0') {
+                    notification.text('White won!');
+                } else if (game.result === '0-1') {
+                    notification.text('Black won!');
+                } else {
+                    notification.text("It's a draw!");
+                }
+            }
+        }
+    }
+
+    showSide = game => {
+        let element = $('#side-wrapper');
+        let message = $('#side-wrapper span')
+        let side = $('#side-message');
+
+        element.removeClass('white black spectator');
+        message.text('');
+        side.text('');
+
+        if (Object.values(game.players).includes(this.props.userid)) {
+            let color = this.objectFlip(game.players)[this.props.userid];
+            message.text('You are playing as:');
+            if (color === 'w') {
+                element.addClass('white');
+                side.text('White');
+            } else if (color === 'b') {
+                element.addClass('black');
+                side.text('Black');
+            }
+        } else { // Not a player in this game
+            element.addClass('spectator');
+            message.text('You are:');
+            side.text('Spectating');
+        }
     }
 
     /** Updates the move turn color indicator.
