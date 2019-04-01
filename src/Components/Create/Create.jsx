@@ -120,14 +120,13 @@ class Create extends React.Component {
         var player2;
 
         // P1 and P2 are not player IDs!!!!
-        this.state.P1 === 'me' ? player1 = this.state.user : player1 = this.state.P1;
-        this.state.P2 === 'me' ? player2 = this.state.user : player2 = this.state.P2;
+        this.state.P1 === 'ME' ? player1 = this.state.user : player1 = this.state.P1;
+        this.state.P2 === 'ME' ? player2 = this.state.user : player2 = this.state.P2;
 
         formData.set('creator_id', this.state.user);
         formData.set('player1_id', player1);
         formData.set('player2_id', player2);
-        formData.set('player1_time', this.state.P1time);
-        formData.set('player2_time', this.state.P2time)
+        formData.set('time_per_player', this.state.P2time);
         formData.set('board_id', 'kevin');
         formData.set('public', this.state.privacy);
 
@@ -153,31 +152,33 @@ class Create extends React.Component {
                                 <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="ban"></img>
                             </div>
                             <div id="config_form">
-                                <div>
-                                    <label>
-                                        <input 
-                                            type='radio'
-                                            name='privacy'
-                                            value='true'
-                                            checked={this.state.privacy === 'true'}
-                                            onChange={this.handlePrivacyChange}
-                                            className='radio-input'
-                                        />
-                                        Public
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        <input 
-                                            type='radio'
-                                            name='privacy'
-                                            value='false'
-                                            checked={this.state.privacy === 'false'}
-                                            onChange={this.handlePrivacyChange}
-                                            className='radio-input'
-                                        />
-                                        Private
-                                    </label>
+                                <div className='privacy'>
+                                    <div>
+                                        <label>
+                                            <input 
+                                                type='radio'
+                                                name='privacy'
+                                                value='true'
+                                                checked={this.state.privacy === 'true'}
+                                                onChange={this.handlePrivacyChange}
+                                                className='radio-input'
+                                            />
+                                            Public
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input 
+                                                type='radio'
+                                                name='privacy'
+                                                value='false'
+                                                checked={this.state.privacy === 'false'}
+                                                onChange={this.handlePrivacyChange}
+                                                className='radio-input'
+                                            />
+                                            Private
+                                        </label>
+                                    </div>
                                 </div>
                                 <div className='player'>
                                     <div className='player-header'>
@@ -224,7 +225,7 @@ class Create extends React.Component {
                                             </label>
                                         </div>
                                     </div>
-                                    <div className='time-choice'>
+                                    {/* <div className='time-choice'>
                                         <div className='time-header'>
                                             Time Control
                                         </div>
@@ -288,7 +289,7 @@ class Create extends React.Component {
                                                 />
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className='player'>
                                     <div className='player-header'>
