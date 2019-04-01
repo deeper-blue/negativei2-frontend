@@ -33,7 +33,7 @@ class Home extends React.Component {
                 </div>
                     ),
             'login': <Redirect to='/login' />,
-            'create': <Redirect to={'/profile/creation/' + this.state.user} />
+            'create': <Redirect to={'/profile/creation/'} />
         }
     }
 

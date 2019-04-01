@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import firebase, { auth } from '../../Firebase';
 import Spinner from '../../Spinner';
 import './Creation.scss'
@@ -29,7 +30,7 @@ class Creation extends React.Component {
                 this.setState({user: user.uid});
                 
                 const db = firebase.firestore();
-                var docRef = db.collection('users').document(user);
+                var docRef = db.collection('users').doc(this.state.user);
 
                 docRef.get().then(function(doc) {
                     if(doc.exists) {
@@ -38,7 +39,7 @@ class Creation extends React.Component {
                     } else {
                         this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png', false);
                     }
-                })
+                }.bind(this))
             } else {
                 this.setState({user: 'none'});
             }
@@ -103,29 +104,34 @@ class Creation extends React.Component {
 
     render() {
         return(
-            <div>
+            <divdiv>
                 {
                     this.state.user
                 ?
                     <div id="creation">
-                        <form onSubmit={this.handleProfileSubmit} >
-                            <div className='display_name'>
-                                <label>
-                                    Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
-                                </label>
-                            </div>
-                            <div className='display_picture'>
-                                <label>
-                                    Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
-                                </label>
-                            </div>
-                            <input type='submit' value='Submit' />
-                        </form>
+                        <div className='display_name'>
+                            <label>
+                                Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
+                            </label>
+                        </div>
+                        <div className='display_picture'>
+                            <label>
+                                Profile Picture: <input type='text' value={this.state.picture} onChange={this.handlePPChange} />
+                            </label>
+                        </div>
+                        <div>
+                            <button onClick={this.handleProfileSubmit} className='button'>
+                                submit
+                            </button>
+                            <Link to='/' className='button'>
+                                skip this step
+                            </Link>
+                        </div>
                     </div>
                 :
                     <Spinner fullPage={true}/>
                 }
-            </div>
+            </divdiv>
         )
     }
 }
