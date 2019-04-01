@@ -72,7 +72,11 @@ class Creation extends React.Component {
         var profileRef = db.collection('users').doc(this.state.user);
 
         var profileObj = {}
-        profileObj['name'] = name;
+        if(this.state.user.displayName){
+            profileObj['name'] = this.state.user.displayName
+        } else {
+            profileObj['name'] = name;
+        }
         profileObj['pic'] = picture;
         console.log(profileObj);
         profileRef.set(profileObj)
