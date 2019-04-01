@@ -67,7 +67,7 @@ class Play extends Component {
                 var players = response.data.players
 
                 if (Object.values(players).includes(user)) {
-                    if ((response.data.public === 'false') && (parseInt(response.data.free_slots) > 0)) {
+                    if ((!response.data.public) && (parseInt(response.data.free_slots) > 0)) {
                         alert(`There are open slots in this game! Send your friends the link:\n\nhttps://deeper-blue.me/invite/${self.props.location.pathname.split('/')[2]}\n\n`);
                     }
 
