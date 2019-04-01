@@ -26,7 +26,14 @@ class Invite extends Component {
             if (user) {
                 this.setState({user: user.uid});
             } else {
-                this.setState({user: 'none'});
+                auth.signInAnonymously()
+                .then(function(anon) {
+                    this.setState({user: anon});
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+                //this.setState({user: 'none'});
             }
             this.join();
         }.bind(this));
