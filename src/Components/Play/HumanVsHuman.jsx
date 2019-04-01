@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import Chess from 'chess.js';
-import axios from 'axios';
 import opensocket from 'socket.io-client';
+import server, { serverURL } from '../Server';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
@@ -24,7 +24,7 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
-        this.socket = opensocket('https://negativei2-server.herokuapp.com');
+        this.socket = opensocket(serverURL);
 
         /** Loads the game from the server and updates:
          * - The current internal game representation (this.game)
@@ -32,6 +32,15 @@ class HumanVsHuman extends Component {
          * - The turn indicator (according to the server)
          */
         this.loadGame();
+
+        // Create the move entry submit form hook.
+        this.moveEntrySubmitHook();
+
+        this.drawButtonClicked();
+        this.drawOfferListen();
+
+        this.forfeitButtonClicked();
+        this.forfeitListen();
     }
 
     /** Handles move-making with click-and-drop or drag-and-drop.
@@ -66,7 +75,7 @@ class HumanVsHuman extends Component {
         query.set('user_id', this.props.userid);
 
         // Send the POST request to the server
-        axios.post('https://negativei2-server.herokuapp.com/makemove', query)
+        server.post('/makemove', query)
             .then(function(response) {
                 // Update the state
                 if (dragged) { // Drag and drop
@@ -96,13 +105,16 @@ class HumanVsHuman extends Component {
     loadGame = () => {
         // Send the GET request to the server
         var self = this;
-        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
+        server.get(`/getgame/${self.props.gameid}`)
             .then(function(response) {
-                var fen = response.data.fen;
-                self.game.load(fen);
-                self.setState({fen: fen});
-                self.updateTurnIndicator(response.data.turn);
-                self.loadMoveTracker(response.data.history);
+                var game = response.data;
+                self.game.load(game.fen);
+                self.setState({fen: game.fen});
+                self.updateTurnIndicator(game.turn);
+                self.loadMoveTracker(game.history);
+                self.showCheckNotification(game);
+                self.showGameOverNotification(game);
+                self.showSide(game);
                 // register for updates
                 self.socket.emit('register', response.data.id);
                 self.socket.on('move', self.updateGameState);
@@ -120,7 +132,100 @@ class HumanVsHuman extends Component {
         this.updateTurnIndicator(gameState.turn);
         let move = gameState.history[gameState.history.length-1];
         this.updateMoveTracker(move.move_count, move.side, move.san);
+        this.showCheckNotification(gameState);
+        this.showGameOverNotification(gameState);
+        this.showSide(gameState);
         this.setState({fen: fen});
+    }
+
+    objectFlip = obj => {
+        const ret = {};
+        Object.keys(obj).forEach((key) => {
+          ret[obj[key]] = key;
+        });
+        return ret;
+    }
+
+    showCheckNotification = game => {
+        let notification = $('#check');
+        if (game.pgn.endsWith('+')) {
+            if (this.props.userid === game.players[game.turn]) {
+                notification.css({'display': 'block'});
+            }
+        } else {
+            notification.css({'display': 'none'});
+        }
+    }
+
+    showGameOverNotification = game => {
+        let element = $('#game-over');
+        let notification = $('#game-over span')
+        let message = $('#notification-message');
+
+        element.removeClass('win lose draw spectator');
+        message.text('');
+
+        if (game.game_over.game_over) {
+            message.text(game.game_over.reason);
+            if (Object.values(game.players).includes(this.props.userid)) {
+                let color = this.objectFlip(game.players)[this.props.userid];
+                if (game.result === '1-0') {
+                    if (color === 'w') {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    } else {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    }
+                } else if (game.result === '0-1') {
+                    if (color === 'w') {
+                        element.addClass('lose');
+                        notification.text('You lost!')
+                    } else {
+                        element.addClass('win');
+                        notification.text('You won!');
+                    }
+                } else {
+                    element.addClass('draw');
+                    notification.text("It's a draw!");
+                }
+            } else { // Spectating
+                element.addClass('spectator');
+                if (game.result === '1-0') {
+                    notification.text('White won!');
+                } else if (game.result === '0-1') {
+                    notification.text('Black won!');
+                } else {
+                    notification.text("It's a draw!");
+                }
+            }
+        }
+    }
+
+    showSide = game => {
+        let element = $('#side-wrapper');
+        let message = $('#side-wrapper span')
+        let side = $('#side-message');
+
+        element.removeClass('white black spectator');
+        message.text('');
+        side.text('');
+
+        if (Object.values(game.players).includes(this.props.userid)) {
+            let color = this.objectFlip(game.players)[this.props.userid];
+            message.text('You are playing as:');
+            if (color === 'w') {
+                element.addClass('white');
+                side.text('White');
+            } else if (color === 'b') {
+                element.addClass('black');
+                side.text('Black');
+            }
+        } else { // Not a player in this game
+            element.addClass('spectator');
+            message.text('You are:');
+            side.text('Spectating');
+        }
     }
 
     /** Updates the move turn color indicator.
@@ -174,6 +279,287 @@ class HumanVsHuman extends Component {
             }).appendTo('#move-tracker tbody');
         } else if (side === "b") {
             $(`#move-${number}-b`).html(san);
+        }
+    }
+
+    /** Hooks into the move entry form submit action with jQuery,
+     * allowing for handleMove() to be called from the HumanVsHuman component.
+     */
+    moveEntrySubmitHook = () => {
+        var self = this;
+
+        // Lambda for splitting a string at a provided index.
+        var splitAt = index => x => [x.slice(0, index), x.slice(index)];
+
+        $('#move-input-form').submit(function(event) {
+            // Prevent the default form submission action.
+            event.preventDefault();
+
+            // Read the text from the input element - eliminating whitespace.
+            var textDOM = $('#move-input-text')
+            var text = textDOM.val().replace(/\s/g, '');
+
+            // Clear the text input box
+            textDOM.val('');
+
+            // Split the text into two sections: source square and target square.
+            var source, target;
+            [source, target] = splitAt(2)(text);
+
+            // Treat the move as dragging from one square to another (in handleMove).
+            self.handleMove(true, undefined, source, target);
+        });
+    }
+
+    // Offer draw to opponent
+    drawButtonClicked = () => {
+        const drawButton = document.getElementById("draw-button");
+        const gameid = this.props.gameid;
+        const userid = this.props.userid;
+        const self = this;
+
+        drawButton.onclick = (event) => {
+            const confBox = document.getElementById("draw-offer-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "flex";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Send draw request to the server if "Send" is clicked
+            const sendDrawBtn = document.getElementById("send-draw");
+            sendDrawBtn.onclick = (event) => {
+                // Construct a HTTP POST query
+                var query = new FormData();
+                query.set('game_id', gameid);
+                query.set('user_id', userid);
+
+                // Send the POST request to the server
+                server.post('/drawoffer', query)
+                    .then(function(response) {
+                        // Listen for an answer to the offer
+                        self.socket.on('drawAnswer', self.drawOfferAnswer);
+                        confBox.style.display = "none";
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+
+            // Close window when "Cancel" is clicked
+            const cancelDrawBtn = document.getElementById("cancel-draw");
+            cancelDrawBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    drawOfferAnswer = (draw_offers) => {
+        if ((draw_offers.w.made && draw_offers.w.accepted) || (draw_offers.b.made && draw_offers.b.accepted)) {
+            // Go to end game screen
+            //this.props.history.push('/endgame');
+        } else {
+            // Show rejection window
+            const confBox = document.getElementById("draw-rejection-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "block";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Close window when "Close" is clicked
+            const closeRejectionBtn = document.getElementById("close-rejection");
+            closeRejectionBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    // Listens for a draw offer from the opponent
+    drawOfferListen = () => {
+        var self = this;
+        self.socket.on('drawOffer', self.drawOfferReceived);
+    }
+
+    // Deals with the received draw offer
+    drawOfferReceived = () => {
+        const userid = this.props.userid;
+        const gameid = this.props.gameid;
+
+        const confBox = document.getElementById("draw-received-confirmation");
+
+        // Open the confirmation window
+        confBox.style.display = "block";
+
+        // Construct a HTTP POST query
+        var query = new FormData();
+        query.set('game_id', gameid);
+        query.set('user_id', userid);
+
+        // If the user clicks anywhere outside the box then close it and decline offer
+        window.onclick = (event) => {
+            if (event.target === confBox) {
+                // Decline offer
+                query.set('response', 'false');
+
+                // Send the POST request to the server
+                server.post('/respondoffer', query)
+                    .then(function(response) {
+                        // Close offer window
+                        confBox.style.display = "none";
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+        }
+
+        // Accept the draw offer
+        const acceptDrawBtn = document.getElementById("accept-draw");
+        acceptDrawBtn.onclick = (event) => {
+            query.set('response', 'true');
+
+            // Send the POST request to the server
+            server.post('/respondoffer', query)
+                .then(function(response) {
+                    // Close offer window
+                    confBox.style.display = "none";
+
+                    // Go to end game page
+                    //this.props.history.push('/endgame');
+                })
+                .catch(function(error) {
+                    var tmp = $('<div></div>');
+                    tmp.html(error.response.data);
+
+                    var message = $('p', tmp).text();
+                    console.log(message);
+                });
+        }
+
+        // Close window when "Decline" is clicked
+        const declineDrawBtn = document.getElementById("decline-offer");
+        declineDrawBtn.onclick = (event) => {
+            // Decline offer
+            query.set('response', 'false');
+
+            // Send the POST request to the server
+            server.post('/respondoffer', query)
+                .then(function(response) {
+                    // Close offer window
+                    confBox.style.display = "none";
+                })
+                .catch(function(error) {
+                    var tmp = $('<div></div>');
+                    tmp.html(error.response.data);
+
+                    var message = $('p', tmp).text();
+                    console.log(message);
+                });
+        }
+    }
+
+    // Forfeits the game
+    forfeitButtonClicked = () => {
+        const forfeitButton = document.getElementById("forfeit-button");
+        const gameid = this.props.gameid;
+        const userid = this.props.userid;
+
+        forfeitButton.onclick = (event) => {
+            const confBox = document.getElementById("forfeit-offer-confirmation");
+
+            // Open the confirmation window
+            confBox.style.display = "flex";
+
+            // If the user clicks anywhere outside the box then close it
+            window.onclick = (event) => {
+                if (event.target === confBox) {
+                    confBox.style.display = "none";
+                }
+            }
+
+            // Send forfeit request
+            const sendForfeitBtn = document.getElementById("send-forfeit");
+            sendForfeitBtn.onclick = (event) => {
+                // Construct a HTTP POST query
+                var query = new FormData();
+                query.set('game_id', gameid);
+                query.set('user_id', userid);
+
+                // Send the POST request to the server
+                server.post('/resign', query)
+                    .then(function(response) {
+                        confBox.style.display = "none";
+
+                        // Go to end game screen
+                        //this.props.history.push('/endgame');
+                    })
+                    .catch(function(error) {
+                        var tmp = $('<div></div>');
+                        tmp.html(error.response.data);
+
+                        var message = $('p', tmp).text();
+                        console.log(message);
+                    });
+            }
+
+            // Close window when "Cancel" is clicked
+            const cancelForfeitBtn = document.getElementById("cancel-forfeit");
+            cancelForfeitBtn.onclick = (event) => {
+                confBox.style.display = "none";
+            }
+        }
+    }
+
+    // Listens for the opponent to forfeit
+    forfeitListen = () => {
+        var self = this;
+        self.socket.on('forfeit', self.forfeitReceived);
+    }
+
+    // Deals with the opponent forfeiting the game
+    forfeitReceived = () => {
+        // Show opponent forfeit window
+        const confBox = document.getElementById("opponent-forfeit-confirmation");
+
+        // Open the confirmation window
+        confBox.style.display = "block";
+
+        // If the user clicks anywhere outside the box then close it
+        window.onclick = (event) => {
+            if (event.target === confBox) {
+                confBox.style.display = "none";
+
+                // Go to end game screen
+                //this.props.history.push('/endgame');
+            }
+        }
+
+        // Close window when "Close" is clicked
+        const closeForfeitBtn = document.getElementById("close-forfeit");
+        closeForfeitBtn.onclick = (event) => {
+            confBox.style.display = "none";
+
+            // Go to end game screen
+            //this.props.history.push('/endgame');
         }
     }
 

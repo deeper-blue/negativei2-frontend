@@ -2,10 +2,23 @@ import React from 'react';
 import './Spinner.scss'
 
 class Spinner extends React.Component {
-    render(){
+    constructor(props){
+        super(props);
+        this.text = this.props.children || 'Loading...'
+    }
+
+    render() {
         return (
-            <div className='spinner'>
-                <img src='/assets/profile.jpg' className='pic' alt='spinner' />
+            this.props.fullPage
+            ?
+            <div id='spinner' class='full-page'>
+                <img src='/assets/spinner.jpg' alt='' />
+                <h1>{this.text}</h1>
+            </div>
+            :
+            <div id='spinner'>
+                <img src='/assets/spinner.jpg' alt='' />
+                <h1>{this.text}</h1>
             </div>
         );
     }

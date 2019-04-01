@@ -1,0 +1,31 @@
+@import '../../index.scss';
+
+#container {
+    width: 100%;
+    height: calc(100vh - #{$header});
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    h1 {
+        font-size: 4rem;
+        margin-top: 0;
+        font-family: 'Lato', sans-serif;
+        color: rgb(84, 70, 122);
+        margin-bottom: 0;
+    }
+
+    #info {
+        font-size: calc(10px + 2vmin);
+        padding: 30px;
+    }
+}
