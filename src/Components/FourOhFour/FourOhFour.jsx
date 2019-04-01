@@ -15,7 +15,7 @@ class FourOhFour extends Component {
                     <div id='info'>
                         <p><b>Woops!</b></p>
                         <p>Looks like we couldn't find that page!</p>
-                        <p>Maybe you'd like to go back to our <a href="/" class="link-dark-blue shadow">home page</a>?</p>
+                        <p>Maybe you'd like to go back to our <a href="/" className="link-dark-blue shadow">home page</a>?</p>
                     </div>
                 </div>
             </div>
