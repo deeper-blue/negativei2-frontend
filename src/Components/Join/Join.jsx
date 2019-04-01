@@ -28,8 +28,10 @@ class Join extends React.Component {
         this.httpGetRequest('/gamelist');
         this.initAuthListener();
 
-        if ('error' in this.props.location.state) {
-            alert(this.props.location.state.error);
+        if (typeof this.props.location.state !== 'undefined') {
+            if ('error' in this.props.location.state) {
+                alert(this.props.location.state.error);
+            }
         }
     }
 
