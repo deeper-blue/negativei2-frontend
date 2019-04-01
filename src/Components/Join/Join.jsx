@@ -1,10 +1,8 @@
 import React from 'react';
 import './Join.scss';
-import axios from 'axios';
 import Spinner from '../Spinner';
 import firebase, { auth } from '../Firebase';
-
-const url = 'https://negativei2-server.herokuapp.com/'
+import server from '../Server';
 
 class Join extends React.Component {
 
@@ -27,7 +25,7 @@ class Join extends React.Component {
 
     componentDidMount() {
         document.title = 'Deeper Blue: Join Game';
-        this.httpGetRequest(url + 'gamelist');
+        this.httpGetRequest('/gamelist');
         this.initAuthListener();
     }
 
@@ -41,10 +39,9 @@ class Join extends React.Component {
         }.bind(this));
     }
 
-    httpGetRequest(url){
-        axios.get(url)
+    httpGetRequest(endpoint){
+        server.get(endpoint)
             .then(function(response) {
-                console.log(response);
                 this.parse(response);
             }.bind(this))
             .catch( function (error) {
@@ -55,6 +52,16 @@ class Join extends React.Component {
                     loaded: true,
                 }));
             }.bind(this));
+    }
+
+    httpPostRequest(endpoint, data) {
+        server.post(endpoint, data)
+            .then(function(response) {
+                this.props.history.push('/play/' + response.data.id);
+            }.bind(this))
+            .catch(function(error) {
+                console.log(error);
+            })
     }
 
     parse(response) {
@@ -99,24 +106,13 @@ class Join extends React.Component {
         }.bind(this));
     }
 
-    httpPostRequest(url, data) {
-        axios.post(url, data)
-            .then(function(response) {
-                console.log(response);
-                this.props.history.push('/play/' + response.data.id);
-            }.bind(this))
-            .catch(function(error) {
-                console.log(error);
-            })
-    }
-
     joinGame(game_id, side, e) {
         var formData = new FormData();
         formData.set('game_id', game_id);
         formData.set('player_id', this.state.user);
         formData.set('side', side);
 
-        this.httpPostRequest(url + 'joingame', formData);
+        this.httpPostRequest('/joingame', formData);
     }
 
     getNameFromId(user_id) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { auth } from '../Firebase';
 import { Redirect } from 'react-router-dom';
+import Spinner from '../Spinner';
 
 class Profiler extends React.Component {
 
@@ -36,11 +37,10 @@ class Profiler extends React.Component {
         return(
             <div>
                 {
-                    this.state.user 
-                ? 
+                    this.state.user ?
                     <Redirect to={this.state.user === 'none' ? '/login' : '/profile/' + this.state.user}/>
-                : 
-                    <div>redirecting...</div>
+                    :
+                    <Spinner fullPage={true}>Redirecting...</Spinner>
                 }
             </div>
         )
