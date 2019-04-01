@@ -357,6 +357,27 @@ class Create extends React.Component {
                                                 60 minutes
                                             </label>
                                         </div>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='radio'
+                                                    name='P2time'
+                                                    value='custom'
+                                                    checked={this.state.P2time === 'custom'}
+                                                    onChange={this.handleTimeOptionChange}
+                                                    className='radio-input'
+                                                />
+                                                Custom: <input
+                                                    type='number'
+                                                    name='P2time_custom'
+                                                    value={this.state.P2time_custom}
+                                                    onChange={this.handleCustomTimeChange}
+                                                    className=''
+                                                    min='0'
+                                                    max='120'
+                                                />
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
