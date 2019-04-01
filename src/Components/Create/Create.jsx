@@ -1,9 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import './Create.scss';
 import Spinner from '../Spinner';
 import { auth } from '../Firebase';
-
+import server from '../Server';
 
 function validate(P1time, P2time, P1, P2, board_id, friend_1, friend_2) {
     const errors = [];
@@ -103,7 +102,7 @@ class Create extends React.Component {
         formData.set('player2_time', this.state.P2time)
         formData.set('board_id', 'kevin');
 
-        axios.post('https://negativei2-server.herokuapp.com/creategame', formData)
+        server.post('/creategame', formData)
             .then(function (response) {
                 console.log(response);
                 console.log('/play/' + response.data.id);
