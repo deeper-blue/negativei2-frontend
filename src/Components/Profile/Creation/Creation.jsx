@@ -27,7 +27,18 @@ class Creation extends React.Component {
         auth.onAuthStateChanged(function (user) {
             if (user) {
                 this.setState({user: user.uid});
-                this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png', false);
+                
+                const db = firebase.firestore();
+                var docRef = db.collection('users').document(user);
+
+                docRef.get().then(function(doc) {
+                    if(doc.exists) {
+                        console.logt(doc.data);
+                        this.props.history.push('/');
+                    } else {
+                        this.createProfile(user.uid.substring(0,10), 'https://i.imgur.com/TOJtdzW.png', false);
+                    }
+                })
             } else {
                 this.setState({user: 'none'});
             }
