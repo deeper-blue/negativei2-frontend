@@ -81,52 +81,58 @@ class Play extends Component {
                 {
                     this.state.user ?
                         this.state.orientation ?
-                        <div className='game-area'>
-                            <HumanVsHuman
-                            gameid={this.props.location.pathname.split('/')[2]}
-                            userid={this.state.user}
-                            >
-                            {({
-                                position,
-                                onDrop,
-                                onMouseOverSquare,
-                                onMouseOutSquare,
-                                squareStyles,
-                                dropSquareStyle,
-                                onDragOverSquare,
-                                onSquareClick,
-                                onSquareRightClick
-                            }) => (
-                                <Chessboard
-                                calcWidth={({ screenWidth, screenHeight }) => this.resizeBoard(screenWidth)}
-                                position={position}
-                                onDrop={onDrop}
-                                onMouseOverSquare={onMouseOverSquare}
-                                onMouseOutSquare={onMouseOutSquare}
-                                boardStyle={{
-                                    borderRadius: '5px',
-                                    boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`
-                                }}
-                                squareStyles={squareStyles}
-                                dropSquareStyle={dropSquareStyle}
-                                onDragOverSquare={onDragOverSquare}
-                                onSquareClick={onSquareClick}
-                                onSquareRightClick={onSquareRightClick}
-                                orientation={this.state.orientation}
-                                darkSquareStyle={{backgroundColor: 'grey'}}
-                                lightSquareStyle={{backgroundColor: 'lightgrey'}}
-                                />
-                            )}
-                            </HumanVsHuman>
-                            <Sidebar />
-                        </div>
+                            <div id="game-wrapper">
+                                <div id="side-wrapper">
+                                    <span></span>
+                                    <div id="side-message"></div>
+                                </div>
+                                <div id="game-area">
+                                    <HumanVsHuman
+                                    gameid={this.props.location.pathname.split('/')[2]}
+                                    userid={this.state.user}
+                                    >
+                                    {({
+                                        position,
+                                        onDrop,
+                                        onMouseOverSquare,
+                                        onMouseOutSquare,
+                                        squareStyles,
+                                        dropSquareStyle,
+                                        onDragOverSquare,
+                                        onSquareClick,
+                                        onSquareRightClick
+                                    }) => (
+                                        <Chessboard
+                                        calcWidth={({ screenWidth, screenHeight }) => this.resizeBoard(screenWidth)}
+                                        position={position}
+                                        onDrop={onDrop}
+                                        onMouseOverSquare={onMouseOverSquare}
+                                        onMouseOutSquare={onMouseOutSquare}
+                                        boardStyle={{
+                                            borderRadius: '5px',
+                                            boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`
+                                        }}
+                                        squareStyles={squareStyles}
+                                        dropSquareStyle={dropSquareStyle}
+                                        onDragOverSquare={onDragOverSquare}
+                                        onSquareClick={onSquareClick}
+                                        onSquareRightClick={onSquareRightClick}
+                                        orientation={this.state.orientation}
+                                        darkSquareStyle={{backgroundColor: 'grey'}}
+                                        lightSquareStyle={{backgroundColor: 'lightgrey'}}
+                                        />
+                                    )}
+                                    </HumanVsHuman>
+                                    <Sidebar />
+                                </div>
+                            </div>
                         :
                         <Spinner fullPage={true}/>
                     :
                     <Spinner fullPage={true}/>
                 }
             </div>
-        );
+        )
     }
 }
 
