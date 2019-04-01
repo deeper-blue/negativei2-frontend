@@ -47,6 +47,10 @@ class Join extends React.Component {
                     snapshot.forEach(function(doc) {
                         if (doc.data().game_over.game_over === false && (doc.data().players.w === this.state.user || doc.data().players.b === this.state.user)) {
                             this.active_games.push(doc.data());
+
+                            if(doc.data().creator){this.active_games_usernames[doc.data().creator] = "Guest"}
+                            if(doc.data().players.b){this.active_games_usernames[doc.data().players.b] = "Guest"}
+                            if(doc.data().players.w){this.active_games_usernames[doc.data().players.w] = "Guest"}
                         }
                     }.bind(this))
                     .catch(err => {
@@ -66,7 +70,11 @@ class Join extends React.Component {
                 return;
             } else {
                 response.forEach(function(doc) {
-                    this.active_games_usernames[doc.id] = doc.data().name;
+                    if (typeof doc.data().name === 'undefined') {
+                        this.active_games_usernames[doc.id] = 'Guest';
+                    } else {
+                        this.active_games_usernames[doc.id] = doc.data().name;
+                    }
                 }.bind(this))
                 .catch(err => {
                     console.log('Error getting documents', err);
@@ -131,7 +139,13 @@ class Join extends React.Component {
 
         docRef.get().then(function(response) {
             if(response.exists){
-                this.user_dictionary[user_id] = response.data().name;
+                if (typeof response.data().name === 'undefined') {
+                    this.user_dictionary[user_id] = 'Guest';
+                } else {
+                    this.user_dictionary[user_id] = response.data().name;
+                }
+            } else {
+                this.user_dictionary[user_id] = 'Guest';
             }
             this.semaphore--;
             if(this.semaphore === 0){
@@ -167,17 +181,39 @@ class Join extends React.Component {
             <div>
                 {this.state.loaded && this.state.user ?
                 <div className='matches'>
-                    <h1>Invited/Active matches</h1>
+                    <h1
+                    tooltip-very-large="Displays all of the games that you are currently playing."
+                    tooltip-position="right"
+                    >
+                    Active matches</h1>
                     {this.semaphore === 0 ?
                     <table className="match-list">
                         <thead>
                             <tr>
-                                <th>Game ID</th>
-                                <th>Creator ID</th>
-                                <th>White</th>
-                                <th>Black</th>
-                                <th>Game</th>
-                                <th>Time Limit</th>
+                                <th
+                                tooltip-very-large="ID of the game."
+                                tooltip-position="top"
+                                >Game ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who created the game. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Creator ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who is playing as white. The '-' means no-one is playing as white. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >White</th>
+                                <th
+                                tooltip-very-large="Username of the person who is playing as black. The '-' means no-one is playing as black. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Black</th>
+                                <th
+                                tooltip-very-large="The button 'GO' takes you to the game."
+                                tooltip-position="top"
+                                >Game</th>
+                                <th
+                                tooltip-very-large="The time limit for each game."
+                                tooltip-position="top"
+                                >Time Limit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,9 +222,9 @@ class Join extends React.Component {
                                     <tr>
                                         <td>{game.id}</td>
                                         <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.creator)}>{this.active_games_usernames[game.creator]}</button></td>
-                                        <td>{game.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.w)}>{this.active_games_usernames[game.players.w]}</button> : "-"}</td>
-                                        <td>{game.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.b)}>{this.active_games_usernames[game.players.b]}</button> : "-"}</td>
-                                        <td>{<button onClick={() => this.props.history.push('/play/' + game.id)}>Go</button>}</td>
+                                        <td>{game.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.w)}>{game.players.w === "AI" ? "AI" : this.active_games_usernames[game.players.w]}</button> : "-"}</td>
+                                        <td>{game.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.b)}>{game.players.b === "AI" ? "AI" : this.active_games_usernames[game.players.b]}</button> : "-"}</td>
+                                        <td>{<button onClick={() => this.props.history.push('/play/' + game.id)}>GO</button>}</td>
                                         <td>{game.time_controls}</td>
                                     </tr>
                                 ))
@@ -197,17 +233,38 @@ class Join extends React.Component {
                     </table>
                     : <Spinner fullPage={false}/>}
 
-                    <h1>Open matches</h1>
+                    <h1
+                    tooltip-very-large="Displays all of the games that you are not currently playing and that have at least one open slot."
+                    tooltip-position="right"
+                    >Open matches</h1>
                     {this.semaphore === 0 ?
                     <table className="match-list">
                         <thead>
                             <tr>
-                                <th>Game ID</th>
-                                <th>Creator ID</th>
-                                <th>Open slots</th>
-                                <th>White</th>
-                                <th>Black</th>
-                                <th>Time Limit</th>
+                                <th
+                                tooltip-very-large="ID of the game."
+                                tooltip-position="top"
+                                >Game ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who created the game. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Creator ID</th>
+                                <th
+                                tooltip-very-large="The open slots tells us the number of players that will need to join for the game to begin."
+                                tooltip-position="top"
+                                >Open slots</th>
+                                <th
+                                tooltip-very-large="This will contain the username of a player who is playing as white or it will contain a button called 'PLAY' which allows you to join the game playing as white. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >White</th>
+                                <th
+                                tooltip-very-large="This will contain the username of a player who is playing as black or it will contain a button called 'PLAY' which allows you to join the game playing as black. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Black</th>
+                                <th
+                                tooltip-very-large="The time limit for each game."
+                                tooltip-position="top"
+                                >Time Limit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -220,8 +277,8 @@ class Join extends React.Component {
                                         <td>{row.id}</td>
                                         <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.state.user_dictionary[row.creator]}</button></td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.w)}>{this.state.user_dictionary[row.players.w]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
-                                        <td>{row.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.b)}>{this.state.user_dictionary[row.players.b]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
+                                        <td>{row.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.w)}>{row.players.w === "AI" ? "AI" : this.state.user_dictionary[row.players.w]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
+                                        <td>{row.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.b)}>{row.players.b === "AI" ? "AI" : this.state.user_dictionary[row.players.b]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
