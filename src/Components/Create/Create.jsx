@@ -121,12 +121,15 @@ class Create extends React.Component {
                 {
                     this.state.user ?
                         <form className='form' onSubmit={this.handleSubmit} >
+                            <div>
+                                <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="ban"></img>
+                            </div>
                             <div id="config_form">
                                 <div className='player'>
-                                    <div>
+                                    <div className='player-header'>
                                         Player 1
                                     </div>
-                                    <div>
+                                    <div className='player-choice'>
                                         <div>
                                             <label>
                                                 <input
@@ -167,8 +170,8 @@ class Create extends React.Component {
                                             </label>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div>
+                                    <div className='time-choice'>
+                                        <div className='time-header'>
                                             Time Control
                                         </div>
                                         <div>
@@ -213,10 +216,10 @@ class Create extends React.Component {
                                     </div>
                                 </div>
                                 <div className='player'>
-                                    <div>
+                                    <div className='player-header'>
                                         Player 2
                                     </div>
-                                    <div>
+                                    <div className='player-choice'>
                                         <div>
                                             <label>
                                                 <input
@@ -257,8 +260,8 @@ class Create extends React.Component {
                                             </label>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div>
+                                    <div className='time-choice'>
+                                        <div className='time-header'>
                                             Time Control
                                         </div>
                                         <div>
