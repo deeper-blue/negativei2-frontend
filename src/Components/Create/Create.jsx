@@ -18,19 +18,20 @@ class Create extends React.Component {
     constructor() {
         super();
         this.state = {
-            hours: 0,
-            minutes: 0,
             P1: "ME",
             P2: "ME",
             P1time: '0',
             P2time: '0',
+            privacy: 'true',
             user: null,
+            boardID: '1111',
             errors: []
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleTimeOptionChange = this.handleTimeOptionChange.bind(this);
+        this.handlePrivacyChange = this.handlePrivacyChange.bind(this);
     }
 
     componentDidMount() {
@@ -86,6 +87,12 @@ class Create extends React.Component {
         }
     }
 
+    handlePrivacyChange(event) {
+        this.setState({
+            privacy: event.target.value
+        })
+    }
+
     createGame() {
         var formData = new FormData();
         var player1;
@@ -101,6 +108,7 @@ class Create extends React.Component {
         formData.set('player1_time', this.state.P1time);
         formData.set('player2_time', this.state.P2time)
         formData.set('board_id', 'kevin');
+        formData.set('public', this.state.privacy);
 
         server.post('/creategame', formData)
             .then(function (response) {
@@ -124,6 +132,32 @@ class Create extends React.Component {
                                 <img src="/assets/deeper-blue/robot-banner/banner-alpha.svg" alt="banner" id="ban"></img>
                             </div>
                             <div id="config_form">
+                                <div>
+                                    <label>
+                                        <input 
+                                            type='radio'
+                                            name='privacy'
+                                            value='true'
+                                            checked={this.state.privacy === 'true'}
+                                            onChange={this.handlePrivacyChange}
+                                            className='radio-input'
+                                        />
+                                        Public
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input 
+                                            type='radio'
+                                            name='privacy'
+                                            value='false'
+                                            checked={this.state.privacy === 'false'}
+                                            onChange={this.handlePrivacyChange}
+                                            className='radio-input'
+                                        />
+                                        Private
+                                    </label>
+                                </div>
                                 <div className='player'>
                                     <div className='player-header'>
                                         Player 1
