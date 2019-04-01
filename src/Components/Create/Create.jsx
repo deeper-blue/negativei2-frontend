@@ -118,15 +118,22 @@ class Create extends React.Component {
         var formData = new FormData();
         var player1;
         var player2;
+        var time;
 
         // P1 and P2 are not player IDs!!!!
         this.state.P1 === 'ME' ? player1 = this.state.user : player1 = this.state.P1;
         this.state.P2 === 'ME' ? player2 = this.state.user : player2 = this.state.P2;
 
+        if(this.state.P2time === 'custom'){
+            time = this.state.P2time_custom;
+        } else {
+            time = this.state.P2time
+        }
+
         formData.set('creator_id', this.state.user);
         formData.set('player1_id', player1);
         formData.set('player2_id', player2);
-        formData.set('time_per_player', this.state.P2time);
+        formData.set('time_per_player', time);
         formData.set('board_id', 'kevin');
         formData.set('public', this.state.privacy);
 
@@ -393,7 +400,7 @@ class Create extends React.Component {
                                                     type='number'
                                                     name='P2time_custom'
                                                     value={this.state.P2time_custom}
-                                                    onChange={this.handleCustomTimeChange}
+                                                    onChange={evt => this.setState({P2time_custom: evt.target.value})}
                                                     className=''
                                                     min='0'
                                                     max='120'
