@@ -34,7 +34,9 @@ npm test
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Preparing/building application for production
+### Creating and running a production build
+
+#### Creating a production build
 
 ```
 npm run build
@@ -46,7 +48,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Running a production build
+
+```
+npm run production
+```
+
+Once you have built the production build (as explained previously with `npm run build`), you can launch it with this command.
+
+**Note**: If you forget to build the application before running this command, any requests made to the application will simply result in a 404 error.
 
 ### Ejection
 

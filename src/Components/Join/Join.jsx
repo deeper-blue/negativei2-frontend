@@ -1,10 +1,8 @@
 import React from 'react';
 import './Join.scss';
-import axios from 'axios';
 import Spinner from '../Spinner';
 import firebase, { auth } from '../Firebase';
-
-const url = 'https://negativei2-server.herokuapp.com/'
+import server from '../Server';
 
 class Join extends React.Component {
 
@@ -24,13 +22,14 @@ class Join extends React.Component {
 
         this.semaphore = 0;
         this.getUsername = this.getUsername.bind(this);
+        this.getNameFromId = this.getNameFromId.bind(this);
     }
 
     componentDidMount() {
         document.title = 'Deeper Blue: Join Game';
         this.getGames();
         this.activeGameUsernames();
-        this.httpGetRequest(url + 'gamelist');
+        this.httpGetRequest('/gamelist');
         this.initAuthListener();
     }
 
@@ -93,8 +92,8 @@ class Join extends React.Component {
         }.bind(this));
     }
 
-    httpGetRequest(url){
-        axios.get(url)
+    httpGetRequest(endpoint){
+        server.get(endpoint)
             .then(function(response) {
                 this.parse(response);
             }.bind(this))
@@ -106,6 +105,16 @@ class Join extends React.Component {
                     loaded: true,
                 }));
             }.bind(this));
+    }
+
+    httpPostRequest(endpoint, data) {
+        server.post(endpoint, data)
+            .then(function(response) {
+                this.props.history.push('/play/' + response.data.id);
+            }.bind(this))
+            .catch(function(error) {
+                console.log(error);
+            })
     }
 
     parse(response) {
@@ -139,13 +148,8 @@ class Join extends React.Component {
 
         docRef.get().then(function(response) {
             if(response.exists){
-                if (typeof response.data().name === 'undefined') {
-                    this.user_dictionary[user_id] = 'Guest';
-                } else {
-                    this.user_dictionary[user_id] = response.data().name;
-                }
-            } else {
-                this.user_dictionary[user_id] = 'Guest';
+                console.log(response.data.name);
+                this.user_dictionary[user_id] = response.data().name;
             }
             this.semaphore--;
             if(this.semaphore === 0){
@@ -156,24 +160,21 @@ class Join extends React.Component {
         }.bind(this));
     }
 
-    httpPostRequest(url, data) {
-        axios.post(url, data)
-            .then(function(response) {
-                console.log(response);
-                this.props.history.push('/play/' + response.data.id);
-            }.bind(this))
-            .catch(function(error) {
-                console.log(error);
-            })
-    }
-
     joinGame(game_id, side, e) {
         var formData = new FormData();
         formData.set('game_id', game_id);
         formData.set('player_id', this.state.user);
         formData.set('side', side);
 
-        this.httpPostRequest(url + 'joingame', formData);
+        this.httpPostRequest('/joingame', formData);
+    }
+
+    getNameFromId(user_id) {
+        if(!this.state.user_dictionary[user_id]) {
+            return('Guest');
+        } else {
+            return(this.state.user_dictionary[user_id]);
+        }
     }
 
     render() {
@@ -275,10 +276,10 @@ class Join extends React.Component {
                                     this.state.user === row.players.b ? null :
                                     <tr>
                                         <td>{row.id}</td>
-                                        <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.state.user_dictionary[row.creator]}</button></td>
+                                        <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.getNameFromId(row.creator)}</button></td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.w)}>{row.players.w === "AI" ? "AI" : this.state.user_dictionary[row.players.w]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
-                                        <td>{row.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.b)}>{row.players.b === "AI" ? "AI" : this.state.user_dictionary[row.players.b]}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
+                                        <td>{row.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.w)}>{row.players.w === "AI" ? "AI" : this.getNameFromId(row.players.w)}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
+                                        <td>{row.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.b)}>{row.players.b === "AI" ? "AI" : this.getNameFromId(row.players.b)}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
