@@ -60,6 +60,7 @@ class Play extends Component {
                             <HumanVsHuman
                             gameid={this.props.location.pathname.split('/')[2]}
                             userid={this.state.user}
+                            history={this.props.history} 
                             >
                             {({
                                 position,

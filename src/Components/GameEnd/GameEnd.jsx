@@ -4,13 +4,7 @@ import axios from 'axios';
 import Chessboard from 'chessboardjsx';
 import './GameEnd.scss';
 import { auth } from '../Firebase';
-import { Link } from 'react-router-dom';
-
-function concat(){
-    var player = document.getElementById("player").value;
-    var result = document.getElementById("result").value;
-    var role = document.getElementById("role").value;
-}
+import server from '../Server';
 
 class GameEnd extends React.Component {
   state = {
@@ -26,7 +20,7 @@ class GameEnd extends React.Component {
   componentDidMount() {
       this.initAuthListener();
 
-      var id = "eGJB6E1OQUXkjgFyZ4Th";
+      var id = this.props.location.pathname.split('/')[2];
       this.loadGame(id);
   }
 
@@ -41,7 +35,7 @@ class GameEnd extends React.Component {
   }
 
   loadGame = (id) => {
-    axios.get(`https://negativei2-server.herokuapp.com/getgame/${id}`)
+    server.get(`/getgame/${id}`)
       .then(function (response) {
         this.setState({game: response.data});
       }.bind(this))
@@ -53,19 +47,13 @@ class GameEnd extends React.Component {
   rematch = () => {
       var formData = new FormData();
 
-      // var player1;
-      // var player2;
-
-      // this.state.P1 === 'me' ? player1 = this.state.user : player1 = this.state.P1;
-      // this.state.P2 === 'me' ? player2 = this.state.user : player2 = this.state.P2;
-
       formData.set('creator_id', this.state.user);
       formData.set('player1_id', this.state.game.players.b);
       formData.set('player2_id',this.state.game.players.w);
       formData.set('board_id', 'kevin');
       formData.set('time_per_player', this.state.game.time_controls);
 
-      axios.post('https://negativei2-server.herokuapp.com/creategame', formData)
+      server.post('/creategame', formData)
           .then(function (response) {
               this.setState({rematch: response.data.id})
               this.props.history.push('/play/' + response.data.id);
@@ -113,7 +101,7 @@ class GameEnd extends React.Component {
     } else if (this.state.game == '1/2-1/2') {
       this.setState({black: 'Draw'});
       this.setState({white: 'Draw'});
-    } else {// *
+    } else {
       this.setState({black: 'In progress'})
       this.setState({white: 'In progress'})
     }
@@ -121,14 +109,9 @@ class GameEnd extends React.Component {
 
 
   render() {
-    //var player1 = this.state.game.players.b
-    //var player2 = this.state.game.players.w
       const { errors } = this.state;
 
       return (
-      //  <div className='gameEnd'>
-      //  {this.state.loaded ?
-        //  <div className='content'>
               <div>
                 {
                   this.state.game ?
@@ -162,9 +145,6 @@ class GameEnd extends React.Component {
                   <Spinner/>
                 }
               </div>
-        //    </div>
-      //    : <Spinner /> }
-      //  </div>
       );
   }
 }

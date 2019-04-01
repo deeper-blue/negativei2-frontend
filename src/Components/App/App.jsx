@@ -29,7 +29,7 @@ class App extends Component {
           <Route exact path="/play/:gameid?" component={Play} />
           <Route exact path="/play" component={Play} />
           <Route exact path="/join" component={Join} />
-          <Route exact path="/gameEnd" component={GameEnd} />
+          <Route exact path="/gameEnd/:ID" component={GameEnd} />
           <Route component={FourOhFour} />
         </Switch>
       </div>

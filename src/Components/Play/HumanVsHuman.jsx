@@ -189,6 +189,7 @@ class HumanVsHuman extends Component {
                     element.addClass('draw');
                     notification.text("It's a draw!");
                 }
+                this.props.history.push('/gameend/' + this.props.gameid);
             } else { // Spectating
                 element.addClass('spectator');
                 if (game.result === '1-0') {
