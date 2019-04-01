@@ -33,7 +33,6 @@ class Invite extends Component {
                 .catch(function(error) {
                     console.log(error);
                 });
-                //this.setState({user: 'none'});
             }
             this.join();
         }.bind(this));
