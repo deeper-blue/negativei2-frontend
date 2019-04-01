@@ -4,11 +4,17 @@ import Spinner from '../Spinner';
 import { auth } from '../Firebase';
 import server from '../Server';
 
-function validate(P1time, P2time, P1, P2, board_id, friend_1, friend_2) {
+function validate(P1time, P2time, P1, P2, board_id) {
     const errors = [];
 
     if (P1 === "ME" && P2 === "ME") {
         errors.push("You cannot play against yourself!");
+    }
+    if(P1time > 120 || P1time < 0){
+        errors.push("Player 1 time must be between 0 and 120 minutes!");
+    }
+    if(P2time > 120 || P2time < 0){
+        errors.push("Player 2 time must be between 0 and 120 minutes!")
     }
 
     return errors;
@@ -22,6 +28,8 @@ class Create extends React.Component {
             P2: "ME",
             P1time: '0',
             P2time: '0',
+            P1time_custom: 40,
+            P2time_custom: 40,
             privacy: 'true',
             user: null,
             boardID: '1111',
@@ -31,6 +39,7 @@ class Create extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleTimeOptionChange = this.handleTimeOptionChange.bind(this);
+        this.handleCustomTimeOptionChange = this.handleCustomTimeOptionChange.bind(this);
         this.handlePrivacyChange = this.handlePrivacyChange.bind(this);
     }
 
@@ -52,9 +61,9 @@ class Create extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { P1time, P2time, P1, P2, board_id, friend_1, friend_2 } = this.state;
+        const { P1, P2, P1time_custom, P2time_custom, board_id } = this.state;
         this.setState({ errors: [] });
-        const errors = validate(P1time, P2time, P1, P2, board_id, friend_1, friend_2);
+        const errors = validate(P1time_custom, P2time_custom, P1, P2, board_id);
         if (errors.length > 0) {
             this.setState({ errors });
             return;
@@ -83,6 +92,18 @@ class Create extends React.Component {
         } else if(event.target.name === "P2time"){
             this.setState({
                 P2time: event.target.value
+            })
+        }
+    }
+
+    handleCustomTimeOptionChange(event){
+        if(event.target.name === "P1time_custom"){
+            this.setState({
+                P1time_custom: event.target.value
+            })
+        } else if(event.target.name === 'P2time_custom') {
+            this.setState({
+                P2time_custom: event.target.value
             })
         }
     }
