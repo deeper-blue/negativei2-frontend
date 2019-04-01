@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import Chess from 'chess.js';
-import axios from 'axios';
 import opensocket from 'socket.io-client';
+import server, { serverURL } from '../Server';
 
 class HumanVsHuman extends Component {
     static propTypes = { children: PropTypes.func };
@@ -24,7 +24,7 @@ class HumanVsHuman extends Component {
 
     componentDidMount() {
         this.game = new Chess();
-        this.socket = opensocket('https://negativei2-server.herokuapp.com');
+        this.socket = opensocket(serverURL);
 
         /** Loads the game from the server and updates:
          * - The current internal game representation (this.game)
@@ -75,7 +75,7 @@ class HumanVsHuman extends Component {
         query.set('user_id', this.props.userid);
 
         // Send the POST request to the server
-        axios.post('https://negativei2-server.herokuapp.com/makemove', query)
+        server.post('/makemove', query)
             .then(function(response) {
                 // Update the state
                 if (dragged) { // Drag and drop
@@ -105,7 +105,7 @@ class HumanVsHuman extends Component {
     loadGame = () => {
         // Send the GET request to the server
         var self = this;
-        axios.get(`https://negativei2-server.herokuapp.com/getgame/${self.props.gameid}`)
+        server.get(`/getgame/${self.props.gameid}`)
             .then(function(response) {
                 var game = response.data;
                 self.game.load(game.fen);
@@ -340,7 +340,7 @@ class HumanVsHuman extends Component {
                 query.set('user_id', userid);
 
                 // Send the POST request to the server
-                axios.post('https://negativei2-server.herokuapp.com/drawoffer', query)
+                server.post('/drawoffer', query)
                     .then(function(response) {
                         // Listen for an answer to the offer
                         self.socket.on('drawAnswer', self.drawOfferAnswer);
@@ -417,7 +417,7 @@ class HumanVsHuman extends Component {
                 query.set('response', 'false');
 
                 // Send the POST request to the server
-                axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                server.post('/respondoffer', query)
                     .then(function(response) {
                         // Close offer window
                         confBox.style.display = "none";
@@ -438,7 +438,7 @@ class HumanVsHuman extends Component {
             query.set('response', 'true');
 
             // Send the POST request to the server
-            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+            server.post('/respondoffer', query)
                 .then(function(response) {
                     // Close offer window
                     confBox.style.display = "none";
@@ -462,7 +462,7 @@ class HumanVsHuman extends Component {
             query.set('response', 'false');
 
             // Send the POST request to the server
-            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+            server.post('/respondoffer', query)
                 .then(function(response) {
                     // Close offer window
                     confBox.style.display = "none";
@@ -505,7 +505,7 @@ class HumanVsHuman extends Component {
                 query.set('user_id', userid);
 
                 // Send the POST request to the server
-                axios.post('https://negativei2-server.herokuapp.com/resign', query)
+                server.post('/resign', query)
                     .then(function(response) {
                         confBox.style.display = "none";
 
