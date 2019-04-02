@@ -6,6 +6,46 @@ import firebase from '../../Firebase';
 import Spinner from '../../Spinner';
 import { withRouter } from 'react-router-dom';
 
+const StyledDiv = styled.div`
+    padding: 5px;
+    border: 2px solid rgb(40, 86, 129);
+    border-radius: 15px;
+    
+    color: rgb(26, 55, 82);
+`;
+
+const Tableau = styled.table`
+    width: 100%;
+    color: rgb(26, 55, 82);
+
+    border: 2px solid rgb(40, 86, 129);
+    border-radius: 15px;
+    border-collapse: collapse;
+
+    thead {
+        background-color: rgb(40, 86, 129);
+        color: #f3d19f;
+
+        th {
+            padding: 15px 0px 15px 0px;
+        }
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: rgba(113, 126, 150, 0.5);
+    }
+
+
+    td {
+        text-align: center;
+    }
+
+    .link {
+        color: rgb(26, 55, 82);
+        text-decoration: none;
+    }
+`;
+
 class Table extends Component {
 
     static propTypes = {
@@ -118,40 +158,50 @@ class Table extends Component {
         return (
             <div>
                 {this.state.whiteLoaded && this.state.blackLoaded ?
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Game ID</th>
-                                <th>Win/Lose</th>
-                                <th>Playing as</th>
-                                <th>Opponent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.blackData.concat(this.state.whiteData)
-                                .sort(function(a,b){return b.time - a.time})
-                                .map((row, index) => (
-                                    <tr>
-                                        <td>
-                                            {row.id}
-                                        </td>
-                                        <td>
-                                            {row.win ? 'Win' : 'Lose'}
-                                        </td>
-                                        <td>
-                                            {row.playing}
-                                        </td>
-                                        <td>
-                                            {/* <Link to={row.black === userID ? row.white : row.black} className='link'> */}
-                                            {row.black === userID ? row.white : row.black}
-                                            {/* </Link> */}
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </Table>
+                    <div>
+                        {
+                            this.state.blackData.length > 0 && this.state.whiteData.length > 0 
+                        ? 
+                        <Tableau>
+                            <thead>
+                                <tr>
+                                    <th>Game ID</th>
+                                    <th>Win/Lose</th>
+                                    <th>Playing as</th>
+                                    <th>Opponent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.blackData.concat(this.state.whiteData)
+                                    .sort(function(a,b){return b.time - a.time})
+                                    .map((row, index) => (
+                                        <tr>
+                                            <td>
+                                                {row.id}
+                                            </td>
+                                            <td>
+                                                {row.win ? 'Win' : 'Lose'}
+                                            </td>
+                                            <td>
+                                                {row.playing}
+                                            </td>
+                                            <td>
+                                                {/* <Link to={row.black === userID ? row.white : row.black} className='link'> */}
+                                                {row.black === userID ? row.white : row.black}
+                                                {/* </Link> */}
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Tableau>
+                        :
+                            <StyledDiv>
+                                Looks like you haven't played any games yet! Head back to the home page to get playing!
+                            </StyledDiv>
+                        }
+                    </div>
                 : <Spinner fullPage={false}/>}
             </div>
         );
