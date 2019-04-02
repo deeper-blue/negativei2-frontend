@@ -154,6 +154,8 @@ class HumanVsHuman extends Component {
     }
 
     showGameOverNotification = game => {
+        var self = this;
+
         let element = $('#game-over');
         let notification = $('#game-over span')
         let message = $('#notification-message');
@@ -193,7 +195,7 @@ class HumanVsHuman extends Component {
                     return new Promise((resolve) => setTimeout(resolve, time));
                 }
                 sleep(3000).then(() => {
-                    this.props.history.push(`/gameover/${this.props.gameid}`);
+                    self.props.history.push(`/gameover/${self.props.gameid}`);
                 });
             } else { // Spectating
                 element.addClass('spectator');
@@ -405,6 +407,7 @@ class HumanVsHuman extends Component {
     drawOfferReceived = (draw_offer_user_id) => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
+        var self = this;
 
         if (userid !== draw_offer_user_id) {
             server.get(`/getgame/${gameid}`)
@@ -451,7 +454,7 @@ class HumanVsHuman extends Component {
                                     confBox.style.display = "none";
 
                                     // Go to end game page
-                                    this.props.history.push(`/gameover/${this.props.gameid}`);
+                                    self.props.history.push(`/gameover/${self.props.gameid}`);
                                 })
                                 .catch(function(error) {
                                     console.log(error);
@@ -508,6 +511,7 @@ class HumanVsHuman extends Component {
         const forfeitButton = document.getElementById("forfeit-button");
         const gameid = this.props.gameid;
         const userid = this.props.userid;
+        var self = this;
 
         forfeitButton.onclick = (event) => {
             const confBox = document.getElementById("forfeit-offer-confirmation");
@@ -536,7 +540,7 @@ class HumanVsHuman extends Component {
                         confBox.style.display = "none";
 
                         // Go to end game screen
-                        this.props.history.push(`/gameover/${this.props.gameid}`);
+                        self.props.history.push(`/gameover/${self.props.gameid}`);
                     })
                     .catch(function(error) {
                         console.log(error);
@@ -561,6 +565,7 @@ class HumanVsHuman extends Component {
     forfeitReceived = (forfeit_user_id) => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
+        var self = this;
 
         if (userid !== forfeit_user_id) {
             server.get(`/getgame/${gameid}`)
@@ -578,7 +583,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                this.props.history.push(`/gameover/${this.props.gameid}`);
+                                self.props.history.push(`/gameover/${self.props.gameid}`);
                             }
                         }
 
@@ -588,7 +593,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            this.props.history.push(`/gameover/${this.props.gameid}`);
+                            self.props.history.push(`/gameover/${self.props.gameid}`);
                         }
                     } else {
                         // Show opponent forfeit window
@@ -603,7 +608,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                this.props.history.push(`/gameover/${this.props.gameid}`);
+                                self.props.history.push(`/gameover/${self.props.gameid}`);
                             }
                         }
 
@@ -613,7 +618,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            this.props.history.push(`/gameover/${this.props.gameid}`);
+                            self.props.history.push(`/gameover/${self.props.gameid}`);
                         }
                     }
                 })
