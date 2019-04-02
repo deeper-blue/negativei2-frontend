@@ -405,7 +405,7 @@ class HumanVsHuman extends Component {
         const gameid = this.props.gameid;
 
         if (userid !== draw_offer_user_id) {
-            axios.get(`https://negativei2-server.herokuapp.com/getgame/${gameid}`)
+            server.get(`/getgame/${gameid}`)
                 .then(function(response) {
                     if (userid === response.data.players.b || userid === response.data.players.w) {
                         // User is opponent not spectator
@@ -426,7 +426,7 @@ class HumanVsHuman extends Component {
                                 query.set('response', 'false');
 
                                 // Send the POST request to the server
-                                axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                                server.post('/respondoffer', query)
                                     .then(function(response) {
                                         // Close offer window
                                         confBox.style.display = "none";
@@ -447,7 +447,7 @@ class HumanVsHuman extends Component {
                             query.set('response', 'true');
 
                             // Send the POST request to the server
-                            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                            server.post('/respondoffer', query)
                                 .then(function(response) {
                                     // Close offer window
                                     confBox.style.display = "none";
@@ -471,7 +471,7 @@ class HumanVsHuman extends Component {
                             query.set('response', 'false');
 
                             // Send the POST request to the server
-                            axios.post('https://negativei2-server.herokuapp.com/respondoffer', query)
+                            server.post('/respondoffer', query)
                                 .then(function(response) {
                                     // Close offer window
                                     confBox.style.display = "none";
@@ -577,7 +577,7 @@ class HumanVsHuman extends Component {
         const gameid = this.props.gameid;
 
         if (userid !== forfeit_user_id) {
-            axios.get(`https://negativei2-server.herokuapp.com/getgame/${gameid}`)
+            server.get(`/getgame/${gameid}`)
                 .then(function(response) {
                     if (userid === response.data.players.w || userid === response.data.players.b) {
                         // Show opponent forfeit window
