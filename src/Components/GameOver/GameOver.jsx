@@ -1,11 +1,11 @@
 import React from 'react';
 import Spinner from '../Spinner';
 import Chessboard from 'chessboardjsx';
-import './GameEnd.scss';
+import './GameOver.scss';
 import { auth } from '../Firebase';
 import server from '../Server';
 
-class GameEnd extends React.Component {
+class GameOver extends React.Component {
   state = {
       game: null,
       user: null,
@@ -80,7 +80,7 @@ class GameEnd extends React.Component {
       <div>
         {
           this.state.game ?
-          <div id="game-end-wrapper">
+          <div id="game-over-wrapper">
             <button onClick={this.rematch} className="button large large-font" id="rematch-btn">Rematch</button>
 
             <Chessboard id="board" position={this.state.game.fen} width="275"/>
@@ -119,4 +119,4 @@ class GameEnd extends React.Component {
 }
 
 
-export default GameEnd;
+export default GameOver;
