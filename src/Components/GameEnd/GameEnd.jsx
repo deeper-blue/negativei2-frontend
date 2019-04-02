@@ -92,13 +92,13 @@ class GameEnd extends React.Component {
   }
 
   getResult = () => {
-    if (this.state.game === '1-0') {
+    if (this.state.game.result === '1-0') {
       this.setState({black: 'Win'});
       this.setState({white: 'Lose'});
-    } else if (this.state.game === '0-1') {
+    } else if (this.state.game.result === '0-1') {
       this.setState({black: 'Lose'});
       this.setState({white: 'Win'});
-    } else if (this.state.game === '1/2-1/2') {
+    } else if (this.state.game.result === '1/2-1/2') {
       this.setState({black: 'Draw'});
       this.setState({white: 'Draw'});
     } else {
