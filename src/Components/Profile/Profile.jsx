@@ -139,14 +139,14 @@ class Profile extends Component {
                                 <div className='tabs'>
                                     <div className='tab'>
                                         <Button onClick={() => this.goTable()} primary={this.state.primary1}>
-                                            Table
+                                            Games
                                         </Button>
                                     </div>
-                                    <div className='tab'>
+                                    {/* <div className='tab'>
                                         <Button onClick={() => this.goStats()} primary={this.state.primary2}>
                                             Stats
                                         </Button>
-                                    </div>
+                                    </div> */}
                                     {
                                         this.state.user === this.state.profileID ?
                                             <div className='tab'>
