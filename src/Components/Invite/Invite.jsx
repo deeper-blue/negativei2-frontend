@@ -22,20 +22,17 @@ class Invite extends Component {
     }
 
     initAuthListener(){
+        var self = this;
         auth.onAuthStateChanged(function (user) {
             if (user) {
-                this.setState({user: user.uid});
+                self.setState({user: user.uid}, () => self.join());
             } else {
-                auth.signInAnonymously()
-                .then(function(anon) {
-                    this.setState({user: anon});
+                self.setState({user: 'none'});
+                self.setState({
+                    redirect: {pathname: '/login'}
                 })
-                .catch(function(error) {
-                    console.log(error);
-                });
             }
-            this.join();
-        }.bind(this));
+        });
     }
 
     join = () => {
@@ -51,9 +48,15 @@ class Invite extends Component {
             })
             .catch(function(error) {
                 console.log(error);
-                self.setState({redirect: true});
+                self.setState({
+                    redirect: {
+                        pathname: '/join',
+                        data: {
+                            error: `Couldn't join game ${self.state.gameID}.`
+                        }
+                    }
+                });
             });
-
     }
 
     render() {
@@ -61,10 +64,8 @@ class Invite extends Component {
             this.state.user ?
                 this.state.redirect ?
                     <Redirect to={{
-                        pathname: "/join",
-                        state: {
-                            error: `Couldn't join game ${this.state.gameID}.`
-                        }
+                        pathname: this.state.redirect.pathname,
+                        state: this.state.redirect.data
                     }}/>
                 :
                     <Spinner fullPage={true}/>
