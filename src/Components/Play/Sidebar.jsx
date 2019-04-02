@@ -69,7 +69,7 @@ class Sidebar extends Component {
             eh: 'a',
             bee: 'b', be: 'b', me: 'b',
             see: 'c', sea: 'c',
-            of: 'f',
+            of: 'f', fh: 'f',
             one: '1', won: '1',
             two: '2', to: '2', too: '2',
             three: '3', tree: '3', free: '3',
