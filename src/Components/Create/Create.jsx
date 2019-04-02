@@ -27,7 +27,7 @@ class Create extends React.Component {
             P1: "ME",
             P2: "ME",
             P1time: '0',
-            P2time: '0',
+            P2time: '999',
             P1time_custom: 40,
             P2time_custom: 40,
             privacy: 'true',
