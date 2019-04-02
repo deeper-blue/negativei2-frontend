@@ -1,7 +1,6 @@
 
 #config_form {
     text-align: center;
-    padding-top: 3rem;
     position: relative;
     left: auto;
 }
@@ -15,7 +14,45 @@
     left: auto;
 }
 
-input {
-    text-align: center;
-    width: 9%;
+.player {
+    text-align: left;
+    padding: 15px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-input {
+    margin-right: 30px;
+}
+
+.player-header {
+    font-weight: 600
+}
+
+.player-choice {
+    padding: 10px;
+
+}
+
+.time-choice {
+    padding: 10px;
+}
+
+.time-header {
+    margin-bottom: 5px;
+}
+
+.privacy {
+    text-align: left;
+    padding-left: 25px;
+}
+
+#ban {
+    height: 150px;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }

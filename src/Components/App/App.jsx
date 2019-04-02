@@ -12,6 +12,7 @@ import Profiler from '../Profiler';
 import FourOhFour from '../FourOhFour';
 import GameEnd from '../GameEnd';
 import Creation from '../Profile/Creation';
+import Invite from '../Invite';
 
 class App extends Component {
   render() {
@@ -29,7 +30,8 @@ class App extends Component {
           <Route exact path="/play/:gameid?" component={Play} />
           <Route exact path="/play" component={Play} />
           <Route exact path="/join" component={Join} />
-          <Route exact path="/gameEnd/:ID" component={GameEnd} />
+          <Route exact path="/gameover/:ID" component={GameEnd} />
+          <Route exact path="/invite/:ID" component={Invite} />
           <Route component={FourOhFour} />
         </Switch>
       </div>
