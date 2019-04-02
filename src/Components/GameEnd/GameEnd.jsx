@@ -51,6 +51,7 @@ class GameEnd extends React.Component {
       formData.set('player2_id',this.state.game.players.w);
       formData.set('board_id', 'kevin');
       formData.set('time_per_player', this.state.game.time_controls);
+      formData.set('public', this.state.game.public);
 
       server.post('/creategame', formData)
           .then(function (response) {
