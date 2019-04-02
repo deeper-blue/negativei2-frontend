@@ -142,6 +142,8 @@ class Profile extends Component {
                                             Games
                                         </Button>
                                     </div>
+                                    {// TODO: readd this once stats are implemented
+                                    }
                                     {/* <div className='tab'>
                                         <Button onClick={() => this.goStats()} primary={this.state.primary2}>
                                             Stats
