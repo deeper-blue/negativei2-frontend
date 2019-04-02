@@ -56,7 +56,7 @@ class Options extends React.Component {
     }
 
     validateName(name){
-        return name < 32;
+        return name.length < 32;
     }
 
     validatePicture(picture){
