@@ -189,7 +189,6 @@ class HumanVsHuman extends Component {
                     element.addClass('draw');
                     notification.text("It's a draw!");
                 }
-                this.props.history.push('/gameend/' + this.props.gameid);
             } else { // Spectating
                 element.addClass('spectator');
                 if (game.result === '1-0') {
@@ -369,7 +368,7 @@ class HumanVsHuman extends Component {
 
         if ((id_draw_offers.draws.w.made && id_draw_offers.draws.w.accepted) || (id_draw_offers.draws.b.made && id_draw_offers.draws.b.accepted)) {
             // Go to end game screen
-            //this.props.history.push('/endgame');
+            this.props.history.push(`/gameend/${this.props.gameid}`);
         } else {
             if (id_draw_offers.id !== userid) {
                 // Show rejection window
@@ -454,7 +453,7 @@ class HumanVsHuman extends Component {
                                     confBox.style.display = "none";
 
                                     // Go to end game page
-                                    //this.props.history.push('/endgame');
+                                    this.props.history.push(`/gameend/${this.props.gameid}`);
                                 })
                                 .catch(function(error) {
                                     var tmp = $('<div></div>');
@@ -547,7 +546,7 @@ class HumanVsHuman extends Component {
                         confBox.style.display = "none";
 
                         // Go to end game screen
-                        //this.props.history.push('/endgame');
+                        this.props.history.push(`/gameend/${this.props.gameid}`);
                     })
                     .catch(function(error) {
                         var tmp = $('<div></div>');
@@ -593,7 +592,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                //this.props.history.push('/endgame');
+                                this.props.history.push(`/gameend/${this.props.gameid}`);
                             }
                         }
 
@@ -603,7 +602,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            //this.props.history.push('/endgame');
+                            this.props.history.push(`/gameend/${this.props.gameid}`);
                         }
                     } else {
                         // Show opponent forfeit window
@@ -618,7 +617,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                //this.props.history.push('/endgame');
+                                this.props.history.push(`/gameend/${this.props.gameid}`);
                             }
                         }
 
@@ -628,7 +627,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            //this.props.history.push('/endgame');
+                            this.props.history.push(`/gameend/${this.props.gameid}`);
                         }
                     }
                 })
