@@ -185,6 +185,16 @@ class HumanVsHuman extends Component {
                     element.addClass('draw');
                     notification.text("It's a draw!");
                 }
+
+                /** Redirect to /gameover page after 3 seconds,
+                 * so that user has time to read the game over message.
+                 */
+                function sleep (time) {
+                    return new Promise((resolve) => setTimeout(resolve, time));
+                }
+                sleep(3000).then(() => {
+                    this.props.history.push(`/gameover/${this.props.gameid}`);
+                });
             } else { // Spectating
                 element.addClass('spectator');
                 if (game.result === '1-0') {
