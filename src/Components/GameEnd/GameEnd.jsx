@@ -63,18 +63,6 @@ class GameEnd extends React.Component {
 
   }
 
-  resizeBoard = screenWidth => {
-    var width = 300;
-
-    if (screenWidth < 600) {
-      width = (screenWidth < 500) ? 300 : 0.6*screenWidth;
-    } else {
-      width = (screenWidth < 1000) ? 0.4*screenWidth : 400;
-    }
-
-    return width;
-  }
-
   getResult = () => {
     if (this.state.game.result === '1-0') {
       this.setState({white: 'Win', black: 'Lose'});
@@ -95,7 +83,7 @@ class GameEnd extends React.Component {
           <div id="game-end-wrapper">
             <button onClick={this.rematch} className="button large large-font" id="rematch-btn">Rematch</button>
 
-            <Chessboard id="board" position={this.state.game.fen} calcWidth={({screenWidth, screenHeight}) => this.resizeBoard(screenWidth)}/>
+            <Chessboard id="board" position={this.state.game.fen} width="275"/>
 
             <div id="analyse">
               <div id="analyse-description">
