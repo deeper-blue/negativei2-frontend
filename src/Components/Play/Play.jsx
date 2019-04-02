@@ -15,7 +15,7 @@ class Play extends Component {
 
         this.state = {
             user: null,
-            orientation: null
+            loaded: false
         }
     }
 
@@ -28,7 +28,7 @@ class Play extends Component {
         auth.onAuthStateChanged(function(user) {
             if (user) {
                 this.setState({user: user.uid});
-                this.getOrientation();
+                this.loadGame();
             } else {
                 this.setState({user: 'none'});
             }
@@ -49,7 +49,7 @@ class Play extends Component {
         return width;
     }
 
-    getOrientation = () => {
+    loadGame = () => {
         var self = this;
 
         let objectFlip = obj => {
@@ -63,10 +63,18 @@ class Play extends Component {
 
         server.get(`/getgame/${gameID}`)
             .then(function(response) {
+                self.setState({loaded: true});
                 var players = response.data.players
-                if (Object.values(players).includes(user)) {
-                    var side = objectFlip(players)[user];
-                    self.setState({orientation: (side === 'w') ? 'white' : 'black'});
+
+                if (Object.values(players).includes(user) || (response.data.creator === user)) {
+                    if ((!response.data.public) && (parseInt(response.data.free_slots) > 0)) {
+                        alert(`There are open slots in this game! Send your friends the link:\n\nhttps://deeper-blue.me/invite/${self.props.location.pathname.split('/')[2]}\n\n`);
+                    }
+
+                    if (Object.values(players).includes(user)) {
+                        var side = objectFlip(players)[user];
+                        self.setState({orientation: (side === 'w') ? 'white' : 'black'});
+                    }
                 } else {
                     self.setState({orientation: 'white'});
                 }
@@ -80,7 +88,7 @@ class Play extends Component {
             <div>
                 {
                     this.state.user ?
-                        this.state.orientation ?
+                        this.state.loaded ?
                             <div id="game-wrapper">
                                 <div id="side-wrapper">
                                     <span></span>
