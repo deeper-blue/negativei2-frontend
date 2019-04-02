@@ -10,7 +10,6 @@ class GameEnd extends React.Component {
       game: null,
       user: null,
       rematch: null,
-      showResults: false,
       black: null,
       white: null
   };
@@ -36,7 +35,7 @@ class GameEnd extends React.Component {
   loadGame = (id) => {
     server.get(`/getgame/${id}`)
       .then(function (response) {
-        this.setState({game: response.data});
+        this.setState({game: response.data}, () => this.getResult());
       }.bind(this))
       .catch(function (error) {
         console.log(error);
@@ -64,21 +63,6 @@ class GameEnd extends React.Component {
 
   }
 
-  toggleResults = () => {
-    var results = document.getElementById('results');
-
-    if (this.state.showResults) {
-      // Table displayed, hide it
-      results.classList.remove('displayed');
-      this.setState({showResults: false});
-    } else {
-      // Table not displayed, display it
-      results.classList.add('displayed');
-      this.setState({showResults: true});
-      this.getResult();
-    }
-  }
-
   resizeBoard = screenWidth => {
     var width = 300;
 
@@ -104,41 +88,45 @@ class GameEnd extends React.Component {
   }
 
   render() {
-      return (
-              <div>
-                {
-                  this.state.game ?
-                  <div className="btn-group-links" id="my_centered_buttons">
-                    <button onClick={this.rematch} className="button large large-font home-link">Rematch</button>
-                    <button onClick={this.toggleResults} className="button large large-font home-link">Show results</button>
-                    <table id="results">
-                      <tr>
-                          <th>Player ID</th>
-                          <th>Playing as</th>
-                          <th>Result</th>
-                      </tr>
-                      <tr>
-                        <td>{this.state.game.players.b}</td>
-                        <td>Black</td>
-                        <td>{this.state.black}</td>
-                      </tr>
-                      <tr>
-                        <td>{this.state.game.players.w}</td>
-                        <td>White</td>
-                        <td>{this.state.white}</td>
-                      </tr>
-                    </table>
+    return (
+      <div>
+        {
+          this.state.game ?
+          <div id="game-end-wrapper">
+            <button onClick={this.rematch} className="button large large-font" id="rematch-btn">Rematch</button>
 
-                    <Chessboard id="board" position={this.state.game.fen} calcWidth={({screenWidth, screenHeight}) => this.resizeBoard(screenWidth)}/>
-                    <table>
-                      <tr>You could move the pieces on the board to analyse</tr>
-                    </table>
-                  </div>
-                  :
-                  <Spinner/>
-                }
+            <Chessboard id="board" position={this.state.game.fen} calcWidth={({screenWidth, screenHeight}) => this.resizeBoard(screenWidth)}/>
+
+            <div id="analyse">
+              <div id="analyse-description">
+                <p><em>You may move pieces on the board to analyse different positions.</em></p>
               </div>
-      );
+              <button onClick={() => window.location.reload()} className="button small small-font" id="reset-btn">Reset</button>
+            </div>
+
+            <table id="results">
+              <tr>
+                  <th>Player ID</th>
+                  <th>Playing as</th>
+                  <th>Result</th>
+              </tr>
+              <tr>
+                <td>{this.state.game.players.b}</td>
+                <td>Black</td>
+                <td>{this.state.black}</td>
+              </tr>
+              <tr>
+                <td>{this.state.game.players.w}</td>
+                <td>White</td>
+                <td>{this.state.white}</td>
+              </tr>
+            </table>
+          </div>
+          :
+          <Spinner/>
+        }
+      </div>
+    );
   }
 }
 
