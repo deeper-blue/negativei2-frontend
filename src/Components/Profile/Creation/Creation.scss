@@ -1,10 +1,27 @@
+@import '../../../index.scss';
+
 #creation {
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items:center;
+    justify-content: space-between;
     text-align: center;
+    height: 40vh;
 
     input {
         width: max-content;
     }
+}
+
+.submission {
+    margin-right: 20px
+}
+
+.inputs {
+    margin: 15px 0px 15px 0px   ;
+}
+
+#errors{
+    color: red;
+    font-size: 13px;
 }
