@@ -11,6 +11,10 @@ const StyledDiv = styled.div`
     border-radius: 15px;
     text-align: center;
 
+    #errorz {
+        font-size: 13px;
+        color: red;
+    }
 `;
 
 class Options extends React.Component {
@@ -36,11 +40,16 @@ class Options extends React.Component {
     handleNameSubmit(e) {
         e.preventDefault();
 
+        console.log('update name')
+
         const name = this.state.name;
-        if(this.validatePicture(name)){
+        if(this.validateName(name)){
+            console.log('name validated')
             this.updateProfile('name', name);
         } else {
-            // error
+            this.setState({
+                nameError: "Please enter a name of 32 characters or less."
+            })
         }
     }
 
@@ -51,11 +60,14 @@ class Options extends React.Component {
         if(this.validatePicture(picture)){
             this.updateProfile('pic', picture);
         } else {
-            // errors
+            this.setState({
+                pictureError: "Please enter a valid url for an image."
+            })
         }
     }
 
     validateName(name){
+        console.log(name.length < 32);
         return name.length < 32;
     }
 
@@ -97,6 +109,12 @@ class Options extends React.Component {
             <StyledDiv>
                 <div>
                     Use these forms to alter your display name and profile picture.
+                </div>
+                <div id='errorz'>
+                    {this.state.nameError}
+                </div>
+                <div id='errorz'>
+                    {this.state.pictureError}
                 </div>
                 <div className='display_name'>
                     <form onSubmit={this.handleNameSubmit} >
