@@ -24,9 +24,22 @@ h1 {
     thead{
         color: #f3d19f;
     }
-    
+
     th{
         background-color: rgb(40, 86, 129);
         padding: 25px 5px 25px 5px;
+    }
+
+    .username_btn {
+        border: none;
+        padding: 9px 18px;
+        font-size: 16px;
+        color: rgb(26, 55, 82);
+        background-color: inherit;
+        cursor: pointer;
+    }
+
+    .username_btn:hover {
+        background: #eee;
     }
 }

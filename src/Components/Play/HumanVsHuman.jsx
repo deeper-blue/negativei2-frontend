@@ -364,28 +364,32 @@ class HumanVsHuman extends Component {
         }
     }
 
-    drawOfferAnswer = (draw_offers) => {
-        if ((draw_offers.w.made && draw_offers.w.accepted) || (draw_offers.b.made && draw_offers.b.accepted)) {
+    drawOfferAnswer = (id_draw_offers) => {
+        const userid = this.props.userid;
+
+        if ((id_draw_offers.draws.w.made && id_draw_offers.draws.w.accepted) || (id_draw_offers.draws.b.made && id_draw_offers.draws.b.accepted)) {
             // Go to end game screen
             //this.props.history.push('/endgame');
         } else {
-            // Show rejection window
-            const confBox = document.getElementById("draw-rejection-confirmation");
+            if (id_draw_offers.id !== userid) {
+                // Show rejection window
+                const confBox = document.getElementById("draw-rejection-confirmation");
 
-            // Open the confirmation window
-            confBox.style.display = "block";
+                // Open the confirmation window
+                confBox.style.display = "block";
 
-            // If the user clicks anywhere outside the box then close it
-            window.onclick = (event) => {
-                if (event.target === confBox) {
+                // If the user clicks anywhere outside the box then close it
+                window.onclick = (event) => {
+                    if (event.target === confBox) {
+                        confBox.style.display = "none";
+                    }
+                }
+
+                // Close window when "Close" is clicked
+                const closeRejectionBtn = document.getElementById("close-rejection");
+                closeRejectionBtn.onclick = (event) => {
                     confBox.style.display = "none";
                 }
-            }
-
-            // Close window when "Close" is clicked
-            const closeRejectionBtn = document.getElementById("close-rejection");
-            closeRejectionBtn.onclick = (event) => {
-                confBox.style.display = "none";
             }
         }
     }
@@ -397,83 +401,115 @@ class HumanVsHuman extends Component {
     }
 
     // Deals with the received draw offer
-    drawOfferReceived = () => {
+    drawOfferReceived = (draw_offer_user_id) => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
 
-        const confBox = document.getElementById("draw-received-confirmation");
-
-        // Open the confirmation window
-        confBox.style.display = "block";
-
-        // Construct a HTTP POST query
-        var query = new FormData();
-        query.set('game_id', gameid);
-        query.set('user_id', userid);
-
-        // If the user clicks anywhere outside the box then close it and decline offer
-        window.onclick = (event) => {
-            if (event.target === confBox) {
-                // Decline offer
-                query.set('response', 'false');
-
-                // Send the POST request to the server
-                server.post('/respondoffer', query)
-                    .then(function(response) {
-                        // Close offer window
-                        confBox.style.display = "none";
-                    })
-                    .catch(function(error) {
-                        var tmp = $('<div></div>');
-                        tmp.html(error.response.data);
-
-                        var message = $('p', tmp).text();
-                        console.log(message);
-                    });
-            }
-        }
-
-        // Accept the draw offer
-        const acceptDrawBtn = document.getElementById("accept-draw");
-        acceptDrawBtn.onclick = (event) => {
-            query.set('response', 'true');
-
-            // Send the POST request to the server
-            server.post('/respondoffer', query)
+        if (userid !== draw_offer_user_id) {
+            server.get(`/getgame/${gameid}`)
                 .then(function(response) {
-                    // Close offer window
-                    confBox.style.display = "none";
+                    if (userid === response.data.players.b || userid === response.data.players.w) {
+                        // User is opponent not spectator
+                        const confBox = document.getElementById("draw-received-confirmation");
 
-                    // Go to end game page
-                    //this.props.history.push('/endgame');
+                        // Open the confirmation window
+                        confBox.style.display = "block";
+
+                        // Construct a HTTP POST query
+                        var query = new FormData();
+                        query.set('game_id', gameid);
+                        query.set('user_id', userid);
+
+                        // If the user clicks anywhere outside the box then close it and decline offer
+                        window.onclick = (event) => {
+                            if (event.target === confBox) {
+                                // Decline offer
+                                query.set('response', 'false');
+
+                                // Send the POST request to the server
+                                server.post('/respondoffer', query)
+                                    .then(function(response) {
+                                        // Close offer window
+                                        confBox.style.display = "none";
+                                    })
+                                    .catch(function(error) {
+                                        var tmp = $('<div></div>');
+                                        tmp.html(error.response.data);
+
+                                        var message = $('p', tmp).text();
+                                        console.log(message);
+                                    });
+                            }
+                        }
+
+                        // Accept the draw offer
+                        const acceptDrawBtn = document.getElementById("accept-draw");
+                        acceptDrawBtn.onclick = (event) => {
+                            query.set('response', 'true');
+
+                            // Send the POST request to the server
+                            server.post('/respondoffer', query)
+                                .then(function(response) {
+                                    // Close offer window
+                                    confBox.style.display = "none";
+
+                                    // Go to end game page
+                                    //this.props.history.push('/endgame');
+                                })
+                                .catch(function(error) {
+                                    var tmp = $('<div></div>');
+                                    tmp.html(error.response.data);
+
+                                    var message = $('p', tmp).text();
+                                    console.log(message);
+                                });
+                        }
+
+                        // Close window when "Decline" is clicked
+                        const declineDrawBtn = document.getElementById("decline-offer");
+                        declineDrawBtn.onclick = (event) => {
+                            // Decline offer
+                            query.set('response', 'false');
+
+                            // Send the POST request to the server
+                            server.post('/respondoffer', query)
+                                .then(function(response) {
+                                    // Close offer window
+                                    confBox.style.display = "none";
+                                })
+                                .catch(function(error) {
+                                    var tmp = $('<div></div>');
+                                    tmp.html(error.response.data);
+
+                                    var message = $('p', tmp).text();
+                                    console.log(message);
+                                });
+                        }
+                    } else {
+                        // Display notification for spectator
+                        const confBox = document.getElementById("spectator-draw-received");
+
+                        // Open the confirmation window
+                        confBox.style.display = "block";
+
+                        // If the user clicks anywhere outside the box then close it
+                        window.onclick = (event) => {
+                            if (event.target === confBox) {
+                                // Close window
+                                confBox.style.display = "none";
+                            }
+                        }
+
+                        // Close window when "Close" is clicked
+                        const closeDrawBtn = document.getElementById("spectator-draw-close");
+                        closeDrawBtn.onclick = (event) => {
+                            // Close window
+                            confBox.style.display = "none";
+                        }
+                    }
                 })
                 .catch(function(error) {
-                    var tmp = $('<div></div>');
-                    tmp.html(error.response.data);
-
-                    var message = $('p', tmp).text();
-                    console.log(message);
-                });
-        }
-
-        // Close window when "Decline" is clicked
-        const declineDrawBtn = document.getElementById("decline-offer");
-        declineDrawBtn.onclick = (event) => {
-            // Decline offer
-            query.set('response', 'false');
-
-            // Send the POST request to the server
-            server.post('/respondoffer', query)
-                .then(function(response) {
-                    // Close offer window
-                    confBox.style.display = "none";
-                })
-                .catch(function(error) {
-                    var tmp = $('<div></div>');
-                    tmp.html(error.response.data);
-
-                    var message = $('p', tmp).text();
-                    console.log(message);
+                    console.log(error);
                 });
         }
     }
@@ -537,30 +573,68 @@ class HumanVsHuman extends Component {
     }
 
     // Deals with the opponent forfeiting the game
-    forfeitReceived = () => {
-        // Show opponent forfeit window
-        const confBox = document.getElementById("opponent-forfeit-confirmation");
+    forfeitReceived = (forfeit_user_id) => {
+        const userid = this.props.userid;
+        const gameid = this.props.gameid;
 
-        // Open the confirmation window
-        confBox.style.display = "block";
+        if (userid !== forfeit_user_id) {
+            server.get(`/getgame/${gameid}`)
+                .then(function(response) {
+                    if (userid === response.data.players.w || userid === response.data.players.b) {
+                        // Show opponent forfeit window
+                        const confBox = document.getElementById("opponent-forfeit-confirmation");
 
-        // If the user clicks anywhere outside the box then close it
-        window.onclick = (event) => {
-            if (event.target === confBox) {
-                confBox.style.display = "none";
+                        // Open the confirmation window
+                        confBox.style.display = "block";
 
-                // Go to end game screen
-                //this.props.history.push('/endgame');
-            }
-        }
+                        // If the user clicks anywhere outside the box then close it
+                        window.onclick = (event) => {
+                            if (event.target === confBox) {
+                                confBox.style.display = "none";
 
-        // Close window when "Close" is clicked
-        const closeForfeitBtn = document.getElementById("close-forfeit");
-        closeForfeitBtn.onclick = (event) => {
-            confBox.style.display = "none";
+                                // Go to end game screen
+                                //this.props.history.push('/endgame');
+                            }
+                        }
 
-            // Go to end game screen
-            //this.props.history.push('/endgame');
+                        // Close window when "Close" is clicked
+                        const closeForfeitBtn = document.getElementById("close-forfeit");
+                        closeForfeitBtn.onclick = (event) => {
+                            confBox.style.display = "none";
+
+                            // Go to end game screen
+                            //this.props.history.push('/endgame');
+                        }
+                    } else {
+                        // Show opponent forfeit window
+                        const confBox = document.getElementById("spectator-forfeit-confirmation");
+
+                        // Open the confirmation window
+                        confBox.style.display = "block";
+
+                        // If the user clicks anywhere outside the box then close it
+                        window.onclick = (event) => {
+                            if (event.target === confBox) {
+                                confBox.style.display = "none";
+
+                                // Go to end game screen
+                                //this.props.history.push('/endgame');
+                            }
+                        }
+
+                        // Close window when "Close" is clicked
+                        const closeForfeitBtn = document.getElementById("spectator-close-forfeit");
+                        closeForfeitBtn.onclick = (event) => {
+                            confBox.style.display = "none";
+
+                            // Go to end game screen
+                            //this.props.history.push('/endgame');
+                        }
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         }
     }
 

@@ -9,7 +9,8 @@ class Profiler extends React.Component {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            anon: null
         }
     }
 
@@ -20,9 +21,14 @@ class Profiler extends React.Component {
     initAuthListener(){
         auth.onAuthStateChanged(function(user) {
             if (user) {
-                this.setState({user: user.uid});
+                this.setState({
+                    user: user.uid,
+                    anon: user.isAnonymous
+                });
             } else {
-                this.setState({user: 'none'});
+                this.setState({
+                    user: 'none'
+                });
             }
         }.bind(this))
     }
