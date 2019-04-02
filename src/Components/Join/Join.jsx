@@ -7,6 +7,8 @@ import server from '../Server';
 class Join extends React.Component {
 
     user_dictionary= {};
+    active_games = [];
+    active_games_usernames = {};
 
     constructor(props){
         super(props);
@@ -25,8 +27,44 @@ class Join extends React.Component {
 
     componentDidMount() {
         document.title = 'Deeper Blue: Join Game';
+        this.getGames();
+        this.activeGameUsernames();
         this.httpGetRequest('/gamelist');
         this.initAuthListener();
+    }
+
+    getGames() {
+        const db = firebase.firestore();
+        const docRef = db.collection('games');
+
+        docRef.get()
+            .then(function(snapshot)  {
+                if (snapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                } else {
+                    snapshot.forEach(function(doc) {
+                        if (doc.data().game_over.game_over === false && (doc.data().players.w === this.state.user || doc.data().players.b === this.state.user)) {
+                            this.active_games.push(doc.data());
+
+                            if(doc.data().creator){this.active_games_usernames[doc.data().creator] = "Guest"}
+                            if(doc.data().players.b){this.active_games_usernames[doc.data().players.b] = "Guest"}
+                            if(doc.data().players.w){this.active_games_usernames[doc.data().players.w] = "Guest"}
+                        }
+                    }.bind(this))
+                }
+            }.bind(this));
+    }
+
+    activeGameUsernames() {
+        const db = firebase.firestore();
+        const docRef = db.collection('users');
+
+        docRef.get().then(function(response) {
+            response.forEach(function(doc) {
+                this.active_games_usernames[doc.id] = doc.data().name;
+            }.bind(this))
+        }.bind(this));
     }
 
     initAuthListener(){
@@ -66,6 +104,7 @@ class Join extends React.Component {
 
     parse(response) {
         var id_set = new Set();
+        console.log(response)
 
         this.setState( state => ({
             game_list: response,
@@ -128,29 +167,104 @@ class Join extends React.Component {
             <div>
                 {this.state.loaded && this.state.user ?
                 <div className='matches'>
-                    <h1>Open matches</h1>
+                    <h1
+                    tooltip-very-large="Displays all of the games that you are currently playing."
+                    tooltip-position="right"
+                    >
+                    Active matches</h1>
                     {this.semaphore === 0 ?
                     <table className="match-list">
                         <thead>
                             <tr>
-                                <th>Game ID</th>
-                                <th>Creator</th>
-                                <th>Open slots</th>
-                                <th>White</th>
-                                <th>Black</th>
-                                <th>Time Limit</th>
+                                <th
+                                tooltip-very-large="ID of the game."
+                                tooltip-position="top"
+                                >Game ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who created the game. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Creator ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who is playing as white. The '-' means no-one is playing as white. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >White</th>
+                                <th
+                                tooltip-very-large="Username of the person who is playing as black. The '-' means no-one is playing as black. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Black</th>
+                                <th
+                                tooltip-very-large="The button 'GO' takes you to the game."
+                                tooltip-position="top"
+                                >Game</th>
+                                <th
+                                tooltip-very-large="The time limit for each game."
+                                tooltip-position="top"
+                                >Time Limit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.active_games.map((game, index) => (
+                                    <tr key={index}>
+                                        <td>{game.id}</td>
+                                        <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.creator)}>{this.active_games_usernames[game.creator]}</button></td>
+                                        <td>{game.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.w)}>{game.players.w === "AI" ? "AI" : this.active_games_usernames[game.players.w]}</button> : "-"}</td>
+                                        <td>{game.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.b)}>{game.players.b === "AI" ? "AI" : this.active_games_usernames[game.players.b]}</button> : "-"}</td>
+                                        <td>{<button onClick={() => this.props.history.push('/play/' + game.id)}>GO</button>}</td>
+                                        <td>{game.time_controls}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                    : <Spinner fullPage={false}/>}
+
+                    <h1
+                    tooltip-very-large="Displays all of the games that you are not currently playing and that have at least one open slot."
+                    tooltip-position="right"
+                    >Open matches</h1>
+                    {this.semaphore === 0 ?
+                    <table className="match-list">
+                        <thead>
+                            <tr>
+                                <th
+                                tooltip-very-large="ID of the game."
+                                tooltip-position="top"
+                                >Game ID</th>
+                                <th
+                                tooltip-very-large="Username of the person who created the game. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Creator ID</th>
+                                <th
+                                tooltip-very-large="The open slots tells us the number of players that will need to join for the game to begin."
+                                tooltip-position="top"
+                                >Open slots</th>
+                                <th
+                                tooltip-very-large="This will contain the username of a player who is playing as white or it will contain a button called 'PLAY' which allows you to join the game playing as white. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >White</th>
+                                <th
+                                tooltip-very-large="This will contain the username of a player who is playing as black or it will contain a button called 'PLAY' which allows you to join the game playing as black. Tip: Click the username to view their profile!"
+                                tooltip-position="top"
+                                >Black</th>
+                                <th
+                                tooltip-very-large="The time limit for each game."
+                                tooltip-position="top"
+                                >Time Limit</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 this.state.game_list.data.map((row, index) => (
                                     row.free_slots = 0 ? null :
-                                    <tr>
+                                    this.state.user === row.players.w ? null :
+                                    this.state.user === row.players.b ? null :
+                                    <tr key={index}>
                                         <td>{row.id}</td>
-                                        <td>{this.getNameFromId(row.creator)}</td>
+                                        <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.getNameFromId(row.creator)}</button></td>
                                         <td>{row.free_slots}</td>
-                                        <td>{row.players.w ? this.getNameFromId(row.players.w) : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
-                                        <td>{row.players.b ? this.getNameFromId(row.players.b) : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
+                                        <td>{row.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.w)}>{row.players.w === "AI" ? "AI" : this.getNameFromId(row.players.w)}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'w')}>PLAY</button>}</td>
+                                        <td>{row.players.b ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.players.b)}>{row.players.b === "AI" ? "AI" : this.getNameFromId(row.players.b)}</button> : <button onClick={(game_id, side, e) => this.joinGame(row.id, 'b')}>PLAY</button>}</td>
                                         <td>{row.time_controls}</td>
                                     </tr>
                                 ))
