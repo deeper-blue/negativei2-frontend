@@ -352,8 +352,8 @@ class Create extends React.Component {
                                                 <input
                                                     type='radio'
                                                     name='P2time'
-                                                    value='0'
-                                                    checked={this.state.P2time === "0"}
+                                                    value='999'
+                                                    checked={this.state.P2time === "999"}
                                                     onChange={this.handleTimeOptionChange}
                                                     className='radio-input'
                                                 />
