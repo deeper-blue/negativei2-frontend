@@ -93,21 +93,25 @@ class GameOver extends React.Component {
             </div>
 
             <table id="results">
-              <tr>
-                  <th>Player ID</th>
-                  <th>Playing as</th>
-                  <th>Result</th>
-              </tr>
-              <tr>
-                <td>{this.state.game.players.b}</td>
-                <td>Black</td>
-                <td>{this.state.black}</td>
-              </tr>
-              <tr>
-                <td>{this.state.game.players.w}</td>
-                <td>White</td>
-                <td>{this.state.white}</td>
-              </tr>
+              <thead>
+                <tr>
+                    <th>Player ID</th>
+                    <th>Playing as</th>
+                    <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{this.state.game.players.b}</td>
+                  <td>Black</td>
+                  <td>{this.state.black}</td>
+                </tr>
+                <tr>
+                  <td>{this.state.game.players.w}</td>
+                  <td>White</td>
+                  <td>{this.state.white}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
           :
