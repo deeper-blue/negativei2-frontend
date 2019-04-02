@@ -36,7 +36,7 @@ class Join extends React.Component {
          * on the component, or even a return URL.
          *
          * But if this component is rendered without a redirect, then `location.state`
-         * will be undefined. This ensures conditional below ensures that the code
+         * will be undefined. This conditional below ensures that the code
          * only runs in the event of a redirect.
          **/
         if (typeof this.props.location.state !== 'undefined') {
