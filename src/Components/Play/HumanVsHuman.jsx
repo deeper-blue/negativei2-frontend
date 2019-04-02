@@ -93,11 +93,7 @@ class HumanVsHuman extends Component {
                 }
             })
             .catch(function(error) {
-                var tmp = $('<div></div>');
-                tmp.html(error.response.data);
-
-                var message = $('p', tmp).text();
-                console.log(message);
+                console.log(error);
             });
     };
 
@@ -347,11 +343,7 @@ class HumanVsHuman extends Component {
                         confBox.style.display = "none";
                     })
                     .catch(function(error) {
-                        var tmp = $('<div></div>');
-                        tmp.html(error.response.data);
-
-                        var message = $('p', tmp).text();
-                        console.log(message);
+                        console.log(error);
                     });
             }
 
@@ -432,11 +424,7 @@ class HumanVsHuman extends Component {
                                         confBox.style.display = "none";
                                     })
                                     .catch(function(error) {
-                                        var tmp = $('<div></div>');
-                                        tmp.html(error.response.data);
-
-                                        var message = $('p', tmp).text();
-                                        console.log(message);
+                                        console.log(error);
                                     });
                             }
                         }
@@ -456,11 +444,7 @@ class HumanVsHuman extends Component {
                                     this.props.history.push(`/gameover/${this.props.gameid}`);
                                 })
                                 .catch(function(error) {
-                                    var tmp = $('<div></div>');
-                                    tmp.html(error.response.data);
-
-                                    var message = $('p', tmp).text();
-                                    console.log(message);
+                                    console.log(error);
                                 });
                         }
 
@@ -477,11 +461,7 @@ class HumanVsHuman extends Component {
                                     confBox.style.display = "none";
                                 })
                                 .catch(function(error) {
-                                    var tmp = $('<div></div>');
-                                    tmp.html(error.response.data);
-
-                                    var message = $('p', tmp).text();
-                                    console.log(message);
+                                    console.log(error);
                                 });
                         }
                     } else {
@@ -549,11 +529,7 @@ class HumanVsHuman extends Component {
                         this.props.history.push(`/gameover/${this.props.gameid}`);
                     })
                     .catch(function(error) {
-                        var tmp = $('<div></div>');
-                        tmp.html(error.response.data);
-
-                        var message = $('p', tmp).text();
-                        console.log(message);
+                        console.log(error);
                     });
             }
 
