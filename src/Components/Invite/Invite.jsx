@@ -25,12 +25,15 @@ class Invite extends Component {
         var self = this;
         auth.onAuthStateChanged(function (user) {
             if (user) {
-                self.setState({user: user.uid}, () => self.join());
+                self.setState({user: user.uid});
+                self.join();
             } else {
-                self.setState({user: 'none'});
-                self.setState({
-                    redirect: {pathname: '/login'}
+                auth.signInAnonymously()
+                .then(function (anon) {
+                    this.setState({user: anon});
                 })
+                .catch(function (error) {
+                });
             }
         });
     }
@@ -48,14 +51,7 @@ class Invite extends Component {
             })
             .catch(function(error) {
                 console.log(error);
-                self.setState({
-                    redirect: {
-                        pathname: '/join',
-                        data: {
-                            error: `Couldn't join game ${self.state.gameID}.`
-                        }
-                    }
-                });
+                self.setState({redirect: false});
             });
     }
 
@@ -64,8 +60,10 @@ class Invite extends Component {
             this.state.user ?
                 this.state.redirect ?
                     <Redirect to={{
-                        pathname: this.state.redirect.pathname,
-                        state: this.state.redirect.data
+                        pathname: "/join",
+                        state: {
+                            error: `Couldn't join game ${this.state.gameID}.`
+                        }
                     }}/>
                 :
                     <Spinner fullPage={true}/>
