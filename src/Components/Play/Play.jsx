@@ -71,8 +71,10 @@ class Play extends Component {
                         alert(`There are open slots in this game! Send your friends the link:\n\nhttps://deeper-blue.me/invite/${self.props.location.pathname.split('/')[2]}\n\n`);
                     }
 
-                    var side = objectFlip(players)[user];
-                    self.setState({orientation: (side === 'w') ? 'white' : 'black'});
+                    if (Object.values(players).includes(user)) {
+                        var side = objectFlip(players)[user];
+                        self.setState({orientation: (side === 'w') ? 'white' : 'black'});
+                    }
                 } else {
                     self.setState({orientation: 'white'});
                 }
