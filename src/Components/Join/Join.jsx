@@ -28,6 +28,17 @@ class Join extends React.Component {
         this.httpGetRequest('/gamelist');
         this.initAuthListener();
 
+        /** See https://reacttraining.com/react-router/web/api/Redirect/to-object
+         * for more information about how `location.state` works.
+         *
+         * Essentially, it allows for information from a redirect to be accessed
+         * on the redirected-to component - this might be an error message to display
+         * on the component, or even a return URL.
+         *
+         * But if this component is rendered without a redirect, then `location.state`
+         * will be undefined. This ensures conditional below ensures that the code
+         * only runs in the event of a redirect.
+         **/
         if (typeof this.props.location.state !== 'undefined') {
             if ('error' in this.props.location.state) {
                 alert(this.props.location.state.error);
