@@ -37,16 +37,40 @@ class Options extends React.Component {
         e.preventDefault();
 
         const name = this.state.name;
-
-        this.updateProfile('name', name);
+        if(this.validatePicture(name)){
+            this.updateProfile('name', name);
+        } else {
+            // error
+        }
     }
 
     handlePPSubmit(e) {
         e.preventDefault();
 
         const picture = this.state.picture;
+        if(this.validatePicture(picture)){
+            this.updateProfile('pic', picture);
+        } else {
+            // errors
+        }
+    }
 
-        this.updateProfile('pic', picture);
+    validateName(name){
+        return name < 32;
+    }
+
+    validatePicture(picture){
+        return this.validURL(picture);
+    }
+
+    validURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
     }
 
     updateProfile(field, value) {
@@ -71,6 +95,9 @@ class Options extends React.Component {
     render(){
         return(
             <StyledDiv>
+                <div>
+                    Use these forms to alter your display name and profile picture.
+                </div>
                 <div className='display_name'>
                     <form onSubmit={this.handleNameSubmit} >
                         <label>
