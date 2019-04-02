@@ -52,9 +52,6 @@ class Join extends React.Component {
                             if(doc.data().players.w){this.active_games_usernames[doc.data().players.w] = "Guest"}
                         }
                     }.bind(this))
-                    .catch(err => {
-                        console.log('Error getting documents', err);
-                    });
                 }
             }.bind(this));
     }
@@ -64,21 +61,9 @@ class Join extends React.Component {
         const docRef = db.collection('users');
 
         docRef.get().then(function(response) {
-            if (response.empty) {
-                console.log('Does not exist!');
-                return;
-            } else {
-                response.forEach(function(doc) {
-                    if (typeof doc.data().name === 'undefined') {
-                        this.active_games_usernames[doc.id] = 'Guest';
-                    } else {
-                        this.active_games_usernames[doc.id] = doc.data().name;
-                    }
-                }.bind(this))
-                .catch(err => {
-                    console.log('Error getting documents', err);
-                });
-            }
+            response.forEach(function(doc) {
+                this.active_games_usernames[doc.id] = doc.data().name;
+            }.bind(this))
         }.bind(this));
     }
 
@@ -219,8 +204,8 @@ class Join extends React.Component {
                         </thead>
                         <tbody>
                             {
-                                this.active_games.map(game => (
-                                    <tr>
+                                this.active_games.map((game, index) => (
+                                    <tr key={index}>
                                         <td>{game.id}</td>
                                         <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.creator)}>{this.active_games_usernames[game.creator]}</button></td>
                                         <td>{game.players.w ? <button className="username_btn" onClick={() => this.props.history.push('/profile/' + game.players.w)}>{game.players.w === "AI" ? "AI" : this.active_games_usernames[game.players.w]}</button> : "-"}</td>
@@ -274,7 +259,7 @@ class Join extends React.Component {
                                     row.free_slots = 0 ? null :
                                     this.state.user === row.players.w ? null :
                                     this.state.user === row.players.b ? null :
-                                    <tr>
+                                    <tr key={index}>
                                         <td>{row.id}</td>
                                         <td><button className="username_btn" onClick={() => this.props.history.push('/profile/' + row.creator)}>{this.getNameFromId(row.creator)}</button></td>
                                         <td>{row.free_slots}</td>
