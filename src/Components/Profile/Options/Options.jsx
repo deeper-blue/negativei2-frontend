@@ -40,11 +40,8 @@ class Options extends React.Component {
     handleNameSubmit(e) {
         e.preventDefault();
 
-        console.log('update name')
-
         const name = this.state.name;
         if(this.validateName(name)){
-            console.log('name validated')
             this.updateProfile('name', name);
         } else {
             this.setState({
@@ -67,7 +64,6 @@ class Options extends React.Component {
     }
 
     validateName(name){
-        console.log(name.length < 32);
         return name.length < 32;
     }
 

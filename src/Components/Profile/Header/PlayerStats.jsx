@@ -31,11 +31,11 @@ class PlayerStats extends React.Component {
                     </div>
                     <div className='stat'>
                         <div>losses</div>
-                        {this.props.profileData.losses ? this.props.profileData.wins : 0}
+                        {this.props.profileData.losses ? this.props.profileData.losses : 0}
                     </div>
                     <div className='stat'>
                         <div>winrate</div>
-                    {this.props.profileData.losses ? Math.trunc((this.props.profileData.wins / (this.props.profileData.losses + this.props.profileData.wins)) * 100) + '%' : 0 + '%'}
+                    {this.props.profileData.losses ? Math.trunc((this.props.profileData.wins / (this.props.profileData.losses + this.props.profileData.wins)) * 100) + '%' : 100 + '%'}
                     </div>
                 </div>
             </Styled>
