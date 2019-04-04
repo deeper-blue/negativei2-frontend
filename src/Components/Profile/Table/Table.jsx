@@ -73,7 +73,7 @@ class Table extends Component {
 
         const userID = this.props.location.pathname.split('/')[2];
 
-        gameRef.where('white', '==', userID).get().then(function(querySnapshot) {
+        gameRef.where('players.w', '==', userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
@@ -93,7 +93,7 @@ class Table extends Component {
                 whiteLoaded: true,
             }))
         }.bind(this));
-        gameRef.where('black', '==', userID).get().then(function(querySnapshot) {
+        gameRef.where('players.b', '==', userID).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 var data = doc.data()
                 data.id = doc.id;
@@ -126,7 +126,7 @@ class Table extends Component {
                 {this.state.whiteLoaded && this.state.blackLoaded ?
                     <div>
                         {
-                            this.state.blackData.length > 0 && this.state.whiteData.length > 0 
+                            this.state.blackData.length > 0 || this.state.whiteData.length > 0 
                         ? 
                         <Tableau>
                             <thead>
@@ -154,7 +154,7 @@ class Table extends Component {
                                             </td>
                                             <td>
                                                 {/* <Link to={row.black === userID ? row.white : row.black} className='link'> */}
-                                                {row.black === userID ? row.white : row.black}
+                                                {row.players.b === userID ? row.players.w : row.players.b}
                                                 {/* </Link> */}
                                             </td>
                                         </tr>
