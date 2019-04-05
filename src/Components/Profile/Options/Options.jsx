@@ -11,6 +11,10 @@ const StyledDiv = styled.div`
     border-radius: 15px;
     text-align: center;
 
+    #errorz {
+        font-size: 13px;
+        color: red;
+    }
 `;
 
 class Options extends React.Component {
@@ -37,16 +41,44 @@ class Options extends React.Component {
         e.preventDefault();
 
         const name = this.state.name;
-
-        this.updateProfile('name', name);
+        if(this.validateName(name)){
+            this.updateProfile('name', name);
+        } else {
+            this.setState({
+                nameError: "Please enter a name of 32 characters or less."
+            })
+        }
     }
 
     handlePPSubmit(e) {
         e.preventDefault();
 
         const picture = this.state.picture;
+        if(this.validatePicture(picture)){
+            this.updateProfile('pic', picture);
+        } else {
+            this.setState({
+                pictureError: "Please enter a valid url for an image."
+            })
+        }
+    }
 
-        this.updateProfile('pic', picture);
+    validateName(name){
+        return name.length < 32;
+    }
+
+    validatePicture(picture){
+        return this.validURL(picture);
+    }
+
+    validURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
     }
 
     updateProfile(field, value) {
@@ -71,6 +103,15 @@ class Options extends React.Component {
     render(){
         return(
             <StyledDiv>
+                <div>
+                    Use these forms to alter your display name and profile picture.
+                </div>
+                <div id='errorz'>
+                    {this.state.nameError}
+                </div>
+                <div id='errorz'>
+                    {this.state.pictureError}
+                </div>
                 <div className='display_name'>
                     <form onSubmit={this.handleNameSubmit} >
                         <label>
