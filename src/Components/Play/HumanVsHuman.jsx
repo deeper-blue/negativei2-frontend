@@ -93,11 +93,7 @@ class HumanVsHuman extends Component {
                 }
             })
             .catch(function(error) {
-                var tmp = $('<div></div>');
-                tmp.html(error.response.data);
-
-                var message = $('p', tmp).text();
-                console.log(message);
+                console.log(error);
             });
     };
 
@@ -158,6 +154,8 @@ class HumanVsHuman extends Component {
     }
 
     showGameOverNotification = game => {
+        var self = this;
+
         let element = $('#game-over');
         let notification = $('#game-over span')
         let message = $('#notification-message');
@@ -189,6 +187,16 @@ class HumanVsHuman extends Component {
                     element.addClass('draw');
                     notification.text("It's a draw!");
                 }
+
+                /** Redirect to /gameover page after 3 seconds,
+                 * so that user has time to read the game over message.
+                 */
+                function sleep (time) {
+                    return new Promise((resolve) => setTimeout(resolve, time));
+                }
+                sleep(3000).then(() => {
+                    self.props.history.push(`/gameover/${self.props.gameid}`);
+                });
             } else { // Spectating
                 element.addClass('spectator');
                 if (game.result === '1-0') {
@@ -347,11 +355,7 @@ class HumanVsHuman extends Component {
                         confBox.style.display = "none";
                     })
                     .catch(function(error) {
-                        var tmp = $('<div></div>');
-                        tmp.html(error.response.data);
-
-                        var message = $('p', tmp).text();
-                        console.log(message);
+                        console.log(error);
                     });
             }
 
@@ -368,7 +372,7 @@ class HumanVsHuman extends Component {
 
         if ((id_draw_offers.draws.w.made && id_draw_offers.draws.w.accepted) || (id_draw_offers.draws.b.made && id_draw_offers.draws.b.accepted)) {
             // Go to end game screen
-            //this.props.history.push('/endgame');
+            this.props.history.push(`/gameover/${this.props.gameid}`);
         } else {
             if (id_draw_offers.id !== userid) {
                 // Show rejection window
@@ -403,6 +407,7 @@ class HumanVsHuman extends Component {
     drawOfferReceived = (draw_offer_user_id) => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
+        var self = this;
 
         if (userid !== draw_offer_user_id) {
             server.get(`/getgame/${gameid}`)
@@ -432,11 +437,7 @@ class HumanVsHuman extends Component {
                                         confBox.style.display = "none";
                                     })
                                     .catch(function(error) {
-                                        var tmp = $('<div></div>');
-                                        tmp.html(error.response.data);
-
-                                        var message = $('p', tmp).text();
-                                        console.log(message);
+                                        console.log(error);
                                     });
                             }
                         }
@@ -453,14 +454,10 @@ class HumanVsHuman extends Component {
                                     confBox.style.display = "none";
 
                                     // Go to end game page
-                                    //this.props.history.push('/endgame');
+                                    self.props.history.push(`/gameover/${self.props.gameid}`);
                                 })
                                 .catch(function(error) {
-                                    var tmp = $('<div></div>');
-                                    tmp.html(error.response.data);
-
-                                    var message = $('p', tmp).text();
-                                    console.log(message);
+                                    console.log(error);
                                 });
                         }
 
@@ -477,11 +474,7 @@ class HumanVsHuman extends Component {
                                     confBox.style.display = "none";
                                 })
                                 .catch(function(error) {
-                                    var tmp = $('<div></div>');
-                                    tmp.html(error.response.data);
-
-                                    var message = $('p', tmp).text();
-                                    console.log(message);
+                                    console.log(error);
                                 });
                         }
                     } else {
@@ -518,6 +511,7 @@ class HumanVsHuman extends Component {
         const forfeitButton = document.getElementById("forfeit-button");
         const gameid = this.props.gameid;
         const userid = this.props.userid;
+        var self = this;
 
         forfeitButton.onclick = (event) => {
             const confBox = document.getElementById("forfeit-offer-confirmation");
@@ -546,14 +540,10 @@ class HumanVsHuman extends Component {
                         confBox.style.display = "none";
 
                         // Go to end game screen
-                        //this.props.history.push('/endgame');
+                        self.props.history.push(`/gameover/${self.props.gameid}`);
                     })
                     .catch(function(error) {
-                        var tmp = $('<div></div>');
-                        tmp.html(error.response.data);
-
-                        var message = $('p', tmp).text();
-                        console.log(message);
+                        console.log(error);
                     });
             }
 
@@ -575,6 +565,7 @@ class HumanVsHuman extends Component {
     forfeitReceived = (forfeit_user_id) => {
         const userid = this.props.userid;
         const gameid = this.props.gameid;
+        var self = this;
 
         if (userid !== forfeit_user_id) {
             server.get(`/getgame/${gameid}`)
@@ -592,7 +583,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                //this.props.history.push('/endgame');
+                                self.props.history.push(`/gameover/${self.props.gameid}`);
                             }
                         }
 
@@ -602,7 +593,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            //this.props.history.push('/endgame');
+                            self.props.history.push(`/gameover/${self.props.gameid}`);
                         }
                     } else {
                         // Show opponent forfeit window
@@ -617,7 +608,7 @@ class HumanVsHuman extends Component {
                                 confBox.style.display = "none";
 
                                 // Go to end game screen
-                                //this.props.history.push('/endgame');
+                                self.props.history.push(`/gameover/${self.props.gameid}`);
                             }
                         }
 
@@ -627,7 +618,7 @@ class HumanVsHuman extends Component {
                             confBox.style.display = "none";
 
                             // Go to end game screen
-                            //this.props.history.push('/endgame');
+                            self.props.history.push(`/gameover/${self.props.gameid}`);
                         }
                     }
                 })
